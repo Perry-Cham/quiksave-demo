@@ -10,7 +10,7 @@ function Card({ name, price, imagesrc }: Props) {
   const formattedPrice = numPrice ? `K${numPrice.toFixed(2)}` : 'N/A';
 
   return (
-    <div className="group flex flex-col bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-red-400 max-h-[250px] md:max-h-[380px]">
+    <div className="group flex flex-col bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 border-2 hover:border-red-400 max-h-[250px] md:max-h-[380px]">
       {/* Image Container */}
       <div className="relative w-full aspect-square overflow-hidden bg-gray-100">
         <img

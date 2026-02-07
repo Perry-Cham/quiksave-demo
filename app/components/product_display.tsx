@@ -33,12 +33,12 @@ console.log("this is" + products)
   return acc;
 }, {} as Record<string, Product[]>);
   return(
-          <div className="bg-gray-100 p-1 pb-4 rounded-lg mt-3 md:2">
+          <div className="bg-gray-100 p-1 pb-4 rounded-lg mt-3 md:2 mx-15 px-10">
    <div className="">     
       {Object.entries(categories).map(([key, value]) =>(
       <>
         <div className="text-center font-extrabold text-white bg-red-600 rounded my-3 text-2xl md:bg-[inherit] md:text-red-600 md:mt-10">{key.toUpperCase()}</div>
-<div className="grid grid-cols-2 md:grid-cols-[repeat(auto-fill,minmax(300px,1fr))]  gap-4">
+<div className="grid grid-cols-2 md:grid-cols-[repeat(auto-fill,minmax(280px,1fr))]  gap-4">
         {value.map(p => (
         <Product_Card key={p._id} name={p.name} price={p.price} imagesrc={p.image}/>
       ))}
