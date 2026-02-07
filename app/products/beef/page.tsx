@@ -1,3 +1,4 @@
+
 import Intro from "@/app/components/intro";
 import Product_Display from "@/app/components/product_display";
 function Beef_Page(){
@@ -6,6 +7,7 @@ const title = "Beef"
   return(
     <div>
       <Intro title={title} message={message}/>
+      <Product_Display productName={"beef"}/>
     </div>
   )
 }

@@ -8,7 +8,7 @@ interface Product {
   subcategory: string;
 }
 
-const fetchProducts = async (product): Promise<Product[] | null> => {
+const fetchProducts = async (product: string): Promise<Product[] | null> => {
       try{
         const response = await axios.get(`${process.env.NODE_URL}/api/getproducts/${product}`)
         console.log("hello")
