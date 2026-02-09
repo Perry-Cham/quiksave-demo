@@ -45,7 +45,7 @@ const Feature43 = ({
 }: Feature43Props) => {
  const product_card_images = [
   "https://ik.imagekit.io/ypgvaedes/Quicksave/Aesthetic_Photos/TBone5_900x600.webp",
-  "https://ik.imagekit.io/ypgvaedes/Quicksave/Aesthetic_Photos/Chicken%20header.webp","https://ik.imagekit.io/ypgvaedes/Quicksave/Aesthetic_Photos/Pork-Loin-TJops.png",
+  "https://ik.imagekit.io/ypgvaedes/Quicksave/Aesthetic_Photos/Chicken%20header.webp","https://ik.imagekit.io/ypgvaedes/Quicksave/Aesthetic_Photos/Pork-chops.webp",
   'https://ik.imagekit.io/ypgvaedes/Quicksave/Aesthetic_Photos/meat_counter_in_the_supermarket_1190595804.jpg'
  ]
  const product_names = [
