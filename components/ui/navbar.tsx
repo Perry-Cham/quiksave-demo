@@ -1,15 +1,22 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { useEffect, useRef, useState } from "react"
-import { Button } from "@/components/ui/button"
+import * as React from "react";
+import { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuList,
-} from "@/components/ui/navigation-menu"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { cn } from "@/lib/utils"
+  NavigationMenuTrigger,
+  NavigationMenuContent,
+} from "@/components/ui/navigation-menu";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 
 // Simple logo component for the navbar
 const Logo = (props: React.SVGAttributes<SVGElement>) => {
@@ -25,13 +32,22 @@ const Logo = (props: React.SVGAttributes<SVGElement>) => {
       {...(props as any)}
     >
       <rect fill="currentColor" height="323" rx="161.5" width="323" x="0.5" />
-      <circle cx="162" cy="161.5" fill="white" r="60" className="dark:fill-black" />
+      <circle
+        cx="162"
+        cy="161.5"
+        fill="white"
+        r="60"
+        className="dark:fill-black"
+      />
     </svg>
-  )
-}
+  );
+};
 
 // Hamburger icon component
-const HamburgerIcon = ({ className, ...props }: React.SVGAttributes<SVGElement>) => (
+const HamburgerIcon = ({
+  className,
+  ...props
+}: React.SVGAttributes<SVGElement>) => (
   <svg
     aria-label="Menu"
     className={cn("pointer-events-none", className)}
@@ -60,33 +76,43 @@ const HamburgerIcon = ({ className, ...props }: React.SVGAttributes<SVGElement>)
       d="M4 12H20"
     />
   </svg>
-)
+);
 
 // Types
 export interface NavbarNavLink {
-  href: string
-  label: string
-  active?: boolean
+  href: string;
+  label: string;
+  active?: boolean;
+  sub_links?: NavbarNavLink[];
 }
 
 export interface NavbarProps extends React.HTMLAttributes<HTMLElement> {
-  logo?: React.ReactNode
-  logoHref?: string
-  navigationLinks?: NavbarNavLink[]
-  signInText?: string
-  signInHref?: string
-  ctaText?: string
-  ctaHref?: string
-  onSignInClick?: () => void
-  onCtaClick?: () => void
+  logo?: React.ReactNode;
+  logoHref?: string;
+  navigationLinks?: NavbarNavLink[];
+  signInText?: string;
+  signInHref?: string;
+  ctaText?: string;
+  ctaHref?: string;
+  onSignInClick?: () => void;
+  onCtaClick?: () => void;
 }
 
 // Default navigation links
 const defaultNavigationLinks: NavbarNavLink[] = [
   { href: "/", label: "Home", active: true },
-  { href: "#", label: "Products" },
+  {
+    href: "#",
+    label: "Products",
+    sub_links: [
+      { href: "/products/beef", label: "Beef" },
+      { href: "/products/chicken", label: "Chicken" },
+      { href: "/products/pork", label: "Pork" },
+      { href: "/products/processed", label: "Processed" },
+    ],
+  },
   { href: "/about", label: "About" },
-]
+];
 
 export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
   (
@@ -105,41 +131,44 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
     },
     ref,
   ) => {
-    const [isMobile, setIsMobile] = useState(false)
-    const containerRef = useRef<HTMLElement>(null)
+    const [isMobile, setIsMobile] = useState(false);
+    const containerRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
       const checkWidth = () => {
         if (containerRef.current) {
-          const width = containerRef.current.offsetWidth
-          setIsMobile(width < 768) // 768px is md breakpoint
+          const width = containerRef.current.offsetWidth;
+          setIsMobile(width < 768); // 768px is md breakpoint
         }
-      }
+      };
 
-      checkWidth()
+      checkWidth();
 
-      const resizeObserver = new ResizeObserver(checkWidth)
+      const resizeObserver = new ResizeObserver(checkWidth);
       if (containerRef.current) {
-        resizeObserver.observe(containerRef.current)
+        resizeObserver.observe(containerRef.current);
       }
 
       return () => {
-        resizeObserver.disconnect()
-      }
-    }, [])
+        resizeObserver.disconnect();
+      };
+    }, []);
 
     // Combine refs
     const combinedRef = React.useCallback(
       (node: HTMLElement | null) => {
-        containerRef.current = node
+        containerRef.current = node;
         if (typeof ref === "function") {
-          ref(node)
+          ref(node);
         } else if (ref) {
-          ref.current = node
+          ref.current = node;
         }
       },
       [ref],
-    )
+    );
+
+//Pathname for active link highlighting
+    const pathname = usePathname();
 
     return (
       <header
@@ -178,7 +207,7 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
                                 ? "bg-accent text-accent-foreground"
                                 : "text-foreground/80",
                             )}
-                           href={link.href}
+                            href={link.href}
                           >
                             {link.label}
                           </a>
@@ -191,33 +220,56 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
             )}
             {/* Main nav */}
             <div className="flex items-center gap-6">
-              <button
+              <a
                 type="button"
                 className="flex items-center space-x-2 text-primary hover:text-primary/90 transition-colors cursor-pointer"
-                onClick={e => e.preventDefault()}
+                href="/"
               >
                 <div className="text-2xl">{logo}</div>
-                <span className="hidden font-bold text-xl sm:inline-block">QuickSave</span>
-              </button>
+                <span className="hidden font-bold text-xl sm:inline-block">
+                  QuickSave
+                </span>
+              </a>
               {/* Navigation menu */}
               {!isMobile && (
                 <NavigationMenu className="flex">
                   <NavigationMenuList className="gap-1">
                     {navigationLinks.map((link, index) => (
-                      <NavigationMenuItem key={index}>
-                        <a
-                          type="button"
-                          className={cn(
-                            "group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 cursor-pointer no-underline",
-                            link.active
-                              ? "bg-accent text-accent-foreground"
-                              : "text-foreground/80 hover:text-foreground",
-                          )}
-                          href={link.href}
-                        >
-                          {link.label}
-                        </a>
-                      </NavigationMenuItem>
+                      <>
+                        {!link.sub_links ? (
+                          <NavigationMenuItem key={index}>
+                            <a
+                              type="button"
+                              className={cn(
+                                "group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 cursor-pointer no-underline",
+                                pathname === link.href
+                                  ? "bg-accent text-accent-foreground"
+                                  : "text-foreground/80 hover:text-foreground",
+                              )}
+                              href={link.href}
+                            >
+                              {link.label}
+                            </a>
+                          </NavigationMenuItem>
+                        ) : (
+                          <NavigationMenuItem>
+                            <NavigationMenuTrigger>
+                              {link.label}
+                            </NavigationMenuTrigger>
+                            <NavigationMenuContent>
+                              <ul className="w-96">
+                                {link.sub_links.map((subLink, subIndex) => (
+                                  <li key={subIndex}>
+                                    <a href={subLink.href} className="block rounded-sm px-3 py-2 hover:bg-accent">
+                                      {subLink.label}
+                                    </a>
+                                  </li>
+                                ))}
+                              </ul>
+                            </NavigationMenuContent>
+                          </NavigationMenuItem>
+                        )}
+                      </>
                     ))}
                   </NavigationMenuList>
                 </NavigationMenu>
@@ -228,9 +280,9 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
           <div className="flex items-center gap-3">
             <Button
               className="text-sm font-medium px-4 h-9 rounded-md shadow-sm cursor-pointer"
-              onClick={e => {
-                e.preventDefault()
-                window.location.href = "/contact"
+              onClick={(e) => {
+                e.preventDefault();
+                window.location.href = "/contact";
               }}
               size="sm"
             >
@@ -239,13 +291,13 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
           </div>
         </div>
       </header>
-    )
+    );
   },
-)
+);
 
-Navbar.displayName = "Navbar"
+Navbar.displayName = "Navbar";
 
-export { Logo, HamburgerIcon }
+export { Logo, HamburgerIcon };
 
 // Demo
 export function Demo() {
@@ -253,5 +305,5 @@ export function Demo() {
     <div className="fixed inset-0">
       <Navbar />
     </div>
-  )
+  );
 }

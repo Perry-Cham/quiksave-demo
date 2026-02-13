@@ -15,7 +15,7 @@ const ContactUs = ({ contactInfo }: { contactInfo: ContactInfo }) => {
       <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
         {/* Header */}
         <div className='relative mx-auto mb-12 w-fit sm:mb-16 lg:mb-24'>
-          <h2 className='text-2xl font-semibold md:text-3xl lg:text-4xl'>Contact Us</h2>
+          <h2 className='text-2xl font-semibold md:text-3xl lg:text-4xl'>Get In Touch With Us</h2>
           <span className='bg-primary absolute top-9 left-0 h-px w-full'></span>
         </div>
 
@@ -29,8 +29,7 @@ const ContactUs = ({ contactInfo }: { contactInfo: ContactInfo }) => {
           <div>
             <h3 className='mb-6 text-2xl font-semibold'>Happy to help you!</h3>
             <p className='text-muted-foreground mb-10 text-lg font-medium'>
-              shadcn/studio gives you the blocks and components you need to create a truly professional website, landing
-              page or admin panel for your SaaS and gives the blocks.
+              If you have any questions or need assistance, feel free to reach out to us. Our team is here to provide you with the support you need. Whether it's about our services, pricing, or any other inquiries, we're just a message away. We look forward to hearing from you and assisting you in any way we can.
             </p>
 
             {/* Contact Info Grid */}
