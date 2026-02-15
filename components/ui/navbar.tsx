@@ -235,7 +235,7 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
                 <NavigationMenu className="flex">
                   <NavigationMenuList className="gap-1">
                     {navigationLinks.map((link, index) => (
-                      <>
+                      <React.Fragment key={link.href ?? index}>
                         {!link.sub_links ? (
                           <NavigationMenuItem key={index}>
                             <a
@@ -269,7 +269,7 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
                             </NavigationMenuContent>
                           </NavigationMenuItem>
                         )}
-                      </>
+                      </React.Fragment>
                     ))}
                   </NavigationMenuList>
                 </NavigationMenu>
