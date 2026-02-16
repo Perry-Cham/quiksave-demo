@@ -1,10 +1,4 @@
-interface Props {
-  name: string;
-  price: string | number;
-  imagesrc: string;
-  product: {name: string; price: number; image: string; subcategory: string; _id: string}
-  setModalState: React.Dispatch<React.SetStateAction<{isOpen: boolean; productData: any}>>;
-}
+import { Props } from "@/types/product-card";
 
 function Card({ name, price, imagesrc, product, setModalState}: Props) {
   // Convert price to number if it's a string
@@ -40,7 +34,7 @@ function Card({ name, price, imagesrc, product, setModalState}: Props) {
       <div>
         <button className="w-full bg-red-600 text-white py-2 mt-4 rounded-lg hover:bg-red-700 transition-colors duration-300" onClick={() => {
           console.log(product);
-          setModalState({isOpen: true, productData: product})}}>Edit Price</button>
+          setModalState({isOpen: true, productData: product, isNewProduct:false})}}>Edit Price</button>
         <button className="w-full bg-gray-600 text-white py-2 mt-2 rounded-lg hover:bg-gray-700 transition-colors duration-300">Delete Product</button>
       </div>
     </div>

@@ -19,7 +19,7 @@ function Product_Display({
 }: {
   productName: string;
   admin?: boolean;
-  setModalState?: React.Dispatch<React.SetStateAction<{isOpen: boolean; productData: any}>>;
+  setModalState?: React.Dispatch<React.SetStateAction<{isOpen: boolean; productData: any, isNewProduct: boolean}>>;
 }) {
   const [products, setProducts] = useState<Product[] | null>(null);
   useEffect(() => {

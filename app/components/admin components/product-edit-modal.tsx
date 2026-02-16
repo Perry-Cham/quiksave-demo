@@ -7,6 +7,7 @@ interface Product {
   image: string;
   _id?: string;
   subcategory: string;
+  category: string;
 }
 
 function Product_Modal({
@@ -24,10 +25,12 @@ function Product_Modal({
     image: "",
     id: "",
     subcategory: "",
+    category:""
   });
 
   useEffect(() => {
     console.log(productData);
+
     setProduct({ ...product, ...productData });
   }, []);
 
@@ -43,9 +46,11 @@ function Product_Modal({
       }
     } else {
       try {
-        if (productData) form.append("id", productData._id || "");
+        if (productData) {
+          form.append("id", productData._id || "");
+        }
         console.log(Object.fromEntries(form.entries()));
-        const response = await axios.post("/api/updateproduct", form);
+        const response = await axios.patch("/api/updateproduct", form);
         console.log(response);
       } catch (e) {
         console.error(e);
@@ -72,7 +77,16 @@ function Product_Modal({
           setProduct({ ...product, price: parseFloat(e.target.value) || 0 })
         }
       />
-
+      <label htmlFor="subcategory">Category</label>
+      <input
+        name="category"
+        type="text"
+        placeholder="e.g. beef, chicken, etc."
+        value={product.category}
+        onChange={(e) =>
+          setProduct({ ...product, category: e.target.value.toLowerCase() })
+        }
+      />
       <label htmlFor="subcategory">Subcategory</label>
       <input
         name="subcategory"
