@@ -25,4 +25,5 @@ const Products ={
     pork:Pork,
     processed:Processed
 }
+export const ProductModelKeys = Object.keys(Products) as (keyof typeof Products)[]
 export default Products

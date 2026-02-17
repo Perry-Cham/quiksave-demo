@@ -1,5 +1,5 @@
 import { ProductCategory } from "@/types/api";
-
+import { ProductModelKeys } from "@/models/product-model";
 const Products_List: ProductCategory[] = [
     "beef","pork","processed","chicken"
 ]
