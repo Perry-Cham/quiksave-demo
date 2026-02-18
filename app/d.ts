@@ -32,7 +32,7 @@ type ProductCategory = "beef" | "pork" | "processed" | "chicken";
 
 async function Migrate(category: ProductCategory){
     const imagekit = new ImageKit({
-        privateKey:"private_S4jl3Yc7h+GsvoUzkz/gDD6Hoj4="
+        privateKey:undefined
     })
     console.log("created")
     await mongoose.connect("mongodb+srv://perry:Perry2009@cluster0.gja8m9y.mongodb.net/Quicksave?appName=Cluster0")
