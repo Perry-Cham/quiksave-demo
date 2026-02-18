@@ -49,7 +49,7 @@ async function Migrate(category: ProductCategory){
 
 // New function to update/upsert all pork products
 async function update(category: ProductCategory) {
-  await mongoose.connect("mongodb+srv://perry:Perry2009@cluster0.gja8m9y.mongodb.net/Quicksave?appName=Cluster0");
+  await mongoose.connect(undefined);
   console.log("Connected to MongoDB");
 
     const updatedProducts = JSON.parse(fs.readFileSync('Pdata.json').toString())
