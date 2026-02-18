@@ -106,7 +106,7 @@ function Product_Modal({
       />
 
       <label htmlFor="imageFile">Image File</label>
-      <input name="imageFile" type="file" accept=".jpg,.png,.webp,.svg" />
+      <input name="imageFile" type="file" accept=".jpg,.png,.webp,.svg,.jpeg" />
       <button
         type="submit"
         className="w-full bg-red-600 text-white py-2 mt-4 rounded-lg hover:bg-red-700 transition-colors duration-300"

@@ -5,6 +5,8 @@ import { ProductData } from "@/types/api";
 import { ProductCategory } from "@/types/api";
 import { findCategory } from "@/lib/api-model-helper";
 import ImageKit from "@imagekit/nodejs";
+import { responseCookiesToRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
+import { Upload } from "lucide-react";
 
 const imagekit = new ImageKit({
   privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
@@ -21,24 +23,27 @@ async function POST(request: Request) {
     console.log("Connected to MongoDB");
 
     if (category !== undefined) {
-let imageUrl: string | undefined  = ""; // Initialize imageUrl 
+let imageData: {url:string, id:string} = {url:"", id:""} // Initialize imageUrl 
       // Check if an image file is uploaded
-      const imageFile = formData.get("image");
+      const imageFile = formData.get("imageFile");
       if (imageFile && imageFile instanceof File && imageFile.size > 0) {
         const fileBuffer = Buffer.from(await imageFile.arrayBuffer());
         const fileString = fileBuffer.toString("base64");
         const uploadResponse = await imagekit.files.upload({
           file: fileString,
-          fileName: `${name}-${Date.now()}`,
-          folder: `/Quicksave/${category}`,
+          fileName: imageFile.name,
+          folder: `/Quicksave/product-images/${category}`,
         });
-       imageUrl = uploadResponse.url; // Get the uploaded image URL
+      imageData.url = uploadResponse.url as string
+      imageData.id = uploadResponse.fileId as string
+      console.log(uploadResponse, imageData)
       }
 
       const newProduct = await Products[category].create({
         name,
         price,
-        image: imageUrl,
+        image: imageData.url,
+        imageId:imageData.id,
         subcategory,
       });
       return NextResponse.json(newProduct);

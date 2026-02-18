@@ -8,14 +8,15 @@ const imagekit = new ImageKit({
   privateKey: process.env.IMAGEKIT_PRIVATE_KEY!,
 });
 
-export async function DELETE(request: NextRequest, { params }: { params: { category: string; id: string } }) {
-  const { id } = params;
-  const category = params.category as ProductCategory;
+export async function DELETE(request: NextRequest, {params}: {params: Promise<{id:string, category:string}>}) {
+  const data = await params;
+  const { id } = data;
+  const category = data.category as ProductCategory;
 
-  try {
+  
     // Connect to MongoDB
     await mongoose.connect(process.env.MONGO_URI!);
-    console.log("Connected to MongoDB");
+    console.log("Connected to MongoDB", category, id);
 
     // Find the product to delete
     const product = await Products[category].findById(id);
@@ -23,32 +24,29 @@ export async function DELETE(request: NextRequest, { params }: { params: { categ
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
 
-    // Extract the image URL
-    const imageUrl = product.image;
-    const filePath = imageUrl.split("/Quicksave/")[1]; // Extract the file path after /Quicksave/
+    // Extract the image Id
+    const image = product.imageId;
 
-    // Delete the image from ImageKit
-    if (filePath) {
+    // Delete the image from ImageKit (if any)
+    if (image) {
       try {
-        await imagekit.files.deleteFile(filePath);
+        await imagekit.files.delete(image);
+        console.log("image deleted");
       } catch (error) {
         console.error("Error deleting image from ImageKit:", error);
-        return NextResponse.json(
-          { error: "Failed to delete image from ImageKit" },
-          { status: 500 }
-        );
       }
     }
 
-    // Delete the product from MongoDB
-    await Products[category].findByIdAndDelete(id);
-
-    return NextResponse.json({ message: "Product deleted successfully" }, { status: 200 });
-  } catch (error) {
-    console.error("Error deleting product:", error);
-    return NextResponse.json(
-      { error: "Failed to delete product" },
-      { status: 500 }
-    );
-  }
+    try {
+      // Delete the product from MongoDB
+      await Products[category].findByIdAndDelete(id);
+      return NextResponse.json({ message: "Product deleted successfully" }, { status: 200 });
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      return NextResponse.json(
+        { error: "Failed to delete product" },
+        { status: 500 }
+      );
+    }
 }
+  

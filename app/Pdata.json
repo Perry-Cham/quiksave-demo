@@ -1,0 +1,65 @@
+[
+  {
+    "_id": "6914c38f4f1f7bc6e7631d17",
+    "name": "Chicken Breast",
+    "price": 84,
+    "subcategory": "Chicken",
+    "image": "https://ik.imagekit.io/ypgvaedes/Quicksave/product_images/chicken/RawChickenBreast_076d3c81-6fc2-430a-869f-d8237636a078.webp?updatedAt=1771345818082",
+    "imageId": "69949718127f7c45455f8f4d",
+    "__v": 0
+  },
+  {
+    "_id": "6914c38f4f1f7bc6e7631d1b",
+    "name": "Chicken Thigh",
+    "price": 80,
+    "subcategory": "Chicken",
+    "image": "https://ik.imagekit.io/ypgvaedes/Quicksave/product_images/chicken/chicken%20thigh.jfif?updatedAt=1771345818055",
+    "imageId": "69949718127f7c45455f8f49",
+    "__v": 0
+  },
+  {
+    "_id": "6914c38f4f1f7bc6e7631d16",
+    "name": "Whole Chicken",
+    "price": 85,
+    "subcategory": "Chicken",
+    "image": "https://ik.imagekit.io/ypgvaedes/Quicksave/product_images/chicken/whole-chicken.jpg?updatedAt=1771345818020",
+    "imageId": "69949718127f7c45455f8f3b",
+    "__v": 0
+  },
+  {
+    "_id": "6914c38f4f1f7bc6e7631d18",
+    "name": "Chicken Breast Fillet",
+    "price": 80,
+    "subcategory": "Chicken",
+    "image": "https://ik.imagekit.io/ypgvaedes/Quicksave/product_images/chicken/PVF-chickenfillet_1000x.webp?updatedAt=1771345818037",
+    "imageId": "69949718127f7c45455f8f37",
+    "__v": 0
+  },
+  {
+    "_id": "6914c38f4f1f7bc6e7631d19",
+    "name": "Chicken Mince",
+    "price": 92,
+    "subcategory": "Chicken",
+    "image": "https://ik.imagekit.io/ypgvaedes/Quicksave/product_images/chicken/chicken-mince.jpg?updatedAt=1771345818039",
+    "imageId": "69949718127f7c45455f8f45",
+    "__v": 0
+  },
+  {
+    "_id": "6914c38f4f1f7bc6e7631d1a",
+    "name": "Chicken Drumsticks",
+    "price": 75,
+    "subcategory": "Chicken",
+    "image": "https://ik.imagekit.io/ypgvaedes/Quicksave/product_images/chicken/chicken%20drumsticks.jfif?updatedAt=1771345818011",
+    "imageId": "69949718127f7c45455f8f33",
+    "__v": 0
+  },
+  {
+    "_id": "6914c38f4f1f7bc6e7631d1c",
+    "name": "Chicken Stir-fry",
+    "price": 83,
+    "subcategory": "Chicken",
+    "image": "https://ik.imagekit.io/ypgvaedes/Quicksave/product_images/chicken/chicken-stir-fry-959368-1.jpg?updatedAt=1771345818028",
+    "imageId": "69949718127f7c45455f8f57",
+    "__v": 0
+  }
+]

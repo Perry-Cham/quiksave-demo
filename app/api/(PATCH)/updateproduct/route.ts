@@ -20,11 +20,13 @@ export async function PATCH(request: NextRequest) {
     let category = findCategory(data.category as string);
 
     if (category) {
-      let imageUrl = data.image as string; // Default to existing image URL
+      let imageUrl = data.image as string; 
+      let imageId = ""// Default to existing image URL
 
       // Check if a new image file is uploaded
-      const imageFile = body.get("image");
+      const imageFile = body.get("imageFile");
       if (imageFile && imageFile instanceof File  && imageFile.size > 0) {
+        console.log("THE IMAGE IS IN HERE")
         const fileBuffer = Buffer.from(await imageFile.arrayBuffer());
         const fileString = fileBuffer.toString("base64");
         const uploadResponse = await imagekit.files.upload({
@@ -32,12 +34,14 @@ export async function PATCH(request: NextRequest) {
           fileName: `${id}-${Date.now()}`,
           folder: `/Quicksave/${category}`,
         });
+        console.log(uploadResponse)
         uploadResponse.url && (imageUrl = uploadResponse.url); // Get the uploaded image URL
+        uploadResponse.fileId && (imageId = uploadResponse.fileId)
       }
 
       const updatedProduct = await Products[category].findByIdAndUpdate(
         id,
-        { name, price, image: imageUrl, subcategory },
+        { name, price, image: imageUrl, imageId: imageId, subcategory },
         { new: true }
       );
 
