@@ -1,6 +1,6 @@
 import { Clock8Icon, MapPinIcon, BriefcaseBusinessIcon, PhoneIcon } from 'lucide-react'
 
-import ContactUs from '@/components/shadcn-studio/blocks/contact-us-page-01/contact-us-page-01'
+import ContactUs from '@/components/contact-page-first-section'
 
 const contactInfo = [
   {
@@ -168,7 +168,7 @@ const ContactUsPage = () => {
                     </span>
                     <div>
                       <h3 className="text-lg font-medium">Email</h3>
-                      <p className="text-muted-foreground">abc@gmail.com</p>
+                      <p className="text-muted-foreground">quiksave@gmail.com</p>
                     </div>
                   </a>
                 </div>

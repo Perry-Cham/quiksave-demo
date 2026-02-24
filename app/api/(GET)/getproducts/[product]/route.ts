@@ -11,6 +11,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
         if (!ProductModel) {
             return NextResponse.json({ error: "Product not found" }, { status: 404 });
         }
+        console.log(ProductModel)
         const products = await ProductModel.find({});
         return NextResponse.json(products);
     } catch (error) {

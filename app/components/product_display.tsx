@@ -1,5 +1,6 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
+import { LoaderCircle } from "lucide-react";
 import Product_Card from "./product_card";
 import AdminProductCard from "./admin components/product-card";
 import axios from "axios";
@@ -19,18 +20,28 @@ function Product_Display({
 }: {
   productName: string;
   admin?: boolean;
-  setModalState?: React.Dispatch<React.SetStateAction<{isOpen: boolean; productData: any, isNewProduct: boolean}>>;
+  setModalState?: React.Dispatch<
+    React.SetStateAction<{
+      isOpen: boolean;
+      productData: any;
+      isNewProduct: boolean;
+    }>
+  >;
 }) {
   const [products, setProducts] = useState<Product[] | null>(null);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     let cancelled = false;
     const fetchProducts = async (product: string) => {
       try {
+        setLoading(true);
         const response = await axios.get(`/api/getproducts/${product}`);
-        if (!cancelled) setProducts(response.data);
+        setProducts(response.data);
       } catch (err) {
         console.error(err);
-        if (!cancelled) setProducts(null);
+        setProducts(null);
+      } finally {
+        setLoading(false);
       }
     };
     fetchProducts(productName);
@@ -50,11 +61,11 @@ function Product_Display({
   return (
     <div className="bg-gray-100 p-1 pb-4 rounded-lg mt-3 md:2 mx-15 px-10">
       <div className="">
-        {categories ? (
+        {categories &&
           Object.entries(categories).map(([key, value]) => (
             <>
               <div className="text-center font-extrabold text-white bg-red-600 rounded my-3 text-2xl md:bg-[inherit] md:text-red-600 md:mt-10">
-                {key.toUpperCase()}     
+                {key.toUpperCase()}
               </div>
               <div className="grid grid-cols-2 md:grid-cols-[repeat(auto-fill,minmax(280px,1fr))]  gap-4">
                 {value.map((p) =>
@@ -64,7 +75,7 @@ function Product_Display({
                       name={p.name}
                       price={p.price}
                       imagesrc={p.image}
-                      product={p}  
+                      product={p}
                       setModalState={setModalState!}
                     />
                   ) : (
@@ -78,12 +89,18 @@ function Product_Display({
                 )}
               </div>
             </>
-          ))
-        ) : (
+          ))}
+        {!categories && !loading && (
           <div className="text-center font-extrabold text-white bg-red-600 rounded my-3 text-2xl md:bg-[inherit] md:text-red-600 md:mt-10">
-            Loading...
+            An Error has occured
           </div>
         )}
+
+        {loading &&
+          <div className="flex h-screen items-center justify-center">
+            <LoaderCircle size={48} className="animate-spin"/>
+          </div>
+        }
       </div>
     </div>
   );

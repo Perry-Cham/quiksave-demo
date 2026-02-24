@@ -22,8 +22,8 @@ async function POST(request: Request) {
     await mongoose.connect(process.env.MONGO_URI!);
     console.log("Connected to MongoDB");
 
-    if (category !== undefined) {
-let imageData: {url:string, id:string} = {url:"", id:""} // Initialize imageUrl 
+    if (category) {
+      let imageData: { url: string; id: string } = { url: "", id: "" }; // Initialize imageUrl
       // Check if an image file is uploaded
       const imageFile = formData.get("imageFile");
       if (imageFile && imageFile instanceof File && imageFile.size > 0) {
@@ -34,19 +34,19 @@ let imageData: {url:string, id:string} = {url:"", id:""} // Initialize imageUrl
           fileName: imageFile.name,
           folder: `/Quicksave/product-images/${category}`,
         });
-      imageData.url = uploadResponse.url as string
-      imageData.id = uploadResponse.fileId as string
-      console.log(uploadResponse, imageData)
+        imageData.url = uploadResponse.url as string;
+        imageData.id = uploadResponse.fileId as string;
+        console.log(uploadResponse, imageData);
       }
 
       const newProduct = await Products[category].create({
         name,
         price,
         image: imageData.url,
-        imageId:imageData.id,
+        imageId: imageData.id,
         subcategory,
       });
-      return NextResponse.json(newProduct);
+      return NextResponse.json(newProduct, {status: 200});
     }
   } catch (error) {
     console.error("Error adding product:", error);

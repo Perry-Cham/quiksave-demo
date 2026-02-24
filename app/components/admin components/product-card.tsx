@@ -36,7 +36,7 @@ function Card({ name, price, imagesrc, product, setModalState }: Props) {
           </span>
         </div>
       </div>
-      <div>
+      <div className="flex flex-end space-x-2 h-[100px]">
         <button
           className="w-full bg-red-600 text-white py-2 mt-4 rounded-lg hover:bg-red-700 transition-colors duration-300"
           onClick={() => {
