@@ -1,5 +1,6 @@
 import { Props } from "@/types/product-card";
 import { useProductCategory } from "@/stores/productCategoryStore";
+import { Button } from "@/components/ui/button";
 import axios from "axios";
 
 function Card({ name, price, imagesrc, product, setModalState }: Props) {
@@ -36,9 +37,9 @@ function Card({ name, price, imagesrc, product, setModalState }: Props) {
           </span>
         </div>
       </div>
-      <div className="flex flex-end space-x-2 h-[100px]">
-        <button
-          className="w-full bg-red-600 text-white py-2 mt-4 rounded-lg hover:bg-red-700 transition-colors duration-300"
+
+      <div className="flex justify-end space-x-2 h-[100px] px-2">
+        <Button
           onClick={() => {
             console.log(product);
             setModalState({
@@ -49,9 +50,9 @@ function Card({ name, price, imagesrc, product, setModalState }: Props) {
           }}
         >
           Edit Price
-        </button>
-        <button
-          className="w-full bg-gray-600 text-white py-2 mt-2 rounded-lg hover:bg-gray-700 transition-colors duration-300"
+        </Button>
+        <Button
+        className="bg-red-500"
           onClick={async () => {
             try {
               const response = await axios.delete(
@@ -63,7 +64,7 @@ function Card({ name, price, imagesrc, product, setModalState }: Props) {
           }}
         >
           Delete Product
-        </button>
+        </Button>
       </div>
     </div>
   );

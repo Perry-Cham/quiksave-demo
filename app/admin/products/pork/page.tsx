@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
-import Product_Display from "@/app/components/product_display";
-import Product_Modal from "@/app/components/admin components/product-edit-modal";
+import Product_Display from "@/app/custom components/product_display";
+import Product_Modal from "@/app/custom components/admin components/product-edit-modal";
 import { useProductCategory } from "@/stores/productCategoryStore";
 
 function Admin_Beef_Page() {

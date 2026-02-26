@@ -90,6 +90,7 @@ export interface NavbarProps extends React.HTMLAttributes<HTMLElement> {
   logo?: React.ReactNode;
   logoHref?: string;
   navigationLinks?: NavbarNavLink[];
+  NoNavPaths?:String[];
   signInText?: string;
   signInHref?: string;
   ctaText?: string;
@@ -118,6 +119,7 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
   (
     {
       className,
+      NoNavPaths,
       logo = <Logo />,
       logoHref = "#",
       navigationLinks = defaultNavigationLinks,

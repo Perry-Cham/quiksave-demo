@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
-import Product_Display from "@/app/components/product_display";
-import Product_Modal from "@/app/components/admin components/product-edit-modal";
+import Product_Display from "@/app/custom components/product_display";
+import Product_Modal from "@/app/custom components/admin components/product-edit-modal";
 import { useProductCategory } from "@/stores/productCategoryStore";
 
 function Admin_Beef_Page() {
@@ -21,7 +21,7 @@ function Admin_Beef_Page() {
     setModalState({
       isOpen: false,
       productData: null,
-      isNewProduct: false,
+      isNewProduct: true,
     });
   }
   return (
@@ -30,20 +30,15 @@ function Admin_Beef_Page() {
         Admin Beef Products
       </h1>
       <div>
-        <button
-          onClick={() =>
-            setModalState({ ...modalState, isOpen: true, isNewProduct: true })
-          }
-        >
-          Add New Product
-        </button>
-        {modalState.isOpen && (
           <Product_Modal
             isNewProduct={modalState.isNewProduct}
             productData={modalState.productData}
             callback={closeModal}
+            isOpen={modalState.isOpen}
+            setIsOpen={(isOpen: boolean) =>
+              setModalState((prev) => ({ ...prev, isOpen }))
+            }
           />
-        )}
         <Product_Display
           productName="beef"
           admin={true}
