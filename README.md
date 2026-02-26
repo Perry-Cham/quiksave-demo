@@ -24,7 +24,7 @@
 
 ## 1. Project Overview
 
-Quicksave is a full-stack e-commerce and content website for a Zambian meat supplier. It provides a public-facing storefront showcasing beef, chicken, pork, and processed meat products, an admin dashboard for product management, and a contact page. The platform is built with Next.js 16, React 19, MongoDB, and ImageKit for media storage.
+Quicksave is a full-stack e-commerce and content website for a Zambian meat supplier (Still a Demo Please). It provides a public-facing storefront showcasing beef, chicken, pork, and processed meat products, an admin dashboard for product management, and a contact page. The platform is built with Next.js 16, React 19, MongoDB, and ImageKit for media storage.
 
 ### 1.1 Key Features
 
@@ -425,5 +425,6 @@ Ensure all required environment variables are set before building.
 - **`BETTER_AUTH_URL`** must be set to the production domain for auth callbacks and redirects to work correctly.
 
 ---
+
 
 *Quicksave Technical Documentation · v0.1.0 · February 2026*
