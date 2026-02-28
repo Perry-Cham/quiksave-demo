@@ -11,4 +11,10 @@ export interface ProductData {
   subcategory: string;
 }
 
-
+export interface ProductDataClient{
+  _id: string;
+  name: string;
+  price: number;
+  image: string;
+  subcategory: string;
+}

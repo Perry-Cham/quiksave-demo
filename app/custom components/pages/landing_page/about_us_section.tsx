@@ -40,7 +40,7 @@ const AboutUsSection = () => {
         </div>
         
         <div className="bg-gray-200 rounded-lg flex-1 h-100 md:h-[750px] overflow-hidden">
-         <img src="https://ik.imagekit.io/ypgvaedes/Quicksave/Aesthetic_Photos/steak-landing-page-3.jpg" alt="" className='object-cover w-full h-full' />
+         <img src="https://ik.imagekit.io/ypgvaedes/Quicksave/Aesthetic_Photos/Landing%20Page%20Image%202.webp" alt="" className='object-contain w-full h-full' />
         </div>
       </div>
       

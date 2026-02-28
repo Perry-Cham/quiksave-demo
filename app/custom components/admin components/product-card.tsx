@@ -1,6 +1,7 @@
 import { Props } from "@/types/product-card";
 import { useProductCategory } from "@/stores/productCategoryStore";
 import { Button } from "@/components/ui/button";
+import {CardFooter, CardHeader} from "@/components/ui/card";
 import axios from "axios";
 
 function Card({ name, price, imagesrc, product, setModalState }: Props) {
@@ -11,14 +12,14 @@ function Card({ name, price, imagesrc, product, setModalState }: Props) {
   return (
     <div className="group flex flex-col bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 border-2 hover:border-red-400 max-h-[250px] md:max-h-[380px]">
       {/* Image Container */}
-      <div className="relative w-full aspect-square overflow-hidden bg-gray-100">
+      <CardHeader className="relative w-full aspect-square overflow-hidden bg-gray-100">
         <img
           src={imagesrc}
           alt={name || "Product"}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-      </div>
+      </CardHeader>
 
       {/* Content Container */}
       <div className="flex-1 p-4 sm:p-5 flex flex-col justify-between">
@@ -38,7 +39,7 @@ function Card({ name, price, imagesrc, product, setModalState }: Props) {
         </div>
       </div>
 
-      <div className="flex justify-end space-x-2 h-[100px] px-2">
+      <CardFooter className="flex justify-end space-x-2 h-[100px] px-2">
         <Button
           onClick={() => {
             console.log(product);
@@ -65,7 +66,7 @@ function Card({ name, price, imagesrc, product, setModalState }: Props) {
         >
           Delete Product
         </Button>
-      </div>
+      </CardFooter>
     </div>
   );
 }

@@ -12,13 +12,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 function About_Page() {
   const values: Array<String> = [
-    "Integrity and Honesty",
-    "Commitment",
-    "Teamwork",
-    "Rewarding hardwork and effort",
-    "Encouraging risk taking and responsibility",
-    "Empowering others",
-    "Enjoying our work and lives",
+    "Food Safety & Traceability",
+    "Quality Butchery Craftsmanship",
+    "Customer Focus (Retail & Corporate)",
+    "Local Farmer Partnerships",
+    "Responsible Growth",
+    "Integrity & Accountability",
+    "Community Commitment",
   ];
 
   const tabs_trigger_classes = "py-4 px-2 my-2";
@@ -38,9 +38,8 @@ function About_Page() {
           <div className="">
             <div>
               <h4 className="text-primary mb-2 font-semibold">Who We Are</h4>
-              <h2 className="text-3xl font-bold tracking-tight mb-4">
-                BUILDING A BETTER FUTURE FOR THE MEAT INDUSTRY IN ZAMBIA AND
-                BEYOND
+              <h2 className="text-3xl font-bold tracking-tight mb-4 capitalize">
+                Building a better future for the meat industry in Zambia and beyond
               </h2>
             </div>
             <p className="text-muted-foreground">
@@ -94,54 +93,49 @@ function About_Page() {
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div className="hover:bg-accent/50 relative rounded-lg border p-6 transition-colors">
-              <div className="text-primary/20 absolute top-4 right-4 text-3xl font-bold">
-                01
-              </div>
+              <div className="text-primary/20 absolute top-4 right-4 text-3xl font-bold">01</div>
               <div className="space-y-3">
-                <h3 className="text-xl font-bold">Customer-Centric</h3>
+                <h3 className="text-xl font-bold">Customer & Food Safety</h3>
                 <p className="text-muted-foreground">
-                  We place our customers at the center of everything we do,
-                  designing products and services that solve real problems and
-                  create lasting value.
+                  We put food safety and customer service first across both our
+                  retail butcheries and corporate sales channels — ensuring
+                  consistently safe, traceable products for homes and businesses.
                 </p>
               </div>
             </div>
+
             <div className="hover:bg-accent/50 relative rounded-lg border p-6 transition-colors">
-              <div className="text-primary/20 absolute top-4 right-4 text-3xl font-bold">
-                02
-              </div>
+              <div className="text-primary/20 absolute top-4 right-4 text-3xl font-bold">02</div>
               <div className="space-y-3">
-                <h3 className="text-xl font-bold">Innovation-Driven</h3>
+                <h3 className="text-xl font-bold">Supply Chain & Traceability</h3>
                 <p className="text-muted-foreground">
-                  We continuously explore new ideas and technologies to push
-                  boundaries and create better solutions for evolving
-                  challenges.
+                  From farm to butchery to delivery, we maintain cold-chain
+                  controls and clear traceability so customers and corporate
+                  partners can trust every cut we sell.
                 </p>
               </div>
             </div>
+
             <div className="hover:bg-accent/50 relative rounded-lg border p-6 transition-colors">
-              <div className="text-primary/20 absolute top-4 right-4 text-3xl font-bold">
-                03
-              </div>
+              <div className="text-primary/20 absolute top-4 right-4 text-3xl font-bold">03</div>
               <div className="space-y-3">
-                <h3 className="text-xl font-bold">Quality-Focused</h3>
+                <h3 className="text-xl font-bold">Butchery Craftsmanship</h3>
                 <p className="text-muted-foreground">
-                  We are committed to excellence in every aspect of our work,
-                  from the products we build to the experiences we create and
-                  the support we provide.
+                  Skilled butchers and strict quality standards ensure we
+                  deliver premium cuts and consistent portioning for retail
+                  shelves and corporate orders.
                 </p>
               </div>
             </div>
+
             <div className="hover:bg-accent/50 relative rounded-lg border p-6 transition-colors">
-              <div className="text-primary/20 absolute top-4 right-4 text-3xl font-bold">
-                04
-              </div>
+              <div className="text-primary/20 absolute top-4 right-4 text-3xl font-bold">04</div>
               <div className="space-y-3">
-                <h3 className="text-xl font-bold">Inclusive by Design</h3>
+                <h3 className="text-xl font-bold">Local Sourcing & Growth</h3>
                 <p className="text-muted-foreground">
-                  We embrace diversity of thought, background, and perspective,
-                  creating solutions that work for everyone and building teams
-                  that reflect the communities we serve.
+                  We partner with local farmers to support livelihoods while
+                  expanding into new districts — growing our retail footprint
+                  and strengthening supply for corporate clients.
                 </p>
               </div>
             </div>
@@ -152,11 +146,11 @@ function About_Page() {
             <div className="lg:col-span-2">
               <h3 className="mb-4 text-2xl font-bold">Our Vision</h3>
               <p className="text-muted-foreground mb-4">
-                We envision a world where technology enhances human potential,
-                enabling everyone to achieve more, connect meaningfully, and
-                contribute to a better future. We strive to be the company that
-                makes this vision a reality through thoughtful innovation and an
-                unwavering commitment to our core principles.
+                We envision a resilient, locally-rooted meat supplier trusted
+                by households and businesses alike. By combining responsible
+                sourcing, expert butchery, and reliable distribution, we aim
+                to elevate standards across the regions we serve as we expand
+                into new districts.
               </p>
             </div>
             <div className="flex justify-center lg:col-span-1 lg:justify-end">
@@ -190,14 +184,15 @@ function About_Page() {
                 <div className="bg-primary/10 rounded-full p-3">
                   <Heart />
                 </div>
-                <h3 className="text-lg font-bold">Customer First</h3>
+                <h3 className="text-lg font-bold">Customer Focus (Retail & Corporate)</h3>
               </div>
               <p className="text-muted-foreground">
-                We prioritize our customers&amp;apos; needs in every decision we
-                make. Your success is our success.
+                We serve both households and corporate partners with dependable
+                supply, flexible fulfilment, and attentive service.
               </p>
             </div>
           </div>
+
           <div
             data-slot="card"
             className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border shadow-sm border-l-primary border-l-4 p-0"
@@ -207,14 +202,15 @@ function About_Page() {
                 <div className="bg-primary/10 rounded-full p-3">
                   <Lightbulb />
                 </div>
-                <h3 className="text-lg font-bold">Innovation</h3>
+                <h3 className="text-lg font-bold">Quality & Consistency</h3>
               </div>
               <p className="text-muted-foreground">
-                We constantly push boundaries and explore new possibilities to
-                deliver cutting-edge solutions.
+                Modern processing, strict portioning, and consistent quality
+                ensure the same great product in every order.
               </p>
             </div>
           </div>
+
           <div
             data-slot="card"
             className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border shadow-sm border-l-primary border-l-4 p-0"
@@ -224,14 +220,15 @@ function About_Page() {
                 <div className="bg-primary/10 rounded-full p-3">
                   <Shield />
                 </div>
-                <h3 className="text-lg font-bold">Integrity</h3>
+                <h3 className="text-lg font-bold">Traceability & Safety</h3>
               </div>
               <p className="text-muted-foreground">
-                We believe in transparency, honesty, and ethical conduct in all
-                our interactions.
+                Full traceability and food-safety protocols protect consumers
+                and give confidence to corporate buyers.
               </p>
             </div>
           </div>
+
           <div
             data-slot="card"
             className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border shadow-sm border-l-primary border-l-4 p-0"
@@ -241,14 +238,15 @@ function About_Page() {
                 <div className="bg-primary/10 rounded-full p-3">
                   <ChartNoAxesCombined />
                 </div>
-                <h3 className="text-lg font-bold">Excellence</h3>
+                <h3 className="text-lg font-bold">Sustainable Growth</h3>
               </div>
               <p className="text-muted-foreground">
-                We strive for excellence in everything we do, from product
-                development to customer support.
+                We grow responsibly—scaling our retail network and services
+                while protecting supply reliability and product standards.
               </p>
             </div>
           </div>
+
           <div
             data-slot="card"
             className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border shadow-sm border-l-primary border-l-4 p-0"
@@ -258,14 +256,15 @@ function About_Page() {
                 <div className="bg-primary/10 rounded-full p-3">
                   <UsersRound />
                 </div>
-                <h3 className="text-lg font-bold">Collaboration</h3>
+                <h3 className="text-lg font-bold">Farmer Partnerships</h3>
               </div>
               <p className="text-muted-foreground">
-                We work together across teams and with our clients to create
-                better outcomes for everyone.
+                We invest in local farmers, building resilient supply chains
+                and supporting rural livelihoods as we expand into new districts.
               </p>
             </div>
           </div>
+
           <div
             data-slot="card"
             className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border shadow-sm border-l-primary border-l-4 p-0"
@@ -275,11 +274,11 @@ function About_Page() {
                 <div className="bg-primary/10 rounded-full p-3">
                   <HeartHandshake />
                 </div>
-                <h3 className="text-lg font-bold">Social Responsibility</h3>
+                <h3 className="text-lg font-bold">Community & Employment</h3>
               </div>
               <p className="text-muted-foreground">
-                We're committed to making a positive impact on communities and
-                the environment.
+                As we open new butcheries we create local jobs and give back
+                to the communities we serve.
               </p>
             </div>
           </div>
@@ -297,14 +296,12 @@ function About_Page() {
           <Badge className="text-sm" variant="default">
             Our Culture
           </Badge>
-          <h2 className="ml-4 text-3xl font-bold mt-2">
-            What Makes Us Different
-          </h2>
+          <h2 className="ml-4 text-3xl font-bold mt-2">What Makes Us Different</h2>
           <p className="text-center text-muted-foreground mt-4">
-            Our philosophy at Quicksave is simple: never compromise—on quality,
-            safety, or service. We deliver premium, traceable meat products and
-            exceptional customer care to nourish communities and earn lasting
-            trust.
+            At Quicksave we never compromise on quality or safety. As a
+            growing network of butcheries and a supplier to corporate clients,
+            we combine skilled craft, traceable sourcing, and responsive
+            service to deliver meat products our customers rely on every day.
           </p>
         </div>
 
@@ -330,34 +327,7 @@ function About_Page() {
                 Our Operation
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="responsibilities">
-              <section>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-7 px-4 py-8">
-                  <div className="flex space-y-3 flex-col">
-                    <p>
-                      <span className="font-bold">TO THE CUSTOMERS: </span>
-                      We aim to anticipate and meet customer needs so as to
-                      become the customers’ supplier of choice.
-                    </p>
 
-                    <p>
-                      <span className="font-bold"> TO THE EMPLOYEES: </span>
-                      We seek to create sustainable employment and financially
-                      empower its staff.
-                    </p>
-
-                    <p>
-                      <span className="font-bold">TO THE SHAREHOLDERS: </span>
-                      We ensure that our shareholders receive a competitive
-                      long-term return on their investment in the company.
-                    </p>
-                  </div>
-                  <div className="h-[550px]">
-                    <div className="h-full rounded-lg overflow-hidden bg-gray-200"></div>
-                  </div>
-                </div>
-              </section>
-            </TabsContent>
             <TabsContent value="strengths">
               <section className="py-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-7 px-4">
@@ -386,32 +356,83 @@ function About_Page() {
                   </div>
 
                   <div className="h-[550px]">
-                    <div className="h-full rounded-lg overflow-hidden bg-gray-200"></div>
+                    <img
+                      src="https://ik.imagekit.io/ypgvaedes/Quicksave/About_Page_Images/our%20strength%203.jpg"
+                      className="h-full object-cover rounded-lg"
+                    />
                   </div>
                 </div>
               </section>
             </TabsContent>
+
+            <TabsContent value="responsibilities">
+              <section>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-7 px-4 py-8">
+                  <div className="flex space-y-3 flex-col">
+                    <p>
+                      <span className="font-bold">TO THE CUSTOMERS: </span>
+                      We aim to anticipate and meet customer needs so as to
+                      become the customers’ supplier of choice.
+                    </p>
+
+                    <p>
+                      <span className="font-bold"> TO THE EMPLOYEES: </span>
+                      We seek to create sustainable employment and financially
+                      empower its staff.
+                    </p>
+
+                    <p>
+                      <span className="font-bold">TO THE SHAREHOLDERS: </span>
+                      We ensure that our shareholders receive a competitive
+                      long-term return on their investment in the company.
+                    </p>
+                  </div>
+                  {/* Placeholder for image or graphic */}
+                  <div className="h-[550px]">
+                    <img
+                      src="https://ik.imagekit.io/ypgvaedes/Quicksave/About_Page_Images/strengths%20image%202.jpg"
+                      className="h-full object-cover rounded-lg"
+                    />
+                  </div>
+                </div>
+              </section>
+            </TabsContent>
+
             <TabsContent value="operation">
               <section className="py-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-7 px-4">
-                  <p>
-                    We are endeavouring to be a truly national meat supplier by
-                    ensuring we have a physical retail presence in all ten
-                    provinces of the Republic of Zambia; literally giving us a
-                    national retail footprint. In the next five years we project
-                    that 70% of our annual turnover will arise from our retail
-                    operation which will subsequently lead to an increase in
-                    volume growth. We are aiming to open 150 outlets in total
-                    within Zambia by 2031. Each outlet is to showcase and
-                    reflect our “all-in-one”, “all-under-one-roof” and “one stop
-                    shop” strategy therefore our stocking will consist of beef,
-                    pork, chicken, chevon, mutton, processed meat, eggs, fish,
-                    and support products such as meal ie-meal, cooking oil rice
-                    and flour.
-                  </p>
+                  <div className="space-y-4 text-base">
+                    <p>
+                      We are building a national retail network with a physical
+                      presence in all ten provinces of the Republic of Zambia —
+                      creating a true national footprint.
+                    </p>
+
+                    <p>
+                      Over the next five years we expect retail to account for
+                      about 70% of our annual turnover, driving significant
+                      volume growth. Our target is to open 150 outlets across
+                      Zambia by 2031.
+                    </p>
+
+                    <p>
+                      Each outlet will follow our “all-in-one, all-under-one-roof”
+                      strategy and will stock a broad range of products,
+                      including:
+                    </p>
+
+                    <ul className="list-disc list-inside ml-4">
+                      <li>Fresh meats: beef, pork, chicken, chevon, mutton</li>
+                      <li>Processed and value-added meat products</li>
+                      <li>Staples and support items: eggs, fish, cooking oil, rice, flour</li>
+                    </ul>
+                  </div>
 
                   <div className="h-[550px]">
-                    <div className="h-full rounded-lg overflow-hidden bg-gray-200"></div>
+                    <img
+                      src="https://ik.imagekit.io/ypgvaedes/Quicksave/About_Page_Images/our%20strengths.jpg"
+                      className="h-full object-cover rounded-lg"
+                    />
                   </div>
                 </div>
               </section>
