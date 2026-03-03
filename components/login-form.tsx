@@ -46,14 +46,7 @@ export function LoginForm({
   const isSignIn = type === "signin";
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues:
-      type === "signin"
-        ? {
-            email: "",
-            password: "",
-          }
-        : {
-            name: "",
+    defaultValues:{
             email: "",
             password: "",
           },
