@@ -44,9 +44,9 @@ function Admin_Product_page() {
 
   console.log("this is", product);
   return (
-    <section className="min-h-screen bg-gray-100 p-4">
-      <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
-        Admin {product?.product} Products
+    <section className="min-h-screen bg-gray-100 p-4 pt-10">
+      <h1 className="text-3xl font-bold text-center text-gray-800 mb-6 capitalize">
+        {product?.product} Products
       </h1>
       <div>
         <Product_Modal
