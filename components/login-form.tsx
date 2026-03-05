@@ -15,7 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
-import { LoaderCircle } from "lucide-react";
+import { GalleryVerticalEnd, LoaderCircle } from "lucide-react";
 
 // ── Schema ────────────────────────────────────────────────
 const baseSchema = z.object({
@@ -95,13 +95,17 @@ export function LoginForm({
   return (
     <>
       <form
-        className={cn("flex flex-col gap-6", className)}
+        className={cn("flex flex-col space-y-8", className)}
         onSubmit={handleSubmit(handleFormSubmit)}
         noValidate
       >
+            <div className="flex items-center justify-left space-x-4">
+            <GalleryVerticalEnd className="size-5" />
+            <h1 className="text-xl font-bold">Quicksave</h1>
+            </div>
         <FieldGroup>
-          <div className="flex flex-col items-center gap-1 text-center">
-            <h1 className="text-2xl font-bold">Log in to your account</h1>
+          <div className="flex flex-col gap-1">
+            <h1 className="text-2xl font-bold">Sign In</h1>
             <p className="text-muted-foreground text-sm text-balance">
               Enter Your email below to access your account
             </p>
@@ -153,7 +157,7 @@ export function LoginForm({
 
           {/*Submit */}
           <Field>
-            <Button type="submit" disabled={isSubmitting} className="w-full">
+            <Button type="submit" disabled={isSubmitting} className="w-full cursor-pointer">
               {isSubmitting && (
                 <>
                   <LoaderCircle className="h-4 w-4 animate-spin mr-2" />
