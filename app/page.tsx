@@ -6,7 +6,7 @@ function Home() {
     <main>
       <Hero />
      <AboutUsSection />
-     <Feature43 />
+     <Feature43 className=""/>
     </main>
   );
 }

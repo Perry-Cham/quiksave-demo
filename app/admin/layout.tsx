@@ -16,7 +16,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-
+import AdminBreadcrumbs from "@/app/custom components/admin components/admin-breadcrumbs";
 async function AdminLayout({
   children,
 }: Readonly<{
@@ -37,7 +37,7 @@ async function AdminLayout({
               orientation="vertical"
               className="mr-2 data-[orientation=vertical]:h-4"
             />
-            <Breadcrumb>
+           {/*<Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
                   <BreadcrumbLink href="#">
@@ -49,7 +49,8 @@ async function AdminLayout({
                   <BreadcrumbPage>Data Fetching</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
-            </Breadcrumb>
+            </Breadcrumb>)*/}
+            <AdminBreadcrumbs />
           </div>
         </header>
        {children}

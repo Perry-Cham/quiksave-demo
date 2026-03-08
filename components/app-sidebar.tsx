@@ -23,6 +23,9 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { Logo } from "./ui/navbar";
@@ -53,7 +56,7 @@ const data = {
           title: "Chicken",
           url: "/admin/products/chicken",
         },
-         {
+        {
           title: "Processed",
           url: "/admin/products/chicken",
         },
@@ -67,7 +70,7 @@ const data = {
         {
           title: "Manage Users",
           url: "/admin/users/manage",
-        }
+        },
       ],
     },
     {
@@ -113,10 +116,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <div className="flex items-center gap-2 my-2">
-          <Logo className="h-6 w-6" />
-          <span className="text-lg font-semibold tracking-tight">QuikSave</span>
-        </div>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton>
+              <div className="flex items-center gap-2 my-2">
+                <Logo className="h-6 w-6" />
+                <span className="text-lg font-semibold tracking-tight">
+                  QuikSave
+                </span>
+              </div>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
