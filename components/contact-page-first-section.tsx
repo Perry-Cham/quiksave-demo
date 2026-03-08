@@ -15,7 +15,7 @@ const ContactUs = ({ contactInfo }: { contactInfo: ContactInfo }) => {
       <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
         {/* Header */}
         <div className='relative mx-auto mb-12 w-fit sm:mb-16 lg:mb-24'>
-          <h2 className='text-2xl font-semibold md:text-3xl lg:text-4xl'>Get In Touch With Us</h2>
+          <h2 className='text-2xl font-semibold md:text-3xl lg:text-4xl'>Get In Touch</h2>
           <span className='bg-primary absolute top-9 left-0 h-px w-full'></span>
         </div>
 

@@ -65,7 +65,7 @@ const Feature43 = ({
           </div>
         )}
         <div className="">      
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 md:gap-4 gap-8 justify-center">
            {product_card_images.map((imageUrl, i) => (
             product_card(imageUrl, product_names[i])
            ))}

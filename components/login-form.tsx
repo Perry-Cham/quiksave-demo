@@ -8,16 +8,18 @@ import {
   FieldLabel,
   FieldSeparator,
 } from "@/components/ui/field";
+import { Dialog, DialogContent, DialogDescription} from "./ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
+import { GalleryVerticalEnd, LoaderCircle } from "lucide-react";
 
 // ── Schema ────────────────────────────────────────────────
 const baseSchema = z.object({
-  email: z.string().email({ message: "Please enter a valid email" }),
+  email: z.email({ message: "Please enter a valid email" }),
   password: z.string().min(8, { message: "Password is required" }),
 });
 
@@ -40,28 +42,25 @@ export function LoginForm({
 }: React.ComponentProps<"form"> & {
   type: string;
 }) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const schema = type === "signin" ? signInSchema : signUpSchema;
   const isSignIn = type === "signin";
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues:{
-            email: "",
-            password: "",
-          },
+    defaultValues: {
+      email: "",
+      password: "",
+    },
     mode: "onChange", // or "onSubmit" — your preference
   });
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: {isSubmitting, errors },
   } = form;
 
   const handleFormSubmit = async (values: FormValues) => {
-    if (isSubmitting) return;
-    //   setIsSubmitting(true);
 
     if (type === "signin") {
       const { data, error } = await authClient.signIn.email(
@@ -94,73 +93,83 @@ export function LoginForm({
   };
 
   return (
-    <form
-      className={cn("flex flex-col gap-6", className)}
-      onSubmit={handleSubmit(handleFormSubmit)}
-      noValidate
-    >
-      <FieldGroup>
-        <div className="flex flex-col items-center gap-1 text-center">
-          <h1 className="text-2xl font-bold">Log in to your account</h1>
-          <p className="text-muted-foreground text-sm text-balance">
-            Enter Your email below to access your account
-          </p>
-        </div>
-
-        {/* Email */}
-        <Field>
-          <FieldLabel htmlFor="email">Email</FieldLabel>
-          <Input
-            id="email"
-            type="email"
-            placeholder="m@example.com"
-            autoComplete="email"
-            {...register("email")}
-            disabled={isSubmitting}
-          />
-          {errors.email && (
-            <p className="text-sm text-destructive mt-1.5">
-              {errors.email.message}
+    <>
+      <form
+        className={cn("flex flex-col space-y-8", className)}
+        onSubmit={handleSubmit(handleFormSubmit)}
+        noValidate
+      >
+            <div className="flex items-center justify-left space-x-4">
+            <GalleryVerticalEnd className="size-5" />
+            <h1 className="text-xl font-bold">Quicksave</h1>
+            </div>
+        <FieldGroup>
+          <div className="flex flex-col gap-1">
+            <h1 className="text-2xl font-bold">Sign In</h1>
+            <p className="text-muted-foreground text-sm text-balance">
+              Enter Your email below to access your account
             </p>
-          )}
-        </Field>
-
-        {/* Password */}
-        <Field>
-          <div className="flex items-center justify-between">
-            <FieldLabel htmlFor="password">Password</FieldLabel>
-            {isSignIn && (
-              <a
-                href="#"
-                className="text-sm text-muted-foreground hover:underline underline-offset-4"
-              >
-                Forgot your password?
-              </a>
-            )}
           </div>
-          <Input
-            id="password"
-            type="password"
-            autoComplete="current-password"
-            {...register("password")}
-          />
-          {errors.password && (
-            <p className="text-sm text-destructive mt-1.5">
-              {errors.password.message}
-            </p>
-          )}
-        </Field>
 
-        {/*Submit */}
-        <Field>
-          <Button type="submit" disabled={isSubmitting} className="w-full">
-            {isSubmitting && "Submitting"}
-            {isSignIn ? "Login" : "Sign Up"}
-          </Button>
-        </Field>
+          {/* Email */}
+          <Field>
+            <FieldLabel htmlFor="email">Email</FieldLabel>
+            <Input
+              id="email"
+              type="email"
+              placeholder="m@example.com"
+              autoComplete="email"
+              {...register("email")}
+              disabled={isSubmitting}
+            />
+            {errors.email && (
+              <p className="text-sm text-destructive mt-1.5">
+                {errors.email.message}
+              </p>
+            )}
+          </Field>
 
-        <FieldSeparator />
-        {/* 
+          {/* Password */}
+          <Field>
+            <div className="flex items-center justify-between">
+              <FieldLabel htmlFor="password">Password</FieldLabel>
+              {isSignIn && (
+                <a
+                  href="#"
+                  className="text-sm text-muted-foreground hover:underline underline-offset-4"
+                >
+                  Forgot your password?
+                </a>
+              )}
+            </div>
+            <Input
+              id="password"
+              type="password"
+              autoComplete="current-password"
+              {...register("password")}
+            />
+            {errors.password && (
+              <p className="text-sm text-destructive mt-1.5">
+                {errors.password.message}
+              </p>
+            )}
+          </Field>
+
+          {/*Submit */}
+          <Field>
+            <Button type="submit" disabled={isSubmitting} className="w-full cursor-pointer">
+              {isSubmitting && (
+                <>
+                  <LoaderCircle className="h-4 w-4 animate-spin mr-2" />
+                 Logging You In...
+                </>
+              )}
+              {!isSubmitting && (isSignIn ? "Login" : "Sign Up")}
+            </Button>
+          </Field>
+
+          <FieldSeparator />
+          {/* 
         <Field>
           <FieldDescription className="text-center text-sm">
             Don't have an account?
@@ -173,7 +182,15 @@ export function LoginForm({
           </FieldDescription>
         </Field>
          */}
-      </FieldGroup>
-    </form>
+        </FieldGroup>
+      </form>
+      <Dialog>
+        <DialogContent>
+          <DialogDescription>
+
+          </DialogDescription>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }

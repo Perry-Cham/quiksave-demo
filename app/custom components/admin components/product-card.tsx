@@ -1,25 +1,25 @@
 import { Props } from "@/types/product-card";
 import { useProductCategory } from "@/stores/productCategoryStore";
 import { Button } from "@/components/ui/button";
-import {CardFooter, CardHeader} from "@/components/ui/card";
+import { CardFooter, CardHeader, Card } from "@/components/ui/card";
 import axios from "axios";
 
-function Card({ name, price, imagesrc, product, setModalState }: Props) {
+function card({ name, price, imagesrc, product, setModalState }: Props) {
   // Convert price to number if it's a string
   const numPrice = typeof price === "string" ? parseFloat(price) : price;
   const formattedPrice = numPrice ? `K${numPrice.toFixed(2)}` : "N/A";
   const { product_category } = useProductCategory();
   return (
-    <div className="group flex flex-col bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 border-2 hover:border-red-400 max-h-[250px] md:max-h-[380px]">
+    <div className="group flex flex-col bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 border-2 hover:border-red-400 max-h-[380px]">
       {/* Image Container */}
-      <CardHeader className="relative w-full aspect-square overflow-hidden bg-gray-100">
+      <div className="relative w-full aspect-square overflow-hidden bg-gray-100">
         <img
           src={imagesrc}
           alt={name || "Product"}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          className="w-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-      </CardHeader>
+      </div>
 
       {/* Content Container */}
       <div className="flex-1 p-4 sm:p-5 flex flex-col justify-between">
@@ -49,11 +49,12 @@ function Card({ name, price, imagesrc, product, setModalState }: Props) {
               isNewProduct: false,
             });
           }}
+          className="cursor-pointer"
         >
           Edit Price
         </Button>
         <Button
-        className="bg-red-500"
+          className="bg-red-500 cursor-pointer hover:bg-red-400 transition-colors duration-300"
           onClick={async () => {
             try {
               const response = await axios.delete(
@@ -63,6 +64,7 @@ function Card({ name, price, imagesrc, product, setModalState }: Props) {
               console.log(e);
             }
           }}
+  
         >
           Delete Product
         </Button>
@@ -71,4 +73,4 @@ function Card({ name, price, imagesrc, product, setModalState }: Props) {
   );
 }
 
-export default Card;
+export default card;

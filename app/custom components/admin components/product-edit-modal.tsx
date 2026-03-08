@@ -24,7 +24,7 @@ import { Button } from "@/components/ui/button";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoaderCircle } from "lucide-react";
+import { CirclePlus, LoaderCircle } from "lucide-react";
 
 interface Product {
   name: string;
@@ -168,7 +168,9 @@ function Product_Modal({
       <Dialog open={isOpen}>
         <Button
           onClick={() => setModalState({ ...modalState, isOpen: !isOpen })}
+          className="cursor-pointer"
         >
+          <CirclePlus size="34"/>
           Add New Product
         </Button>
         <DialogContent showCloseButton={false}>

@@ -90,7 +90,7 @@ export interface NavbarProps extends React.HTMLAttributes<HTMLElement> {
   logo?: React.ReactNode;
   logoHref?: string;
   navigationLinks?: NavbarNavLink[];
-  NoNavPaths?:String[];
+  NoNavPaths: string[];
   signInText?: string;
   signInHref?: string;
   ctaText?: string;
@@ -169,11 +169,19 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
       [ref],
     );
 
-//Pathname for active link highlighting
+    //Pathname for active link highlighting
     const pathname = usePathname();
 
+    //Code to prevent nav bar from displaying on certain pages
+    let displayNav = true;
+    for (const path of NoNavPaths) {
+      if (pathname.startsWith(path)) {
+        displayNav = false;
+        break;
+      }
+    }
     return (
-      <header
+     displayNav && <header
         className={cn(
           "sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4 md:px-6 [&_*]:no-underline",
           className,
@@ -262,7 +270,10 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
                               <ul className="w-96">
                                 {link.sub_links.map((subLink, subIndex) => (
                                   <li key={subIndex}>
-                                    <a href={subLink.href} className="block rounded-sm px-3 py-2 hover:bg-accent">
+                                    <a
+                                      href={subLink.href}
+                                      className="block rounded-sm px-3 py-2 hover:bg-accent"
+                                    >
                                       {subLink.label}
                                     </a>
                                   </li>
@@ -300,12 +311,3 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
 Navbar.displayName = "Navbar";
 
 export { Logo, HamburgerIcon };
-
-// Demo
-export function Demo() {
-  return (
-    <div className="fixed inset-0">
-      <Navbar />
-    </div>
-  );
-}

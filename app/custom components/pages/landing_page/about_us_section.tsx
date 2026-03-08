@@ -6,7 +6,7 @@ const AboutUsSection = () => {
     <div className="bg-white p-10 font-sans mx-10">
       <p className="uppercase text-sm text-black mb-5">About Us</p>
       
-      <div className="flex justify-between items-start mb-10">
+      <div className="grid md:grid-cols-2 items-start mb-10  gap-4">
         <div className="flex-1 mr-10">
           <h1 className="text-4xl font-bold text-black mb-5">Building a Legacy of Excellence</h1>
           
@@ -14,7 +14,7 @@ const AboutUsSection = () => {
             Our story is a testament to the power of collaboration and resilience. Together, we have navigated challenges, celebrated milestones, and crafted a narrative of growth and achievement in the meat industry.
           </p>
           
-          <div className="grid grid-cols-2 gap-5 mb-10">
+          <div className="grid Md:grid-cols-2 gap-5 mb-10">
             <div className={card_styles }>
               <h3 className="text-2xl font-bold text-black">5+ Years</h3>
               <p className="text-sm text-gray-600">Supplying premium meat products with quality and care.</p>
@@ -39,12 +39,12 @@ const AboutUsSection = () => {
           <button className="bg-black text-white px-5 py-2.5 rounded font-base cursor-pointer">Read more →</button>
         </div>
         
-        <div className="bg-gray-200 rounded-lg flex-1 h-100 md:h-[750px] overflow-hidden">
+        <div className="hidden md:block bg-gray-200 rounded-lg flex-1 h-100 md:h-[750px] overflow-hidden">
          <img src="https://ik.imagekit.io/ypgvaedes/Quicksave/Aesthetic_Photos/Landing%20Page%20Image%202.webp" alt="" className='object-contain w-full h-full' />
         </div>
       </div>
       
-      <div className="grid grid-cols-3 gap-5">
+      <div className="grid md:grid-cols-3 gap-5">
         <div className="bg-gray-100 rounded-lg p-5 text-left">
           <h4 className="text-lg font-bold text-black mb-2.5">○ Why Choose Us?</h4>
           <p className="text-sm text-gray-600">Our project management tools boost collaboration and streamline processes.</p>
