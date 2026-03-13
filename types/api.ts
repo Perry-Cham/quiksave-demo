@@ -18,3 +18,9 @@ export interface ProductDataClient{
   image: string;
   subcategory: string;
 }
+
+export interface CategoryData {
+  _id: string;
+  category: string;
+  content: string;
+}

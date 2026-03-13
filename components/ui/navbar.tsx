@@ -99,7 +99,7 @@ export interface NavbarProps extends React.HTMLAttributes<HTMLElement> {
   onCtaClick?: () => void;
 }
 
-// Default navigation links
+// Default navigation links (used while category API is loading or if it fails)
 const defaultNavigationLinks: NavbarNavLink[] = [
   { href: "/", label: "Home", active: true },
   {
@@ -134,6 +134,7 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
     ref,
   ) => {
     const [isMobile, setIsMobile] = useState(false);
+    const [links, setLinks] = useState<NavbarNavLink[]>(navigationLinks);
     const containerRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
@@ -154,6 +155,31 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
       return () => {
         resizeObserver.disconnect();
       };
+    }, []);
+
+    // dynamically load product categories from the database and
+    // replace the hard-coded submenu. this runs once on mount.
+    useEffect(() => {
+      async function loadCategories() {
+        try {
+          const res = await fetch("/api/categories");
+          if (res.ok) {
+            const cats: Array<{ category: string }> = await res.json();
+            const productLinks = cats.map((c) => ({
+              href: `/products/${c.category}`,
+              label: c.category.charAt(0).toUpperCase() + c.category.slice(1),
+            }));
+            setLinks((prev) =>
+              prev.map((link) =>
+                link.label === "Products" ? { ...link, sub_links: productLinks } : link,
+              ),
+            );
+          }
+        } catch (e) {
+          console.warn("Failed to load categories for navbar", e);
+        }
+      }
+      loadCategories();
     }, []);
 
     // Combine refs
@@ -207,7 +233,7 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
                 <PopoverContent align="start" className="w-48 p-2">
                   <NavigationMenu className="max-w-none">
                     <NavigationMenuList className="flex-col items-start gap-1">
-                      {navigationLinks.map((link, index) => (
+                      {links.map((link, index) => (
                         <NavigationMenuItem className="w-full" key={index}>
                           <a
                             type="button"
@@ -244,7 +270,7 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
               {!isMobile && (
                 <NavigationMenu className="flex">
                   <NavigationMenuList className="gap-1">
-                    {navigationLinks.map((link, index) => (
+                    {links.map((link, index) => (
                       <React.Fragment key={link.href ?? index}>
                         {!link.sub_links ? (
                           <NavigationMenuItem key={index}>

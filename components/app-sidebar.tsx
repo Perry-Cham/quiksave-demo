@@ -13,11 +13,11 @@ import {
   Settings2,
   SquareTerminal,
 } from "lucide-react";
-
 import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
 import { TeamSwitcher } from "@/components/team-switcher";
+import axios from "axios";
 import {
   Sidebar,
   SidebarContent,
@@ -29,6 +29,31 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { Logo } from "./ui/navbar";
+
+// Fetch Product Categories from the database
+interface CategoryLink {
+  title: string;
+  url: string;
+}
+
+async function fetchCategories(): Promise<CategoryLink[]> {
+  try {
+    const response = await axios.get(`/api/categories`);
+    let data = response.data;
+    console.log("Fetched categories:", data);
+    data = data.map((category: string) => ({
+      title: category.charAt(0).toUpperCase() + category.slice(1), // Capitalize first letter
+      url: `/admin/products/${category}`,
+    }));
+    return data;
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    return [];
+  }
+}
+
+//test
+console.log(await fetchCategories());
 
 // This is sample data.
 const data = {
@@ -44,7 +69,7 @@ const data = {
       icon: SquareTerminal,
       isActive: true,
       items: [
-        {
+        /* {
           title: "Beef",
           url: "/admin/products/beef",
         },
@@ -59,7 +84,8 @@ const data = {
         {
           title: "Processed",
           url: "/admin/products/chicken",
-        },
+        },*/
+        ...(await fetchCategories()),
       ],
     },
     {

@@ -145,6 +145,8 @@ All custom API routes are located under `app/api/` and grouped into sub-director
 | Method | Path | Handler File | Description |
 |---|---|---|---|
 | `GET` | `/api/getproducts/[product]` | `(GET)/getproducts/` | Fetch all products for a category |
+| `GET` | `/api/categories` | `(GET)/categories/` | Retrieve all category documents (used for navigation or seeding UI) |
+| `GET` | `/api/categories/[category]` | `(GET)/categories/[category]/` | Fetch a single category's metadata (blurb) |
 | `POST` | `/api/addproduct` | `(POST)/addproduct/` | Add a new product with optional image upload |
 | `PATCH` | `/api/updateproduct` | `(PATCH)/updateproduct/` | Update product fields and/or image |
 | `DELETE` | `/api/deleteproduct/[category]/[id]` | `(DELETE)/deleteproduct/` | Delete product and its ImageKit asset |
@@ -196,10 +198,7 @@ Deletes a product and its associated CDN image.
 | `/` | Landing page — Hero, About Us section, Product category cards |
 | `/about` | About page — company overview, mission, values, culture tabs |
 | `/contact` | Contact page — office info cards and contact form |
-| `/products/beef` | Public beef product listing |
-| `/products/chicken` | Public chicken product listing |
-| `/products/pork` | Public pork product listing |
-| `/products/processed` | Public processed meats listing |
+| `/products/[category]` | Public product listing for any category (beef, chicken, pork, processed) – content is now driven by a MongoDB `categories` collection and rendered by a single dynamic route |
 | `/auth/signin` | Sign-in form (no Navbar via `NoNavPaths` list) |
 | `/auth/signup` | Sign-up form (no Navbar via `NoNavPaths` list) |
 | `/admin` | Admin dashboard — protected, lists product category links |
@@ -218,7 +217,16 @@ A server component that performs session verification before rendering any admin
 
 ### 5.3 Public Product Pages
 
-Each product category has a dedicated page (e.g. `app/products/chicken/page.tsx`) that renders an `Intro` component with a descriptive blurb and a `Product_Display` component that fetches and renders the live product grid. The four pages are structurally identical, differing only in the `productName` prop and copy text.
+Public category pages are now generated from a single dynamic route (`app/products/[category]/page.tsx`). When a request hits `/products/beef` (or any other known category) the server component:
+
+1. Connects to MongoDB and looks for a corresponding document in the `categories` collection.
+2. If a document exists the `content` field is used as the message for the `Intro` component; if not, the page falls back to hard‑coded default copy and automatically creates the missing document so the database gradually syncs with the source text.
+
+A small helper script (`scripts/seedCategories.ts`) is provided to pre‑populate the collection with the original copy from the now‑removed static pages. Run it with `pnpm ts-node scripts/seedCategories.ts` after setting `MONGO_URI`.
+
+The `title` passed to `Intro` is simply the capitalized category name.
+
+This approach eliminates the repeated boilerplate of four nearly identical files and makes the warning text editable via the admin interface in the future.
 
 ### 5.4 Admin Product Pages
 

@@ -113,15 +113,19 @@ function Product_Modal({
   }, [productData, isNewProduct, reset]);
 
   async function handleFormSubmit(values: FormTypes) {
-    console.log("values", values);
     let data = new FormData();
-    if (isNewProduct) {
-      for (const [key, value] of Object.entries(values)) {
-        if (value !== undefined) {
-          typeof value  === "number" ? data.append(key, value.toString()):
-          data.append(key, value);
-        }
+
+//TWO THINGS TO NOTE HERE: 1) We have to convert the number to a string before appending it to the FormData, and 2) We have to append the file differently than the other fields. For the file, we check if it's an instance of File and then append it directly. If it's not a file (e.g., if it's undefined), we skip appending it to avoid issues on the server side. Ugh this things has been driving me nuts!
+
+    for (const [key, value] of Object.entries(values)) {
+      if (value !== undefined) {
+       !(key === "imageFile") ? data.append(key, value) : data.append(key, Array.from(value as FileList)[0]);
       }
+    }
+// 
+
+        console.log("values", data.get("imageFile"), data.get("imageFile") instanceof File, (data.get("imageFile") as File)?.size > 0);
+    if (isNewProduct) {
       try {
         const response = await axios.post("/api/addproduct", values);
         setSuccessState({
@@ -142,7 +146,7 @@ function Product_Modal({
         if (productData) {
           const response = await axios.patch(
             `/api/updateproduct/${category}/${productData._id}`,
-            values,
+            data,
           );
           setSuccessState({
             status: "Success",
