@@ -10,9 +10,23 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About Quicksave - Leading Meat Supplier in Zambia | Fresh & Processed Meat Products",
+  description: "Learn about Quicksave, Zambia's premier meat supplier. Discover our mission to deliver high-quality, traceable fresh and processed meat products from farm to table, supporting local farmers and communities.",
+  keywords: "Quicksave, meat supplier Zambia, fresh meat, processed meat, butchery, food safety, traceability, local sourcing, beef pork chicken",
+  openGraph: {
+    title: "About Quicksave - A Leading Meat Supplier in Zambia",
+    description: "Building a better future for the meat industry in Zambia. High-quality fresh and processed meat products with strict safety and traceability standards.",
+    siteName: "Quicksave",
+    locale: "en_US",
+    type: "website",
+  }
+};
 
 function About_Page() {
-  const values: Array<String> = [
+  const values = [
     "Food Safety & Traceability",
     "Quality Butchery Craftsmanship",
     "Customer Focus (Retail & Corporate)",
@@ -42,10 +56,10 @@ function About_Page() {
               <Badge variant="default" className="text-sm text-primary-foreground hover:bg-primary/90 mb-3 px-4">
                 Who We Are
               </Badge>
-              <h2 className="text-3xl font-bold tracking-tight mb-4 capitalize">
+              <h1 className="text-3xl font-bold tracking-tight mb-4 capitalize">
                 Building a better future for the meat industry in Zambia and
                 beyond
-              </h2>
+              </h1>
             </div>
             <p className="text-muted-foreground">
               We are a dedicated team of professionals committed to delivering
@@ -99,7 +113,7 @@ function About_Page() {
           <div>
             <img
               src="https://ik.imagekit.io/ypgvaedes/Quicksave/About_Page_Images/cow-about-page-2.jpg"
-              alt="About Us"
+              alt="Cow Heating Hay in Pasture"
               className="rounded-lg"
             />
           </div>
