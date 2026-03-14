@@ -1,7 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
-import Product_Display from "@/app/custom components/product_display";
-import Product_Modal from "@/app/custom components/admin components/product-edit-modal";
+import Product_Display from "@/components/custom components/product_display";
+import Product_Modal from "@/components/custom components/admin components/product-edit-modal";
+import EditCategoryContentDialog from "@/components/custom components/admin components/edit-category-content-dialog";
 import { useParams } from "next/navigation";
 import axios from "axios";
 interface Product {
@@ -45,9 +46,12 @@ function Admin_Product_page() {
   console.log("this is", product);
   return (
     <section className="min-h-screen bg-gray-100 p-4 pt-10">
-      <h1 className="text-3xl font-bold text-center text-gray-800 mb-6 capitalize">
-        {product?.product} Products
-      </h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold text-center text-gray-800 capitalize">
+          {product?.product} Products
+        </h1>
+        <EditCategoryContentDialog category={product?.product || ""} />
+      </div>
       <div>
         <Product_Modal
           modalState={modalState}

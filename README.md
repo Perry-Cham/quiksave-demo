@@ -46,7 +46,7 @@ Quicksave is a full-stack e-commerce and content website for a Zambian meat supp
 | Tailwind CSS v4 | Utility-first styling |
 | shadcn/ui + radix-ui | Accessible UI component library |
 | MongoDB + Mongoose | NoSQL database and ODM |
-| Better Auth v1 | Authentication (email & password) |
+| Better Auth v1.5.x | Authentication (email & password) |
 | ImageKit | Image CDN — upload, transform, delete |
 | Axios | HTTP client for API requests |
 | Zustand | Lightweight global state management |
@@ -68,19 +68,20 @@ The repository follows the Next.js App Router convention. All pages, API routes,
 | `app/admin/` | Protected admin dashboard pages |
 | `app/auth/` | Sign-in and sign-up pages |
 | `app/products/` | Public-facing product category pages |
-| `app/components/` | Page-scoped and shared React components |
+| `components/custom components/` | Page-scoped, landing page, and admin UI components |
 | `app/about/` | Company About page |
 | `app/contact/` | Contact page |
 | `components/` | Global shadcn/ui components, Navbar, Hero, etc. |
 | `components/ui/` | Low-level UI primitives (Button, Card, Badge, etc.) |
 | `lib/` | Auth config, auth client, API helpers, and utils |
-| `models/` | Mongoose schema and model definitions (`.ts` and `.js`) |
+| `models/` | Mongoose schema and model definitions (`.ts`) |
 | `stores/` | Zustand global state stores |
 | `types/` | TypeScript type definitions |
 | `public/` | Static SVG assets |
 | `app/Pdata.json` | Seed / migration data for chicken products |
 | `app/imageData.json` | ImageKit file metadata for chicken images |
-| `app/d.ts` | One-off DB migration script (not a type file — see Known Issues) |
+| `bootstrapping files/d.ts` | One-off DB migration script (not a type file — see Known Issues) |
+| `bootstrapping files/seedCategories.ts` | Helper to seed the categories collection from legacy static content |
 
 ---
 
@@ -98,7 +99,7 @@ The application follows a standard Next.js App Router data flow:
 
 ### 3.2 Authentication Architecture
 
-Authentication is implemented using the Better Auth library (v1.4.18). It uses the MongoDB adapter, sharing the same Mongoose connection as the rest of the application.
+Authentication is implemented using the Better Auth library (v1.5.5). It uses the MongoDB adapter, sharing the same Mongoose connection as the rest of the application.
 
 **`lib/auth.ts` — Server-side auth instance:**
 - Initialises Better Auth with the `mongodbAdapter` pointing to the active Mongoose connection.
@@ -145,6 +146,8 @@ All custom API routes are located under `app/api/` and grouped into sub-director
 | Method | Path | Handler File | Description |
 |---|---|---|---|
 | `GET` | `/api/getproducts/[product]` | `(GET)/getproducts/` | Fetch all products for a category |
+| `GET` | `/api/categories` | `(GET)/categories/` | Retrieve all category documents (used for navigation or seeding UI) |
+| `GET` | `/api/categories/[category]` | `(GET)/categories/[category]/` | Fetch a single category's metadata (blurb) |
 | `POST` | `/api/addproduct` | `(POST)/addproduct/` | Add a new product with optional image upload |
 | `PATCH` | `/api/updateproduct` | `(PATCH)/updateproduct/` | Update product fields and/or image |
 | `DELETE` | `/api/deleteproduct/[category]/[id]` | `(DELETE)/deleteproduct/` | Delete product and its ImageKit asset |
@@ -196,10 +199,7 @@ Deletes a product and its associated CDN image.
 | `/` | Landing page — Hero, About Us section, Product category cards |
 | `/about` | About page — company overview, mission, values, culture tabs |
 | `/contact` | Contact page — office info cards and contact form |
-| `/products/beef` | Public beef product listing |
-| `/products/chicken` | Public chicken product listing |
-| `/products/pork` | Public pork product listing |
-| `/products/processed` | Public processed meats listing |
+| `/products/[category]` | Public product listing for any category (beef, chicken, pork, processed) – content is now driven by a MongoDB `categories` collection and rendered by a single dynamic route |
 | `/auth/signin` | Sign-in form (no Navbar via `NoNavPaths` list) |
 | `/auth/signup` | Sign-up form (no Navbar via `NoNavPaths` list) |
 | `/admin` | Admin dashboard — protected, lists product category links |
@@ -218,7 +218,16 @@ A server component that performs session verification before rendering any admin
 
 ### 5.3 Public Product Pages
 
-Each product category has a dedicated page (e.g. `app/products/chicken/page.tsx`) that renders an `Intro` component with a descriptive blurb and a `Product_Display` component that fetches and renders the live product grid. The four pages are structurally identical, differing only in the `productName` prop and copy text.
+Public category pages are now generated from a single dynamic route (`app/products/[category]/page.tsx`). When a request hits `/products/beef` (or any other known category) the server component:
+
+1. Connects to MongoDB and looks for a corresponding document in the `categories` collection.
+2. If a document exists the `content` field is used as the message for the `Intro` component; if not, the page falls back to hard‑coded default copy and automatically creates the missing document so the database gradually syncs with the source text.
+
+A small helper script (`bootstrapping files/seedCategories.ts`) is provided to pre‑populate the collection with the original copy from the now‑removed static pages. Run it with `pnpm ts-node "bootstrapping files/seedCategories.ts"` after setting `MONGO_URI`.
+
+The `title` passed to `Intro` is simply the capitalized category name.
+
+This approach eliminates the repeated boilerplate of four nearly identical files and makes the warning text editable via the admin interface in the future.
 
 ### 5.4 Admin Product Pages
 
@@ -234,7 +243,7 @@ Each page manages a `modalState` object that controls the product edit/add modal
 
 ## 6. Components
 
-### 6.1 `Product_Display` (`app/components/product_display.tsx`)
+### 6.1 `Product_Display` (`components/custom components/product_display.tsx`)
 
 The central rendering engine for all product listings — both public and admin views.
 
@@ -244,18 +253,18 @@ The central rendering engine for all product listings — both public and admin 
 - Shows a `LoaderCircle` spinner during fetch and an error message if the API call fails.
 - The `setModalState` prop is passed through to admin cards to open the edit modal.
 
-### 6.2 `Product_Card` (`app/components/product_card.tsx`)
+### 6.2 `Product_Card` (`components/custom components/product_card.tsx`)
 
 The read-only public product card. Accepts `name`, `price`, and `imagesrc` props. Formats the price as `K{value}` (Zambian Kwacha). Features a hover scale effect on the image and a red border highlight on hover. Used exclusively on public product pages.
 
-### 6.3 Admin Product Card (`app/components/admin components/product-card.tsx`)
+### 6.3 Admin Product Card (`components/custom components/admin components/product-card.tsx`)
 
 Extends the visual design of the public card with two action buttons:
 
 - **Edit Price** — opens the `Product_Modal` with the current product data pre-filled.
 - **Delete Product** — sends a `DELETE` request to `/api/deleteproduct/{product_category}/{product._id}`. The category is sourced from the Zustand `productCategoryStore`, which is set when the admin page mounts.
 
-### 6.4 `Product_Modal` (`app/components/admin components/product-edit-modal.tsx`)
+### 6.4 `Product_Modal` (`components/custom components/admin components/product-edit-modal.tsx`)
 
 A form component for adding and editing products, shared across all admin category pages.
 
@@ -313,7 +322,7 @@ The following environment variables must be set in a `.env.local` file (or your 
 | `BETTER_AUTH_SECRET` | Secret used by Better Auth to sign session tokens (required in production) |
 | `BETTER_AUTH_URL` | Base URL of the deployment, used by Better Auth for callback URLs |
 
-> **Warning:** `app/d.ts` (the migration script) contains a hardcoded MongoDB URI. Real credentials should never be committed to version control.
+> **Warning:** `bootstrapping files/d.ts` (the migration script) contains a hardcoded MongoDB URI. Real credentials should never be committed to version control.
 
 ---
 
@@ -353,7 +362,7 @@ The following environment variables must be set in a `.env.local` file (or your 
 - **No UI refresh after mutations:** The admin product list does not refresh after adding, editing, or deleting a product — a manual page reload is required to see changes.
 - **Silent modal failures:** `Product_Modal` has no loading state, success feedback, or client-side error handling. Failed API calls are only logged to the console.
 - **Non-functional contact form:** The form in `app/contact/page.tsx` has no submission handler — it renders as a static HTML form with no `action` or `onSubmit`.
-- **Misnamed migration script:** `app/d.ts` is named like a TypeScript declaration file but is an executable migration script. It should be moved outside `app/` and renamed (e.g. `scripts/migrate.ts`).
+- **Misnamed migration script:** `bootstrapping files/d.ts` is named like a TypeScript declaration file but is an executable migration script. It should be moved out of the project root and renamed (e.g. `scripts/migrate.ts`).
 - **Duplicated admin pages:** The four admin product pages (`beef`, `chicken`, `pork`, `processed`) are near-identical and should be consolidated into a single dynamic route: `/admin/products/[category]/page.tsx`.
 - **No API route authentication:** Any client with knowledge of the route can call `POST`/`PATCH`/`DELETE` product endpoints without a valid session. Admin API routes should verify the session server-side.
 
@@ -362,7 +371,7 @@ The following environment variables must be set in a `.env.local` file (or your 
 - **Duplicate model file:** `models/product-model.js` is a compiled JavaScript duplicate of `product-model.ts`. Only the TypeScript source should be committed; the `.js` file can cause model-registration conflicts at runtime.
 - **Repeated DB connections:** Each API route calls `mongoose.connect()` independently. A shared connection helper with connection caching (the standard Next.js + Mongoose pattern) would reduce overhead.
 - **Fragile category store pattern:** Passing `category` as a prop directly to `AdminProductCard` or via `Product_Display` would be more explicit and testable than relying on a global Zustand store.
-- **Unused components:** `components/signup-form.tsx` duplicates logic already in `components/login-form.tsx` and is not imported anywhere. `app/components/card.tsx` and `app/components/display.tsx` appear to be earlier iterations of product display components and are also unused.
+- **Unused components:** `components/signup-form.tsx` duplicates logic already in `components/login-form.tsx` and is not imported anywhere. A few legacy files in `components/custom components/` may also be redundant and could be consolidated.
 
 ---
 

@@ -4,6 +4,7 @@ import {
   Heart,
   HeartHandshake,
   Lightbulb,
+  MoveRight,
   Shield,
   UsersRound,
 } from "lucide-react";
@@ -37,9 +38,13 @@ function About_Page() {
 
           <div className="">
             <div>
-              <h4 className="text-primary mb-2 font-semibold">Who We Are</h4>
+             {/* <h4 className="text-primary mb-2 font-semibold">Who We Are</h4> */}
+              <Badge variant="default" className="text-sm text-primary-foreground hover:bg-primary/90 mb-3 px-4">
+                Who We Are
+              </Badge>
               <h2 className="text-3xl font-bold tracking-tight mb-4 capitalize">
-                Building a better future for the meat industry in Zambia and beyond
+                Building a better future for the meat industry in Zambia and
+                beyond
               </h2>
             </div>
             <p className="text-muted-foreground">
@@ -65,7 +70,7 @@ function About_Page() {
           </div>
         </div>
       </section>
-      <section className="container mx-auto px-4 py-24 md:px-6 2xl:max-w-[1400px]">
+      <section className="container mx-auto px-4 py-24 md:px-6 2xl:max-w-[1400px] space-y-12">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-24">
           <div className="space-y-8">
             <div className="bg-primary/10 text-primary inline-block rounded-lg px-3 py-1 text-sm">
@@ -83,74 +88,89 @@ function About_Page() {
             </p>
             <div className="pt-2">
               <a
-                href="#"
-                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([className*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 h-9 px-4 py-2 has-[&gt;svg]:px-3 group inline-flex items-center"
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([className*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground shadow-xs hover:bg-red-600  h-9 px-4 py-2 has-[&gt;svg]:px-3 group inline-flex items-center"
                 data-slot="button"
               >
-                Get In Touch
+                Get In Touch <MoveRight />
               </a>
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div className="hover:bg-accent/50 relative rounded-lg border p-6 transition-colors">
-              <div className="text-primary/20 absolute top-4 right-4 text-3xl font-bold">01</div>
-              <div className="space-y-3">
-                <h3 className="text-xl font-bold">Customer & Food Safety</h3>
-                <p className="text-muted-foreground">
-                  We put food safety and customer service first across both our
-                  retail butcheries and corporate sales channels — ensuring
-                  consistently safe, traceable products for homes and businesses.
-                </p>
-              </div>
+          <div>
+            <img
+              src="https://ik.imagekit.io/ypgvaedes/Quicksave/About_Page_Images/cow-about-page-2.jpg"
+              alt="About Us"
+              className="rounded-lg"
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div className="hover:bg-accent/50 relative rounded-lg border p-6 transition-colors">
+            <div className="text-primary/20 absolute top-4 right-4 text-3xl font-bold">
+              01
             </div>
-
-            <div className="hover:bg-accent/50 relative rounded-lg border p-6 transition-colors">
-              <div className="text-primary/20 absolute top-4 right-4 text-3xl font-bold">02</div>
-              <div className="space-y-3">
-                <h3 className="text-xl font-bold">Supply Chain & Traceability</h3>
-                <p className="text-muted-foreground">
-                  From farm to butchery to delivery, we maintain cold-chain
-                  controls and clear traceability so customers and corporate
-                  partners can trust every cut we sell.
-                </p>
-              </div>
+            <div className="space-y-3">
+              <h3 className="text-xl font-bold">Customer & Food Safety</h3>
+              <p className="text-muted-foreground">
+                We put food safety and customer service first across both our
+                retail butcheries and corporate sales channels — ensuring
+                consistently safe, traceable products for homes and businesses.
+              </p>
             </div>
+          </div>
 
-            <div className="hover:bg-accent/50 relative rounded-lg border p-6 transition-colors">
-              <div className="text-primary/20 absolute top-4 right-4 text-3xl font-bold">03</div>
-              <div className="space-y-3">
-                <h3 className="text-xl font-bold">Butchery Craftsmanship</h3>
-                <p className="text-muted-foreground">
-                  Skilled butchers and strict quality standards ensure we
-                  deliver premium cuts and consistent portioning for retail
-                  shelves and corporate orders.
-                </p>
-              </div>
+          <div className="hover:bg-accent/50 relative rounded-lg border p-6 transition-colors">
+            <div className="text-primary/20 absolute top-4 right-4 text-3xl font-bold">
+              02
             </div>
+            <div className="space-y-3">
+              <h3 className="text-xl font-bold">Supply Chain & Traceability</h3>
+              <p className="text-muted-foreground">
+                From farm to butchery to delivery, we maintain cold-chain
+                controls and clear traceability so customers and corporate
+                partners can trust every cut we sell.
+              </p>
+            </div>
+          </div>
 
-            <div className="hover:bg-accent/50 relative rounded-lg border p-6 transition-colors">
-              <div className="text-primary/20 absolute top-4 right-4 text-3xl font-bold">04</div>
-              <div className="space-y-3">
-                <h3 className="text-xl font-bold">Local Sourcing & Growth</h3>
-                <p className="text-muted-foreground">
-                  We partner with local farmers to support livelihoods while
-                  expanding into new districts — growing our retail footprint
-                  and strengthening supply for corporate clients.
-                </p>
-              </div>
+          <div className="hover:bg-accent/50 relative rounded-lg border p-6 transition-colors">
+            <div className="text-primary/20 absolute top-4 right-4 text-3xl font-bold">
+              03
+            </div>
+            <div className="space-y-3">
+              <h3 className="text-xl font-bold">Butchery Craftsmanship</h3>
+              <p className="text-muted-foreground">
+                Skilled butchers and strict quality standards ensure we deliver
+                premium cuts and consistent portioning for retail shelves and
+                corporate orders.
+              </p>
+            </div>
+          </div>
+
+          <div className="hover:bg-accent/50 relative rounded-lg border p-6 transition-colors">
+            <div className="text-primary/20 absolute top-4 right-4 text-3xl font-bold">
+              04
+            </div>
+            <div className="space-y-3">
+              <h3 className="text-xl font-bold">Local Sourcing & Growth</h3>
+              <p className="text-muted-foreground">
+                We partner with local farmers to support livelihoods while
+                expanding into new districts — growing our retail footprint and
+                strengthening supply for corporate clients.
+              </p>
             </div>
           </div>
         </div>
-        <div className="bg-accent mt-24 rounded-lg p-8 lg:p-12">
+        <div className="bg-accent mt-18 rounded-lg p-8 lg:p-12">
           <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-3">
             <div className="lg:col-span-2">
               <h3 className="mb-4 text-2xl font-bold">Our Vision</h3>
               <p className="text-muted-foreground mb-4">
-                We envision a resilient, locally-rooted meat supplier trusted
-                by households and businesses alike. By combining responsible
-                sourcing, expert butchery, and reliable distribution, we aim
-                to elevate standards across the regions we serve as we expand
-                into new districts.
+                We envision a resilient, locally-rooted meat supplier trusted by
+                households and businesses alike. By combining responsible
+                sourcing, expert butchery, and reliable distribution, we aim to
+                elevate standards across the regions we serve as we expand into
+                new districts.
               </p>
             </div>
             <div className="flex justify-center lg:col-span-1 lg:justify-end">
@@ -184,7 +204,9 @@ function About_Page() {
                 <div className="bg-primary/10 rounded-full p-3">
                   <Heart />
                 </div>
-                <h3 className="text-lg font-bold">Customer Focus (Retail & Corporate)</h3>
+                <h3 className="text-lg font-bold">
+                  Customer Focus (Retail & Corporate)
+                </h3>
               </div>
               <p className="text-muted-foreground">
                 We serve both households and corporate partners with dependable
@@ -259,8 +281,8 @@ function About_Page() {
                 <h3 className="text-lg font-bold">Farmer Partnerships</h3>
               </div>
               <p className="text-muted-foreground">
-                We invest in local farmers, building resilient supply chains
-                and supporting rural livelihoods as we expand into new districts.
+                We invest in local farmers, building resilient supply chains and
+                supporting rural livelihoods as we expand into new districts.
               </p>
             </div>
           </div>
@@ -277,8 +299,8 @@ function About_Page() {
                 <h3 className="text-lg font-bold">Community & Employment</h3>
               </div>
               <p className="text-muted-foreground">
-                As we open new butcheries we create local jobs and give back
-                to the communities we serve.
+                As we open new butcheries we create local jobs and give back to
+                the communities we serve.
               </p>
             </div>
           </div>
@@ -296,12 +318,14 @@ function About_Page() {
           <Badge className="text-sm" variant="default">
             Our Culture
           </Badge>
-          <h2 className="ml-4 text-3xl font-bold mt-2">What Makes Us Different</h2>
+          <h2 className="ml-4 text-3xl font-bold mt-2">
+            What Makes Us Different
+          </h2>
           <p className="text-center text-muted-foreground mt-4">
-            At Quicksave we never compromise on quality or safety. As a
-            growing network of butcheries and a supplier to corporate clients,
-            we combine skilled craft, traceable sourcing, and responsive
-            service to deliver meat products our customers rely on every day.
+            At Quicksave we never compromise on quality or safety. As a growing
+            network of butcheries and a supplier to corporate clients, we
+            combine skilled craft, traceable sourcing, and responsive service to
+            deliver meat products our customers rely on every day.
           </p>
         </div>
 
@@ -416,15 +440,18 @@ function About_Page() {
                     </p>
 
                     <p>
-                      Each outlet will follow our “all-in-one, all-under-one-roof”
-                      strategy and will stock a broad range of products,
-                      including:
+                      Each outlet will follow our “all-in-one,
+                      all-under-one-roof” strategy and will stock a broad range
+                      of products, including:
                     </p>
 
                     <ul className="list-disc list-inside ml-4">
                       <li>Fresh meats: beef, pork, chicken, chevon, mutton</li>
                       <li>Processed and value-added meat products</li>
-                      <li>Staples and support items: eggs, fish, cooking oil, rice, flour</li>
+                      <li>
+                        Staples and support items: eggs, fish, cooking oil,
+                        rice, flour
+                      </li>
                     </ul>
                   </div>
 

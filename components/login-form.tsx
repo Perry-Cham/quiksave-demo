@@ -8,7 +8,14 @@ import {
   FieldLabel,
   FieldSeparator,
 } from "@/components/ui/field";
-import { Dialog, DialogContent, DialogDescription} from "./ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "./ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -42,7 +49,11 @@ export function LoginForm({
 }: React.ComponentProps<"form"> & {
   type: string;
 }) {
-
+  const [modalState, setModalState] = useState({
+    open: false,
+    title: "",
+    message: "",
+  });
   const schema = type === "signin" ? signInSchema : signUpSchema;
   const isSignIn = type === "signin";
   const form = useForm<FormValues>({
@@ -57,11 +68,10 @@ export function LoginForm({
   const {
     register,
     handleSubmit,
-    formState: {isSubmitting, errors },
+    formState: { isSubmitting, errors },
   } = form;
 
   const handleFormSubmit = async (values: FormValues) => {
-
     if (type === "signin") {
       const { data, error } = await authClient.signIn.email(
         {
@@ -72,7 +82,7 @@ export function LoginForm({
         {
           onError(context) {
             console.log(context);
-            alert(context.error.statusText);
+            setModalState({open:true, title:"Error", message:"There was a problem signing you in please try again later"})
           },
         },
       );
@@ -85,7 +95,7 @@ export function LoginForm({
         {
           onError: (ctx) => {
             // display the error message
-            alert(ctx.error.message);
+             setModalState({open:true, title:"Error", message:"There was a problem signing you in please try again later"})
           },
         },
       );
@@ -99,10 +109,10 @@ export function LoginForm({
         onSubmit={handleSubmit(handleFormSubmit)}
         noValidate
       >
-            <div className="flex items-center justify-left space-x-4">
-            <GalleryVerticalEnd className="size-5" />
-            <h1 className="text-xl font-bold">Quicksave</h1>
-            </div>
+        <div className="flex items-center justify-left space-x-4">
+          <GalleryVerticalEnd className="size-5" />
+          <h1 className="text-xl font-bold">Quicksave</h1>
+        </div>
         <FieldGroup>
           <div className="flex flex-col gap-1">
             <h1 className="text-2xl font-bold">Sign In</h1>
@@ -157,11 +167,15 @@ export function LoginForm({
 
           {/*Submit */}
           <Field>
-            <Button type="submit" disabled={isSubmitting} className="w-full cursor-pointer">
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full cursor-pointer"
+            >
               {isSubmitting && (
                 <>
                   <LoaderCircle className="h-4 w-4 animate-spin mr-2" />
-                 Logging You In...
+                  Logging You In...
                 </>
               )}
               {!isSubmitting && (isSignIn ? "Login" : "Sign Up")}
@@ -169,28 +183,31 @@ export function LoginForm({
           </Field>
 
           <FieldSeparator />
-          {/* 
-        <Field>
-          <FieldDescription className="text-center text-sm">
-            Don't have an account?
-            <a
-              href="/auth/signup"
-              className="text-primary underline underline-offset-4 hover:text-primary/80"
-            >
-          Sign up
-            </a>
-          </FieldDescription>
-        </Field>
-         */}
         </FieldGroup>
       </form>
-      <Dialog>
-        <DialogContent>
-          <DialogDescription>
 
-          </DialogDescription>
-        </DialogContent>
-      </Dialog>
+      {
+        <Dialog open={modalState.open}>
+          <DialogContent showCloseButton={false}>
+            <DialogHeader>
+              <DialogTitle>{modalState.title}</DialogTitle>
+            </DialogHeader>
+            <DialogDescription>{modalState.message}</DialogDescription>
+            <DialogFooter>
+              <Button
+                onClick={() => {
+                  setModalState({ open: false, title: "", message: "" });
+                }}
+              >
+                Close
+              </Button>
+              <Button>
+                Back To Home
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      }
     </>
   );
 }

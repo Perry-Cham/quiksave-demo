@@ -18,7 +18,7 @@ import { authClient } from "@/lib/auth-client";
 // ── Schema ────────────────────────────────────────────────
 const schema = z.object({
   email: z.string().email({ message: "Please enter a valid email" }),
-  password: z.string().min(8, { message: "Password is required" }),
+  password: z.string().min(8, { message: "Password must have at least 8 characters" }),
   name: z
     .string({ message: "Name is required" })
     .min(2, { message: "Name must be at least 2 characters" }),
@@ -26,7 +26,7 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>
 // ── Form Component ────────────────────────────────────────
-export function LoginForm({
+export function SignUpForm({
   className,
   type,
   ...props
@@ -77,6 +77,7 @@ export function LoginForm({
       <FieldGroup>
         <div className="flex flex-col items-center gap-1 text-center">
           <h1 className="text-2xl font-bold">
+            Sign Up
           </h1>
           <p className="text-muted-foreground text-sm text-balance">
             Enter Your Details
