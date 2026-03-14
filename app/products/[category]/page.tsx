@@ -1,5 +1,5 @@
-import Intro from "@/app/custom components/intro";
-import Product_Display from "@/app/custom components/product_display";
+import Intro from "@/components/custom components/intro";
+import Product_Display from "@/components/custom components/product_display";
 import { FetchData } from "@/lib/client-helper-functions";
 import mongoose from "mongoose";
 import CategoryModel from "@/models/product-categories";

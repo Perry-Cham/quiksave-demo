@@ -29,7 +29,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { Logo } from "./ui/navbar";
-import AddCategoryDialog from "@/app/custom components/admin components/add-category-dialog";
+import AddCategoryDialog from "@/components/custom components/admin components/add-category-dialog";
 
 // Fetch Product Categories from the database
 interface CategoryLink {

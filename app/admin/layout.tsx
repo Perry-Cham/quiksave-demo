@@ -16,7 +16,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import AdminBreadcrumbs from "@/app/custom components/admin components/admin-breadcrumbs";
+import AdminBreadcrumbs from "@/components/custom components/admin components/admin-breadcrumbs";
 async function AdminLayout({
   children,
 }: Readonly<{

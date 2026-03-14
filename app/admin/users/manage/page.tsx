@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import AdminBreadcrumbs from "@/app/custom components/admin components/admin-breadcrumbs";
+import AdminBreadcrumbs from "@/components/custom components/admin components/admin-breadcrumbs";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";

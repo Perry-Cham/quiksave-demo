@@ -1,3 +1,4 @@
+"use client"
 import { ArrowUpRight, CirclePlay, Phone } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
@@ -17,26 +18,30 @@ export default function Hero() {
             variety of cuts and types of meat, all sourced from trusted
             suppliers to ensure freshness and flavor.
           </p>
-          <div className="mt-12 flex items-center gap-4">
-            <Button className="rounded-full text-base" size="lg">
+          <div className="mt-12 flex items-center gap-4 cursor-pointer">
+            <Button
+              className="rounded-full text-base"
+              size="lg"
+              onClick={() => (window.location.href = "/contact")}
+            >
               Contact Us <Phone className="ml-2 h-5 w-5" />
             </Button>
             <Button
-              className="rounded-full text-base shadow-none"
+              className="rounded-full text-base shadow-none cursor-pointer"
               size="lg"
               variant="outline"
+              onClick={() => (window.location.href = "/about")}
             >
               <CirclePlay className="h-5! w-5!" /> Learn More
             </Button>
           </div>
         </div>
-        <div className="aspect-video w-full rounded-xl bg-accent lg:aspect-auto lg:h-screen lg:w-[1000px] lg:rounded-none" >
-           <img
+        <div className="aspect-video w-full rounded-xl bg-accent lg:aspect-auto lg:h-screen lg:w-[1000px] lg:rounded-none">
+          <img
             className="object-cover"
             src="https://ik.imagekit.io/ypgvaedes/Quicksave/Aesthetic_Photos/garnished-steak-hero.jpg"
-            alt=""
+            alt="Garnished steak on a wooden cutting board"
           />
-         
         </div>
       </div>
     </div>

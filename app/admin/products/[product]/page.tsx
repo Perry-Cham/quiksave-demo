@@ -1,8 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
-import Product_Display from "@/app/custom components/product_display";
-import Product_Modal from "@/app/custom components/admin components/product-edit-modal";
-import EditCategoryContentDialog from "@/app/custom components/admin components/edit-category-content-dialog";
+import Product_Display from "@/components/custom components/product_display";
+import Product_Modal from "@/components/custom components/admin components/product-edit-modal";
+import EditCategoryContentDialog from "@/components/custom components/admin components/edit-category-content-dialog";
 import { useParams } from "next/navigation";
 import axios from "axios";
 interface Product {
