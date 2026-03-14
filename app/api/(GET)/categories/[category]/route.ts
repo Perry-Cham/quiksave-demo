@@ -23,3 +23,19 @@ export async function GET(
     return NextResponse.json({ error: "Failed to fetch category" }, { status: 500 });
   }
 }
+
+export async function PATCH(request: NextRequest, { params }: { params: { category: string } }) {
+  try {
+    await mongoose.connect(process.env.MONGO_URI!);
+    const { content } = await request.json();
+    const doc = await CategoryModel.findOneAndUpdate(
+      { category: params.category },
+      { content },
+      { new: true, upsert: true }
+    );
+    return NextResponse.json({ message: "Category updated successfully" }, { status: 200 });
+  } catch (error) {
+    console.error("Error updating category", error);
+    return NextResponse.json({ error: "Failed to update category" }, { status: 500 });
+  }
+}

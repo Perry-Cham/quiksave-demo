@@ -29,6 +29,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { Logo } from "./ui/navbar";
+import AddCategoryDialog from "@/app/custom components/admin components/add-category-dialog";
 
 // Fetch Product Categories from the database
 interface CategoryLink {
@@ -42,7 +43,7 @@ async function fetchCategories(): Promise<CategoryLink[]> {
     let data = response.data;
     console.log("Fetched categories:", data);
     data = data.map((category: string) => ({
-      title: category.charAt(0).toUpperCase() + category.slice(1), // Capitalize first letter
+      title: category[0].toUpperCase() +  category.slice(1) , // Capitalize first letter
       url: `/admin/products/${category}`,
     }));
     return data;
@@ -52,93 +53,87 @@ async function fetchCategories(): Promise<CategoryLink[]> {
   }
 }
 
-//test
-console.log(await fetchCategories());
 
-// This is sample data.
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  navMain: [
-    {
-      title: "Products",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        /* {
-          title: "Beef",
-          url: "/admin/products/beef",
-        },
-        {
-          title: "Pork",
-          url: "/admin/products/pork",
-        },
-        {
-          title: "Chicken",
-          url: "/admin/products/chicken",
-        },
-        {
-          title: "Processed",
-          url: "/admin/products/chicken",
-        },*/
-        ...(await fetchCategories()),
-      ],
-    },
-    {
-      title: "Access Controls",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Manage Users",
-          url: "/admin/users/manage",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "/admin/docs/intro",
-        },
-        {
-          title: "Managing Products",
-          url: "/admin/docs/manage-products",
-        },
-        {
-          title: "Managing Users",
-          url: "/admin/docs/manage-users",
-        },
-      ],
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
-};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [categories, setCategories] = React.useState<CategoryLink[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  const fetchCats = async () => {
+    setLoading(true);
+    const cats = await fetchCategories();
+    setCategories(cats);
+    setLoading(false);
+  };
+
+  React.useEffect(() => {
+    fetchCats();
+  }, []);
+
+  const data = {
+    user: {
+      name: "shadcn",
+      email: "m@example.com",
+      avatar: "/avatars/shadcn.jpg",
+    },
+    navMain: [
+      {
+        title: "Products",
+        url: "#",
+        icon: SquareTerminal,
+        isActive: true,
+        items: loading ? [] : [{ component: <AddCategoryDialog onCategoryAdded={fetchCats} /> }, ...categories],
+      },
+      {
+        title: "Access Controls",
+        url: "#",
+        icon: Bot,
+        items: [
+          {
+            title: "Manage Users",
+            url: "/admin/users/manage",
+          },
+        ],
+      },
+      {
+        title: "Documentation",
+        url: "#",
+        icon: BookOpen,
+        items: [
+          {
+            title: "Introduction",
+            url: "/admin/docs/intro",
+          },
+          {
+            title: "Managing Products",
+            url: "/admin/docs/manage-products",
+          },
+          {
+            title: "Managing Users",
+            url: "/admin/docs/manage-users",
+          },
+        ],
+      },
+    ],
+    projects: [
+      {
+        name: "Design Engineering",
+        url: "#",
+        icon: Frame,
+      },
+      {
+        name: "Sales & Marketing",
+        url: "#",
+        icon: PieChart,
+      },
+      {
+        name: "Travel",
+        url: "#",
+        icon: Map,
+      },
+    ],
+  };
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
