@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Field } from "@/components/ui/field";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,9 +31,18 @@ interface AddCategoryDialogProps {
   onCategoryAdded: () => void;
 }
 
-export default function AddCategoryDialog({ onCategoryAdded }: AddCategoryDialogProps) {
+export default function AddCategoryDialog({
+  onCategoryAdded,
+}: AddCategoryDialogProps) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [modalState, setModalState] = useState<{
+    status: "success" | "error" | null;
+    message: string;
+  }>({
+    status: null,
+    message: "",
+  });
 
   const {
     register,
@@ -58,41 +68,68 @@ export default function AddCategoryDialog({ onCategoryAdded }: AddCategoryDialog
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" size="sm">
-          <CirclePlus className="h-4 w-4 mr-2" />
-          Add New Category
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Add New Category</DialogTitle>
-          <DialogDescription>
-            Enter the category name and optional marketing copy.
-          </DialogDescription>
-        </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div>
-            <Label htmlFor="category">Category Name</Label>
-            <Input id="category" {...register("category")} />
-            {errors.category && <p className="text-red-500">{errors.category.message}</p>}
-          </div>
-          <div>
-            <Label htmlFor="content">Marketing Copy (Optional)</Label>
-            <Textarea id="content" {...register("content")} />
-          </div>
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => setOpen(false)}>
-              Cancel
-            </Button>
-            <Button type="submit" disabled={loading}>
-              {loading && <LoaderCircle className="h-4 w-4 mr-2 animate-spin" />}
-              Add Category
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+    <>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          <Button variant="outline" size="sm">
+            <CirclePlus className="h-4 w-4 mr-2" />
+            Add New Category
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add New Category</DialogTitle>
+            <DialogDescription>
+              Enter the category name and optional marketing copy.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <Field>
+              <Label htmlFor="category">Category Name</Label>
+              <Input id="category" {...register("category")} />
+              {errors.category && (
+                <p className="text-red-500">{errors.category.message}</p>
+              )}
+            </Field>
+            <Field>
+              <Label htmlFor="content">Marketing Copy (Optional)</Label>
+              <Textarea id="content" {...register("content")} />
+            </Field>
+            <DialogFooter>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button type="submit" disabled={loading}>
+                {loading && (
+                  <LoaderCircle className="h-4 w-4 mr-2 animate-spin" />
+                )}
+                Add Category
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Modal for success or failure message */}
+      {(modalState.status === "success" || modalState.status === "error") && (
+        <Dialog
+          open={true}
+          onOpenChange={() => setModalState({ status: null, message: "" })}
+        >
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>
+                {modalState.status === "success" ? "Success" : "Error"}
+              </DialogTitle>
+            </DialogHeader>
+            <div className="p-4">{modalState.message}</div>
+          </DialogContent>
+        </Dialog>
+      )}
+    </>
   );
 }

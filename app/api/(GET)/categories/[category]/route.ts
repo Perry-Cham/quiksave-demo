@@ -7,35 +7,52 @@ export async function GET(
   {
     params,
   }: {
-    params: { category: string };
+    params: Promise<{ category: string }>;
   },
 ) {
   try {
     await mongoose.connect(process.env.MONGO_URI!);
-    const { category } = params;
+    const { category } = await params;
     const doc = await CategoryModel.findOne({ category });
+    console.log(category);
     if (!doc) {
-      return NextResponse.json({ error: "Category not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Category not found" },
+        { status: 404 },
+      );
     }
     return NextResponse.json(doc);
   } catch (error) {
     console.error("Error fetching category", error);
-    return NextResponse.json({ error: "Failed to fetch category" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch category" },
+      { status: 500 },
+    );
   }
 }
 
-export async function PATCH(request: NextRequest, { params }: { params: { category: string } }) {
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ category: string }> },
+) {
   try {
     await mongoose.connect(process.env.MONGO_URI!);
     const { content } = await request.json();
+    const { category } = await params;
     const doc = await CategoryModel.findOneAndUpdate(
-      { category: params.category },
+      { category },
       { content },
-      { new: true, upsert: true }
+      { new: true, upsert: true },
     );
-    return NextResponse.json({ message: "Category updated successfully" }, { status: 200 });
+    return NextResponse.json(
+      { message: "Category updated successfully" },
+      { status: 200 },
+    );
   } catch (error) {
     console.error("Error updating category", error);
-    return NextResponse.json({ error: "Failed to update category" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to update category" },
+      { status: 500 },
+    );
   }
 }

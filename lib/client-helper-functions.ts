@@ -1,20 +1,18 @@
 import { ProductCategory, ProductDataClient } from "@/types/api";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
-import Products from "@/models/product-model";
+import {Products} from "@/models/product-model";
 
-export async function FetchData(product: ProductCategory):Promise<ProductDataClient[]>{
+export async function FetchData(product: string):Promise<ProductDataClient[]>{
 
    try{
         await mongoose.connect(process.env.MONGO_URI!);
         console.log("Connected to MongoDB");
-        const ProductModel = Products[product];
-        if (!ProductModel) {
-           throw new Error(`No model found for category: ${product}`);
+        const ProductData = Products.find({category: product});
+        if (!ProductData) {
+           throw new Error(`No data found for category: ${product}`);
         }
-        console.log(ProductModel)
-        const products = await ProductModel.find({});
-        return products;
+        return ProductData;
     } catch (error) {
         console.error("Error fetching products:", error, process.env.MONGO_URI);
         throw new Error("Failed to fetch products");
