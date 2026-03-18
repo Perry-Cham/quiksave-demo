@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "bootstrapping files/d.ts"  ],
+, "bootstrapping files/d.ts", "app/not-found.js"  ],
   "exclude": ["node_modules"]
 }

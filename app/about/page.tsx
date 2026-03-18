@@ -7,6 +7,9 @@ import {
   MoveRight,
   Shield,
   UsersRound,
+  Truck,
+  Users,
+  Store,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -37,28 +40,28 @@ function About_Page() {
   ];
 
   const tabs_trigger_classes = "py-4 px-2 my-2";
+
   return (
     <main>
+      {/* ── Section 1: Who We Are ── */}
       <section className="container mx-auto px-4 py-24 md:px-6 2xl:max-w-[1400px]">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
           <div className="relative aspect-square overflow-hidden rounded-xl">
             <img
               alt="Team collaborating in modern office"
-              className="object-cover h-full"
+              className="object-cover h-full w-full"
               sizes="(max-width: 768px) 100vw, 50vw"
               src="https://ik.imagekit.io/ypgvaedes/Quicksave/About_Page_Images/Staff%20Photo.jpg"
             />
           </div>
 
-          <div className="">
+          <div>
             <div>
-             {/* <h4 className="text-primary mb-2 font-semibold">Who We Are</h4> */}
               <Badge variant="default" className="text-sm text-primary-foreground hover:bg-primary/90 mb-3 px-4">
                 Who We Are
               </Badge>
               <h1 className="text-3xl font-bold tracking-tight mb-4 capitalize">
-                Building a better future for the meat industry in Zambia and
-                beyond
+                Building a better future for the meat industry in Zambia and beyond
               </h1>
             </div>
             <p className="text-muted-foreground">
@@ -70,12 +73,12 @@ function About_Page() {
               provide beef, pork, chicken, and a wide range of value-added meat
               products that meet real market needs.
             </p>
-            <div className="pt-2">
+            <div className="pt-6">
               <h3 className="mb-3 text-lg font-bold">Our Core Values</h3>
               <ul className="grid grid-cols-1 gap-2 md:grid-cols-2">
                 {values.map((value) => (
-                  <li className="flex items-center gap-2">
-                    <BadgeCheck />
+                  <li key={value} className="flex items-center gap-2">
+                    <BadgeCheck className="text-primary shrink-0" />
                     {value}
                   </li>
                 ))}
@@ -84,6 +87,8 @@ function About_Page() {
           </div>
         </div>
       </section>
+
+      {/* ── Section 2: Mission + 4 pillars ── */}
       <section className="container mx-auto px-4 py-24 md:px-6 2xl:max-w-[1400px] space-y-12">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-24">
           <div className="space-y-8">
@@ -103,78 +108,40 @@ function About_Page() {
             <div className="pt-2">
               <a
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([className*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground shadow-xs hover:bg-red-600  h-9 px-4 py-2 has-[&gt;svg]:px-3 group inline-flex items-center"
-                data-slot="button"
+                className="inline-flex items-center gap-2 rounded-md bg-primary text-primary-foreground text-sm font-medium px-4 py-2 hover:bg-red-600 transition-colors"
               >
-                Get In Touch <MoveRight />
+                Get In Touch <MoveRight className="size-4" />
               </a>
             </div>
           </div>
           <div>
             <img
               src="https://ik.imagekit.io/ypgvaedes/Quicksave/About_Page_Images/cow-about-page-2.jpg"
-              alt="Cow Heating Hay in Pasture"
-              className="rounded-lg"
+              alt="Cow eating hay in pasture"
+              className="rounded-lg w-full"
             />
           </div>
         </div>
+
+        {/* 4 pillars */}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          <div className="hover:bg-accent/50 relative rounded-lg border p-6 transition-colors">
-            <div className="text-primary/20 absolute top-4 right-4 text-3xl font-bold">
-              01
+          {[
+            { n: "01", title: "Customer & Food Safety", body: "We put food safety and customer service first across both our retail butcheries and corporate sales channels — ensuring consistently safe, traceable products for homes and businesses." },
+            { n: "02", title: "Supply Chain & Traceability", body: "From farm to butchery to delivery, we maintain cold-chain controls and clear traceability so customers and corporate partners can trust every cut we sell." },
+            { n: "03", title: "Butchery Craftsmanship", body: "Skilled butchers and strict quality standards ensure we deliver premium cuts and consistent portioning for retail shelves and corporate orders." },
+            { n: "04", title: "Local Sourcing & Growth", body: "We partner with local farmers to support livelihoods while expanding into new districts — growing our retail footprint and strengthening supply for corporate clients." },
+          ].map(({ n, title, body }) => (
+            <div key={n} className="hover:bg-accent/50 relative rounded-lg border p-6 transition-colors">
+              <div className="text-primary/20 absolute top-4 right-4 text-3xl font-bold">{n}</div>
+              <div className="space-y-3">
+                <h3 className="text-xl font-bold">{title}</h3>
+                <p className="text-muted-foreground">{body}</p>
+              </div>
             </div>
-            <div className="space-y-3">
-              <h3 className="text-xl font-bold">Customer & Food Safety</h3>
-              <p className="text-muted-foreground">
-                We put food safety and customer service first across both our
-                retail butcheries and corporate sales channels — ensuring
-                consistently safe, traceable products for homes and businesses.
-              </p>
-            </div>
-          </div>
-
-          <div className="hover:bg-accent/50 relative rounded-lg border p-6 transition-colors">
-            <div className="text-primary/20 absolute top-4 right-4 text-3xl font-bold">
-              02
-            </div>
-            <div className="space-y-3">
-              <h3 className="text-xl font-bold">Supply Chain & Traceability</h3>
-              <p className="text-muted-foreground">
-                From farm to butchery to delivery, we maintain cold-chain
-                controls and clear traceability so customers and corporate
-                partners can trust every cut we sell.
-              </p>
-            </div>
-          </div>
-
-          <div className="hover:bg-accent/50 relative rounded-lg border p-6 transition-colors">
-            <div className="text-primary/20 absolute top-4 right-4 text-3xl font-bold">
-              03
-            </div>
-            <div className="space-y-3">
-              <h3 className="text-xl font-bold">Butchery Craftsmanship</h3>
-              <p className="text-muted-foreground">
-                Skilled butchers and strict quality standards ensure we deliver
-                premium cuts and consistent portioning for retail shelves and
-                corporate orders.
-              </p>
-            </div>
-          </div>
-
-          <div className="hover:bg-accent/50 relative rounded-lg border p-6 transition-colors">
-            <div className="text-primary/20 absolute top-4 right-4 text-3xl font-bold">
-              04
-            </div>
-            <div className="space-y-3">
-              <h3 className="text-xl font-bold">Local Sourcing & Growth</h3>
-              <p className="text-muted-foreground">
-                We partner with local farmers to support livelihoods while
-                expanding into new districts — growing our retail footprint and
-                strengthening supply for corporate clients.
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
+
+        {/* Vision banner */}
         <div className="bg-accent mt-18 rounded-lg p-8 lg:p-12">
           <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-3">
             <div className="lg:col-span-2">
@@ -190,8 +157,7 @@ function About_Page() {
             <div className="flex justify-center lg:col-span-1 lg:justify-end">
               <a
                 href="#"
-                className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([className*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-10 rounded-md px-6 has-[&gt;svg]:px-4 group inline-flex items-center"
-                data-slot="button"
+                className="inline-flex items-center gap-2 rounded-md border bg-background text-sm font-medium px-6 py-2 hover:bg-accent hover:text-accent-foreground transition-colors shadow-xs"
               >
                 View our strategy
               </a>
@@ -200,6 +166,7 @@ function About_Page() {
         </div>
       </section>
 
+      {/* ── Section 3: Core Values cards ── */}
       <section className="container mx-auto space-y-8 px-4 py-24 md:px-6 2xl:max-w-[1400px]">
         <div className="space-y-4 text-center">
           <h2 className="text-3xl font-bold">Our Core Values</h2>
@@ -209,115 +176,24 @@ function About_Page() {
           </p>
         </div>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <div
-            data-slot="card"
-            className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border shadow-sm border-l-primary border-l-4 p-0"
-          >
-            <div data-slot="card-content" className="space-y-4 p-6">
-              <div className="flex items-center gap-4">
-                <div className="bg-primary/10 rounded-full p-3">
-                  <Heart />
+          {[
+            { icon: <Heart />, title: "Customer Focus (Retail & Corporate)", body: "We serve both households and corporate partners with dependable supply, flexible fulfilment, and attentive service." },
+            { icon: <Lightbulb />, title: "Quality & Consistency", body: "Modern processing, strict portioning, and consistent quality ensure the same great product in every order." },
+            { icon: <Shield />, title: "Traceability & Safety", body: "Full traceability and food-safety protocols protect consumers and give confidence to corporate buyers." },
+            { icon: <ChartNoAxesCombined />, title: "Sustainable Growth", body: "We grow responsibly—scaling our retail network and services while protecting supply reliability and product standards." },
+            { icon: <UsersRound />, title: "Farmer Partnerships", body: "We invest in local farmers, building resilient supply chains and supporting rural livelihoods as we expand into new districts." },
+            { icon: <HeartHandshake />, title: "Community & Employment", body: "As we open new butcheries we create local jobs and give back to the communities we serve." },
+          ].map(({ icon, title, body }) => (
+            <div key={title} className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border shadow-sm border-l-primary border-l-4 p-0">
+              <div className="space-y-4 p-6">
+                <div className="flex items-center gap-4">
+                  <div className="bg-primary/10 rounded-full p-3 text-primary">{icon}</div>
+                  <h3 className="text-lg font-bold">{title}</h3>
                 </div>
-                <h3 className="text-lg font-bold">
-                  Customer Focus (Retail & Corporate)
-                </h3>
+                <p className="text-muted-foreground">{body}</p>
               </div>
-              <p className="text-muted-foreground">
-                We serve both households and corporate partners with dependable
-                supply, flexible fulfilment, and attentive service.
-              </p>
             </div>
-          </div>
-
-          <div
-            data-slot="card"
-            className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border shadow-sm border-l-primary border-l-4 p-0"
-          >
-            <div data-slot="card-content" className="space-y-4 p-6">
-              <div className="flex items-center gap-4">
-                <div className="bg-primary/10 rounded-full p-3">
-                  <Lightbulb />
-                </div>
-                <h3 className="text-lg font-bold">Quality & Consistency</h3>
-              </div>
-              <p className="text-muted-foreground">
-                Modern processing, strict portioning, and consistent quality
-                ensure the same great product in every order.
-              </p>
-            </div>
-          </div>
-
-          <div
-            data-slot="card"
-            className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border shadow-sm border-l-primary border-l-4 p-0"
-          >
-            <div data-slot="card-content" className="space-y-4 p-6">
-              <div className="flex items-center gap-4">
-                <div className="bg-primary/10 rounded-full p-3">
-                  <Shield />
-                </div>
-                <h3 className="text-lg font-bold">Traceability & Safety</h3>
-              </div>
-              <p className="text-muted-foreground">
-                Full traceability and food-safety protocols protect consumers
-                and give confidence to corporate buyers.
-              </p>
-            </div>
-          </div>
-
-          <div
-            data-slot="card"
-            className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border shadow-sm border-l-primary border-l-4 p-0"
-          >
-            <div data-slot="card-content" className="space-y-4 p-6">
-              <div className="flex items-center gap-4">
-                <div className="bg-primary/10 rounded-full p-3">
-                  <ChartNoAxesCombined />
-                </div>
-                <h3 className="text-lg font-bold">Sustainable Growth</h3>
-              </div>
-              <p className="text-muted-foreground">
-                We grow responsibly—scaling our retail network and services
-                while protecting supply reliability and product standards.
-              </p>
-            </div>
-          </div>
-
-          <div
-            data-slot="card"
-            className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border shadow-sm border-l-primary border-l-4 p-0"
-          >
-            <div data-slot="card-content" className="space-y-4 p-6">
-              <div className="flex items-center gap-4">
-                <div className="bg-primary/10 rounded-full p-3">
-                  <UsersRound />
-                </div>
-                <h3 className="text-lg font-bold">Farmer Partnerships</h3>
-              </div>
-              <p className="text-muted-foreground">
-                We invest in local farmers, building resilient supply chains and
-                supporting rural livelihoods as we expand into new districts.
-              </p>
-            </div>
-          </div>
-
-          <div
-            data-slot="card"
-            className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border shadow-sm border-l-primary border-l-4 p-0"
-          >
-            <div data-slot="card-content" className="space-y-4 p-6">
-              <div className="flex items-center gap-4">
-                <div className="bg-primary/10 rounded-full p-3">
-                  <HeartHandshake />
-                </div>
-                <h3 className="text-lg font-bold">Community & Employment</h3>
-              </div>
-              <p className="text-muted-foreground">
-                As we open new butcheries we create local jobs and give back to
-                the communities we serve.
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
         <div className="pt-8 text-center">
           <p className="text-muted-foreground mx-auto max-w-2xl">
@@ -327,15 +203,13 @@ function About_Page() {
         </div>
       </section>
 
-      <section>
-        <div className="flex items-center justify-center flex-col max-w-3xl mx-auto p-4 mb-5">
-          <Badge className="text-sm" variant="default">
-            Our Culture
-          </Badge>
-          <h2 className="ml-4 text-3xl font-bold mt-2">
-            What Makes Us Different
-          </h2>
-          <p className="text-center text-muted-foreground mt-4">
+      {/* ── Section 4: What Makes Us Different (Tabs) ── */}
+      <section className="container mx-auto px-4 pb-24 md:px-6 2xl:max-w-[1400px]">
+        {/* Header */}
+        <div className="flex items-center justify-center flex-col max-w-3xl mx-auto mb-10 text-center">
+          <Badge className="text-sm mb-3" variant="default">Our Culture</Badge>
+          <h2 className="text-3xl font-bold">What Makes Us Different</h2>
+          <p className="text-muted-foreground mt-4">
             At Quicksave we never compromise on quality or safety. As a growing
             network of butcheries and a supplier to corporate clients, we
             combine skilled craft, traceable sourcing, and responsive service to
@@ -343,145 +217,153 @@ function About_Page() {
           </p>
         </div>
 
-        <div>
-          <Tabs defaultValue="strengths" className="mx-auto max-w-7xl">
-            <TabsList className="space-x-10 h-auto mx-auto" variant="line">
-              <TabsTrigger
-                className={`${tabs_trigger_classes}`}
-                value="strengths"
-              >
-                Our Strengths
-              </TabsTrigger>
-              <TabsTrigger
-                className={`${tabs_trigger_classes}`}
-                value="responsibilities"
-              >
-                Our Responsibilities
-              </TabsTrigger>
-              <TabsTrigger
-                className={`${tabs_trigger_classes}`}
-                value="operation"
-              >
-                Our Operation
-              </TabsTrigger>
-            </TabsList>
+        <Tabs defaultValue="strengths" className="mx-auto max-w-7xl">
+          <TabsList className="space-x-10 h-auto mx-auto" variant="line">
+            <TabsTrigger className={tabs_trigger_classes} value="strengths">Our Strengths</TabsTrigger>
+            <TabsTrigger className={tabs_trigger_classes} value="responsibilities">Our Responsibilities</TabsTrigger>
+            <TabsTrigger className={tabs_trigger_classes} value="operation">Our Operation</TabsTrigger>
+          </TabsList>
 
-            <TabsContent value="strengths">
-              <section className="py-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-7 px-4">
+          {/* ── Strengths ── */}
+          <TabsContent value="strengths">
+            <div className="py-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch px-4">
+              {/* Left: text + stat cards */}
+              <div className="flex flex-col justify-between gap-6">
+                <div>
+                  <h3 className="text-2xl font-bold mb-3">Built to Deliver at Scale</h3>
+                  <p className="text-muted-foreground">
+                    Our strength in this industry is our unlimited capacity to
+                    deliver nationwide within 48 hours of receiving orders and
+                    to be a one-stop supplier for an assortment of meats. Our
+                    strength to supply all the markets is based on the
+                    following factors:
+                  </p>
+                </div>
+                <ul className="space-y-3">
+                  <li className="flex gap-3 items-start">
+                    <BadgeCheck className="text-primary mt-0.5 shrink-0" />
+                    <span>Experienced staff with deep roots in the food industry.</span>
+                  </li>
+                  <li className="flex gap-3 items-start">
+                    <BadgeCheck className="text-primary mt-0.5 shrink-0" />
+                    <span>An efficient livestock sourcing system built for reliability.</span>
+                  </li>
+                  <li className="flex gap-3 items-start">
+                    <BadgeCheck className="text-primary mt-0.5 shrink-0" />
+                    <span>Our own fleet of delivery vehicles for timely, controlled logistics.</span>
+                  </li>
+                </ul>
+                {/* Stat strip */}
+                <div className="grid grid-cols-3 gap-4 pt-2">
+                  {[
+                    { label: "Delivery", value: "48hrs", sub: "nationwide" },
+                    { label: "Products", value: "50+", sub: "SKUs stocked" },
+                    { label: "Provinces", value: "10", sub: "target coverage" },
+                  ].map(({ label, value, sub }) => (
+                    <div key={label} className="rounded-lg border bg-accent/40 p-4 text-center">
+                      <p className="text-2xl font-extrabold text-primary">{value}</p>
+                      <p className="text-xs font-semibold mt-0.5">{label}</p>
+                      <p className="text-xs text-muted-foreground">{sub}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {/* Right: image */}
+              <div className="rounded-xl overflow-hidden">
+                <img
+                  src="https://ik.imagekit.io/ypgvaedes/Quicksave/About_Page_Images/our%20strength%203.jpg"
+                  className="w-full h-full object-cover"
+                  alt="Our strengths"
+                />
+              </div>
+            </div>
+          </TabsContent>
+
+          {/* ── Responsibilities ── */}
+          <TabsContent value="responsibilities">
+            <div className="py-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch px-4">
+              {/* Left: stakeholder cards */}
+              <div className="flex flex-col gap-4 justify-center">
+                <h3 className="text-2xl font-bold mb-1">Our Commitment to Every Stakeholder</h3>
+                <p className="text-muted-foreground mb-2">
+                  We believe a business only thrives when it creates real value
+                  for everyone it touches. Here's what we promise to each group
+                  we serve.
+                </p>
+                {[
+                  { icon: <Users className="size-5" />, label: "To Our Customers", body: "We aim to anticipate and meet customer needs so as to become the customers' supplier of choice." },
+                  { icon: <HeartHandshake className="size-5" />, label: "To Our Employees", body: "We seek to create sustainable employment and financially empower our staff." },
+                  { icon: <ChartNoAxesCombined className="size-5" />, label: "To Our Shareholders", body: "We ensure that our shareholders receive a competitive long-term return on their investment." },
+                ].map(({ icon, label, body }) => (
+                  <div key={label} className="flex gap-4 rounded-lg border p-4 hover:bg-accent/50 transition-colors">
+                    <div className="bg-primary/10 text-primary rounded-full p-2.5 h-fit shrink-0">{icon}</div>
+                    <div>
+                      <p className="font-bold text-sm mb-1">{label}</p>
+                      <p className="text-muted-foreground text-sm">{body}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {/* Right: image */}
+              <div className="rounded-xl overflow-hidden">
+                <img
+                  src="https://ik.imagekit.io/ypgvaedes/Quicksave/About_Page_Images/strengths%20image%202.jpg"
+                  className="w-full h-full object-cover"
+                  alt="Our responsibilities"
+                />
+              </div>
+            </div>
+          </TabsContent>
+
+          {/* ── Operation ── */}
+          <TabsContent value="operation">
+            <div className="py-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch px-4">
+              {/* Left: content */}
+              <div className="flex flex-col gap-5 justify-center">
+                <h3 className="text-2xl font-bold">A National Retail Network</h3>
+                <p className="text-muted-foreground">
+                  We are building a physical presence in all ten provinces of
+                  Zambia, creating a true national footprint. Over the next five
+                  years retail is expected to account for about 70% of annual
+                  turnover, with a target of 150 outlets by 2031.
+                </p>
+                <p className="text-muted-foreground">
+                  Each outlet follows our "all-in-one, all-under-one-roof"
+                  strategy, stocking a broad range of products for everyday
+                  household and business needs.
+                </p>
+                {/* Product category pills */}
+                <div>
+                  <p className="text-sm font-semibold mb-2">What every outlet will stock:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {["Beef", "Pork", "Chicken", "Chevon", "Mutton", "Processed meats", "Eggs", "Fish", "Cooking oil", "Rice & flour"].map((item) => (
+                      <span key={item} className="rounded-full border bg-accent/50 px-3 py-1 text-xs font-medium">{item}</span>
+                    ))}
+                  </div>
+                </div>
+                {/* Outlet target callout */}
+                <div className="rounded-lg bg-primary/10 border border-primary/20 p-5 flex items-center gap-4">
+                  <Store className="text-primary size-8 shrink-0" />
                   <div>
-                    <p>
-                      Our strength in this industry is our unlimited capacity to
-                      deliver nationwide within 48 hours of receiving orders and
-                      to be a one-stop supplier for an assortment of meats. Our
-                      strength to supply all the markets is based on the
-                      following factors:
-                    </p>
-                    <ul className="mt-4 flex space-y-3 flex-col">
-                      <li className="flex gap-2">
-                        <BadgeCheck /> Experience of our staff in the food
-                        industry,
-                      </li>
-                      <li className="flex gap-2">
-                        <BadgeCheck /> An efficient livestock sourcing system in
-                        place.
-                      </li>
-                      <li className="flex gap-2">
-                        <BadgeCheck /> Availability of our own fleet of delivery
-                        vehicles.
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div className="h-[550px]">
-                    <img
-                      src="https://ik.imagekit.io/ypgvaedes/Quicksave/About_Page_Images/our%20strength%203.jpg"
-                      className="h-full object-cover rounded-lg"
-                    />
+                    <p className="text-3xl font-extrabold text-primary">150</p>
+                    <p className="text-sm text-muted-foreground">outlets targeted across Zambia by 2031</p>
                   </div>
                 </div>
-              </section>
-            </TabsContent>
-
-            <TabsContent value="responsibilities">
-              <section>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-7 px-4 py-8">
-                  <div className="flex space-y-3 flex-col">
-                    <p>
-                      <span className="font-bold">TO THE CUSTOMERS: </span>
-                      We aim to anticipate and meet customer needs so as to
-                      become the customers’ supplier of choice.
-                    </p>
-
-                    <p>
-                      <span className="font-bold"> TO THE EMPLOYEES: </span>
-                      We seek to create sustainable employment and financially
-                      empower its staff.
-                    </p>
-
-                    <p>
-                      <span className="font-bold">TO THE SHAREHOLDERS: </span>
-                      We ensure that our shareholders receive a competitive
-                      long-term return on their investment in the company.
-                    </p>
-                  </div>
-                  {/* Placeholder for image or graphic */}
-                  <div className="h-[550px]">
-                    <img
-                      src="https://ik.imagekit.io/ypgvaedes/Quicksave/About_Page_Images/strengths%20image%202.jpg"
-                      className="h-full object-cover rounded-lg"
-                    />
-                  </div>
-                </div>
-              </section>
-            </TabsContent>
-
-            <TabsContent value="operation">
-              <section className="py-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-7 px-4">
-                  <div className="space-y-4 text-base">
-                    <p>
-                      We are building a national retail network with a physical
-                      presence in all ten provinces of the Republic of Zambia —
-                      creating a true national footprint.
-                    </p>
-
-                    <p>
-                      Over the next five years we expect retail to account for
-                      about 70% of our annual turnover, driving significant
-                      volume growth. Our target is to open 150 outlets across
-                      Zambia by 2031.
-                    </p>
-
-                    <p>
-                      Each outlet will follow our “all-in-one,
-                      all-under-one-roof” strategy and will stock a broad range
-                      of products, including:
-                    </p>
-
-                    <ul className="list-disc list-inside ml-4">
-                      <li>Fresh meats: beef, pork, chicken, chevon, mutton</li>
-                      <li>Processed and value-added meat products</li>
-                      <li>
-                        Staples and support items: eggs, fish, cooking oil,
-                        rice, flour
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div className="h-[550px]">
-                    <img
-                      src="https://ik.imagekit.io/ypgvaedes/Quicksave/About_Page_Images/our%20strengths.jpg"
-                      className="h-full object-cover rounded-lg"
-                    />
-                  </div>
-                </div>
-              </section>
-            </TabsContent>
-          </Tabs>
-        </div>
+              </div>
+              {/* Right: image */}
+              <div className="rounded-xl overflow-hidden">
+                <img
+                  src="https://ik.imagekit.io/ypgvaedes/Quicksave/About_Page_Images/our%20strengths.jpg"
+                  className="w-full h-full object-cover"
+                  alt="Our operation"
+                />
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
       </section>
     </main>
   );
 }
+
 export default About_Page;

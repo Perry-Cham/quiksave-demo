@@ -1,14 +1,22 @@
+"use client"
 import { Props } from "@/types/product-card";
-import { useProductCategory } from "@/stores/productCategoryStore";
+import { useMessageModal } from "@/stores/Admin_Message_Modal_Store";
 import { Button } from "@/components/ui/button";
 import { CardFooter, CardHeader, Card } from "@/components/ui/card";
+import { useState } from "react";
 import axios from "axios";
+import { LoaderCircle } from "lucide-react";
 
-function card({ name, price, imagesrc, product, setModalState }: Props) {
+function card({ name, price, imagesrc, product, closeMessage, setModalState }: Props) {
   // Convert price to number if it's a string
   const numPrice = typeof price === "string" ? parseFloat(price) : price;
   const formattedPrice = numPrice ? `K${numPrice.toFixed(2)}` : "N/A";
-  const { product_category } = useProductCategory();
+
+  //State for the message modal
+  const setMessageModalState = useMessageModal(state => state.setModalState)
+
+  //Loading State for Delete Request
+  const [loading, setLoading] = useState<Boolean>(false)
   return (
     <div className="group flex flex-col bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 border-2 hover:border-red-400 max-h-[380px]">
       {/* Image Container */}
@@ -54,19 +62,22 @@ function card({ name, price, imagesrc, product, setModalState }: Props) {
           Edit Price
         </Button>
         <Button
-          className="bg-red-500 cursor-pointer hover:bg-red-400 transition-colors duration-300"
+          className={`bg-red-500 cursor-pointer hover:bg-red-400 transition-colors duration-300 ${loading && "bg-red-300"}`}
           onClick={async () => {
+            setLoading(true)
             try {
               const response = await axios.delete(
-                `/api/deleteproduct/${product_category}/${product._id}`,
+                `/api/deleteproduct/${product.category}/${product._id}`,
               );
+              setMessageModalState(true, 'Success', "The Product was successfully deleted")
             } catch (e) {
               console.log(e);
+              setMessageModalState(true, 'Error', "There was an error on our end please try again later.")
             }
           }}
-  
+
         >
-          Delete Product
+          Delete Product {loading && <LoaderCircle className="animate-spin"/>}
         </Button>
       </CardFooter>
     </div>

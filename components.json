@@ -25,6 +25,7 @@
     "@ss-blocks": "https://shadcnstudio.com/r/blocks/{name}.json",
     "@ss-themes": "https://shadcnstudio.com/r/themes/{name}.json",
     "@shadcnblocks": "https://shadcnblocks.com/r/{name}.json",
-    "@blocks": "https://blocks.so/r/{name}.json"
+    "@blocks": "https://blocks.so/r/{name}.json",
+    "@shadcnstore": "https://shadcnstore.com/r/{name}.json"
   }
 }

@@ -62,6 +62,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const fetchCats = async () => {
     setLoading(true);
     const cats = await fetchCategories();
+    console.log(cats)
     setCategories(cats);
     setLoading(false);
   };

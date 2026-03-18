@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";
-import Products from "@/models/product-model";
+import {Products} from "@/models/product-model";
 import ImageKit from "@imagekit/nodejs";
 import { ProductCategory, ProductData } from "@/types/api";
 
@@ -40,7 +40,7 @@ export async function PATCH(
     console.log("Connected to MongoDB");
 
     //   const { name, price, subcategory } = body;
-    const oldProduct = await Products[category].findById(id);
+    const oldProduct = await Products.findById(id);
     const oldImageId = oldProduct.imageId;
    
     if (category) {
@@ -65,7 +65,7 @@ export async function PATCH(
         await imagekit.files.delete(oldImageId); 
       }
 
-      const updatedProduct = await Products[category].findByIdAndUpdate(id, {
+      const updatedProduct = await Products.findByIdAndUpdate(id, {
         name,
         price,
         image: imageUrl,

@@ -8,6 +8,7 @@ interface Product {
   name: string;
   price: number;
   image: string;
+  category:string;
   subcategory: string;
 }
 
@@ -15,9 +16,11 @@ function Product_Display({
   products,
   admin = false,
   setModalState,
+  closeMessage,
 }: {
   products: Array<Product>
   admin?: boolean;
+  closeMessage:(modalOpen?: boolean, status?: string, message?: string) => void;
   setModalState?: React.Dispatch<
     React.SetStateAction<{
       isOpen: boolean;
@@ -54,6 +57,7 @@ function Product_Display({
                       imagesrc={p.image}
                       product={p}
                       setModalState={setModalState!}
+                      closeMessage={closeMessage}
                     />
                   ) : (
                     <Product_Card

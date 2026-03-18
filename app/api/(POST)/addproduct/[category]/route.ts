@@ -1,22 +1,18 @@
 import mongoose from "mongoose";
-import Products from "@/models/product-model";
 import { NextResponse } from "next/server";
-import { ProductData } from "@/types/api";
-import { ProductCategory } from "@/types/api";
-import { findCategory } from "@/lib/api-model-helper";
+import {Products} from '@/models/product-model';
 import ImageKit from "@imagekit/nodejs";
-import { responseCookiesToRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
-import { Upload } from "lucide-react";
 
 const imagekit = new ImageKit({
   privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
 });
 
-async function POST(request: Request) {
+async function POST(request: Request, { params }: { params: Promise<{ category: string }> }) {
   const formData = await request.formData();
-  const data = Object.fromEntries(formData.entries());
-  const { name, price, subcategory } = data;
-  let category = data.category as ProductCategory;
+  const name = formData.get("name") as string;
+  const price = parseFloat(formData.get("price") as string);
+  const subcategory = formData.get("subcategory") as string;
+  const {category} = await params;
 
   try {
     await mongoose.connect(process.env.MONGO_URI!);
@@ -32,21 +28,27 @@ async function POST(request: Request) {
         const uploadResponse = await imagekit.files.upload({
           file: fileString,
           fileName: imageFile.name,
-          folder: `/Quicksave/product-images/${category}`,
+          folder: `/Quicksave/product_images/${category}`,
         });
         imageData.url = uploadResponse.url as string;
         imageData.id = uploadResponse.fileId as string;
         console.log(uploadResponse, imageData);
       }
 
-      const newProduct = await Products[category].create({
+      const newProduct = await Products.create({
         name,
         price,
         image: imageData.url,
         imageId: imageData.id,
+        category:category,
         subcategory,
       });
       return NextResponse.json(newProduct, {status: 200});
+    }else {
+      return NextResponse.json(
+        { error: "Category is required" },
+        { status: 400 },
+      );
     }
   } catch (error) {
     console.error("Error adding product:", error);

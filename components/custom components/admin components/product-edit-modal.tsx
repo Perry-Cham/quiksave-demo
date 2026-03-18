@@ -25,6 +25,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CirclePlus, LoaderCircle } from "lucide-react";
+import { useMessageModal } from "@/stores/Admin_Message_Modal_Store";
 
 interface Product {
   name: string;
@@ -72,8 +73,10 @@ function Product_Modal({
   category: string;
   callback: () => void;
 }) {
-  const [successState, setSuccessState] = useState<SuccessState>();
+ 
+  const setSuccessState = useMessageModal(state => state.setModalState)
   const { isOpen, productData, isNewProduct } = modalState;
+  console.log("Modal state inside the form component", modalState);
   const form = useForm<FormTypes>({
     resolver: zodResolver(Schema),
     // start with empty/default values; we'll reset when `productData` changes
@@ -104,7 +107,7 @@ function Product_Modal({
         price: productData.price,
         subcategory: productData.subcategory,
         image: productData.image,
-        imageFile:undefined,
+        imageFile: undefined,
       });
     } else if (isNewProduct) {
       // clearing for a new product
@@ -115,31 +118,31 @@ function Product_Modal({
   async function handleFormSubmit(values: FormTypes) {
     let data = new FormData();
 
-//TWO THINGS TO NOTE HERE: 1) We have to convert the number to a string before appending it to the FormData, and 2) We have to append the file differently than the other fields. For the file, we check if it's an instance of File and then append it directly. If it's not a file (e.g., if it's undefined), we skip appending it to avoid issues on the server side. Ugh this things has been driving me nuts!
+    //NOTE: We have to append the file differently than the other fields. For the file, we check if it's an instance of File and then append it directly. If it's not a file (e.g., if it's undefined), we skip appending it to avoid issues on the server side. Ugh this things has been driving me nuts!
 
     for (const [key, value] of Object.entries(values)) {
       if (value !== undefined) {
-       !(key === "imageFile") ? data.append(key, value) : data.append(key, Array.from(value as FileList)[0]);
+        !(key === "imageFile") ? data.append(key, value) : data.append(key, Array.from(value as FileList)[0]);
       }
     }
-// 
-
-        console.log("values", data.get("imageFile"), data.get("imageFile") instanceof File, (data.get("imageFile") as File)?.size > 0);
     if (isNewProduct) {
       try {
-        const response = await axios.post("/api/addproduct", values);
-        setSuccessState({
-          status: "Success",
-          message: "The product has been added successfully",
-          modalOpen: true,
-        });
+        const response = await axios.post(`/api/addproduct/${category}`, data);
+        setSuccessState(
+          true,
+          "Success",
+          "The product has been added successfully",
+
+        );
       } catch (e) {
-        setSuccessState({
-          status: "Error",
-          message: "Their was an error on our end, please try again later",
-          modalOpen: true,
-        });
+        setSuccessState(
+          true,
+          "Error",
+          "Their was an error on our end, please try again later",
+        );
         console.error(e);
+      } finally {
+        callback();
       }
     } else {
       try {
@@ -148,33 +151,37 @@ function Product_Modal({
             `/api/updateproduct/${category}/${productData._id}`,
             data,
           );
-          setSuccessState({
-            status: "Success",
-            message: "The product has been updated successfully",
-            modalOpen: true,
-          });
+          setSuccessState(
+            true,
+            "Success",
+            "The product has been updated successfully",
+          );
           console.log(response);
         }
       } catch (e) {
-        setSuccessState({
-          status: "Error",
-          message: "Their was an error on our end, please try again later",
-          modalOpen: true,
-        });
+        setSuccessState(
+          true,
+          "Error",
+          "Their was an error on our end, please try again later",
+
+        );
         console.error(e);
+      } finally {
+        callback();
       }
     }
-    callback();
+
   }
   return (
     <>
       {/* THIS DIALOG CONTAINS THE FORM*/}
       <Dialog open={isOpen}>
         <Button
-          onClick={() => setModalState({ ...modalState, isOpen: !isOpen })}
+          onClick={() => setModalState({ ...modalState, isOpen: !isOpen, isNewProduct: true })}
           className="cursor-pointer"
         >
-          <CirclePlus size="34"/>
+          {/* When the button is clicked assume the product being added is New */}
+          <CirclePlus size="34" />
           Add New Product
         </Button>
         <DialogContent showCloseButton={false}>
@@ -257,31 +264,17 @@ function Product_Modal({
                   type="submit"
                   className="w-max bg-red-600 text-white hover:bg-red-700 transition-colors duration-300"
                 >
-                  {isNewProduct && !isSubmitting ? "Add Product" : "Update Product"}
-                  {isSubmitting && <LoaderCircle className="animate-spin" />}
+                  {(isNewProduct && !isSubmitting) && "Add Product"}
+                  {(!isNewProduct && !isSubmitting) && "Update Product"}
+                  {(isSubmitting) &&
+                    <>
+                      {isNewProduct ? "Adding... " : "Updating... "}
+                      <LoaderCircle className="animate-spin" />
+                    </>}
                 </Button>
               </DialogFooter>
             </FieldGroup>
           </form>
-        </DialogContent>
-      </Dialog>
-
-      {/*THIS DIALOG RETURNS A MESSAGE ON SUCCESS OR FAILURE*/}
-      <Dialog open={successState?.modalOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{successState?.status}</DialogTitle>
-            <DialogDescription>{successState?.message}</DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button
-              onClick={() =>
-                setSuccessState({ ...successState, modalOpen: false })
-              }
-            >
-              Close
-            </Button>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
     </>
