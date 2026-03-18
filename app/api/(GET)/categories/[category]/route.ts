@@ -39,6 +39,7 @@ export async function PATCH(
     await mongoose.connect(process.env.MONGO_URI!);
     const { content } = await request.json();
     const { category } = await params;
+    console.log("Updating category:", category, "with content:", content);
     const doc = await CategoryModel.findOneAndUpdate(
       { category },
       { content },

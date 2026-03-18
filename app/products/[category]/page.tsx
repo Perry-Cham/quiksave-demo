@@ -41,6 +41,7 @@ export default async function CategoryPage({
 
   try {
     const doc = await CategoryModel.findOne({ category });
+    console.log("Found category document:", doc);
     if (doc) {
       message = doc.content;
     } else if (message) {
