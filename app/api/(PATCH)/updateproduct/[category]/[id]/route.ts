@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import mongoose from "mongoose";
-import {Products} from "@/models/product-model";
+import { Products } from "@/models/product-model";
 import ImageKit from "@imagekit/nodejs";
 import { ProductCategory, ProductData } from "@/types/api";
+import AppDatabase from "@/lib/db";
+import { productSchema } from "@/lib/validation";
 
 const imagekit = new ImageKit({
   privateKey: process.env.IMAGEKIT_PRIVATE_KEY!,
@@ -36,13 +37,22 @@ export async function PATCH(
     imageFile.size > 0,
   );
   try {
-    await mongoose.connect(process.env.MONGO_URI!);
+    await AppDatabase.getConnection();
     console.log("Connected to MongoDB");
 
-    //   const { name, price, subcategory } = body;
+    //Validate Input
+    const data = productSchema.parse({
+      name,
+      price,
+      subcategory,
+    })
+
+    console.log("Validated data:", data);
+
+
     const oldProduct = await Products.findById(id);
     const oldImageId = oldProduct.imageId;
-   
+
     if (category) {
       let imageUrl = image as string;
       let imageId = oldImageId; // Default to existing image URL
@@ -61,8 +71,8 @@ export async function PATCH(
         uploadResponse.url && (imageUrl = uploadResponse.url); // Get the uploaded image URL
         uploadResponse.fileId && (imageId = uploadResponse.fileId);
         //Delete Old Image
-      console.log("The old image id is", oldImageId);
-        await imagekit.files.delete(oldImageId); 
+        console.log("The old image id is", oldImageId);
+        await imagekit.files.delete(oldImageId);
       }
 
       const updatedProduct = await Products.findByIdAndUpdate(id, {

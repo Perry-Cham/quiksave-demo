@@ -1,7 +1,8 @@
-import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 import {Products} from '@/models/product-model';
 import ImageKit from "@imagekit/nodejs";
+import AppDatabase from "@/lib/db";
+import { productSchema } from "@/lib/validation";
 
 const imagekit = new ImageKit({
   privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
@@ -15,11 +16,20 @@ async function POST(request: Request, { params }: { params: Promise<{ category: 
   const {category} = await params;
 
   try {
-    await mongoose.connect(process.env.MONGO_URI!);
+    await AppDatabase.getConnection();
     console.log("Connected to MongoDB");
 
+    //Validate Input 
+    const data = productSchema.parse({
+      name,
+      price,
+      subcategory,
+    });
+   
+    console.log("Validated data:", data);
+
     if (category) {
-      let imageData: { url: string; id: string } = { url: "", id: "" }; // Initialize imageUrl
+      let imageData: { url: string; id: string } = { url: "", id: "" }; // Initialize imageUrl  
       // Check if an image file is uploaded
       const imageFile = formData.get("imageFile");
       if (imageFile && imageFile instanceof File && imageFile.size > 0) {

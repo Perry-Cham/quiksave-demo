@@ -11,7 +11,7 @@
 - Difficulty maintaining consistent connection strategy
 
 **Affected Files:**
-- `app/api/(GET)/categories/route.ts`
+- `app/api/(GET)/categories/route.ts` // 
 - `app/api/(GET)/categories/[category]/route.ts`
 - `app/api/(GET)/getproducts/[category]/route.ts`
 - `app/api/(POST)/addproduct/[category]/route.ts`

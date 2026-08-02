@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import mongoose from "mongoose";
 import { Products } from "@/models/product-model";
 import ImageKit from "@imagekit/nodejs";
 import { ProductCategory } from "@/types/api";
+import AppDatabase from "@/lib/db";
 
 const imagekit = new ImageKit({
   privateKey: process.env.IMAGEKIT_PRIVATE_KEY!,
@@ -14,7 +14,7 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
 
 
   // Connect to MongoDB
-  await mongoose.connect(process.env.MONGO_URI!);
+  await AppDatabase.getConnection();
   console.log("Connected to MongoDB");
 
   // Find the product to delete

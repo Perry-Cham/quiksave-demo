@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 import CategoryModel from "@/models/product-categories";
+import AppDatabase from "@/lib/db";
 
 export async function GET(
   request: NextRequest,
@@ -11,7 +11,7 @@ export async function GET(
   },
 ) {
   try {
-    await mongoose.connect(process.env.MONGO_URI!);
+    await AppDatabase.getConnection();
     const { category } = await params;
     const doc = await CategoryModel.findOne({ category });
     console.log(category);
@@ -36,7 +36,7 @@ export async function PATCH(
   { params }: { params: Promise<{ category: string }> },
 ) {
   try {
-    await mongoose.connect(process.env.MONGO_URI!);
+    await AppDatabase.getConnection();
     const { content } = await request.json();
     const { category } = await params;
     console.log("Updating category:", category, "with content:", content);

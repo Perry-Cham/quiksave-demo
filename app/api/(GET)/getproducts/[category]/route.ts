@@ -1,13 +1,13 @@
-import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 import { Products } from "@/models/product-model";
+import AppDatabase from "@/lib/db";
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ category: string }> },
 ) {
   try {
-    await mongoose.connect(process.env.MONGO_URI!);
+    await AppDatabase.getConnection();
     console.log("Connected to MongoDB");
     let { category } = await params;
     console.log("Received category:", category, await params);

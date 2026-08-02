@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import mongoose from "mongoose";
 import { Products } from "@/models/product-model";
 import CategoryModel from "@/models/product-categories";
 import ImageKit from "@imagekit/nodejs";
 import { ProductCategory } from "@/types/api";
+import AppDatabase from "@/lib/db";
 
 const imagekit = new ImageKit({
   privateKey: process.env.IMAGEKIT_PRIVATE_KEY!,
@@ -17,7 +17,7 @@ export async function DELETE(
   const categoryName = category as ProductCategory;
 
   try {
-    await mongoose.connect(process.env.MONGO_URI!);
+    await AppDatabase.getConnection();
     console.log("Connected to MongoDB", categoryName);
 
     // Confirm category exists
