@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import CategoryModel from "@/models/product-categories";
 import AppDatabase from "@/lib/db";
+import { errorResponse, successResponse, ErrorCodes } from "@/lib/api-response";
 
 export async function GET(
   request: NextRequest,
@@ -16,18 +17,12 @@ export async function GET(
     const doc = await CategoryModel.findOne({ category });
     console.log(category);
     if (!doc) {
-      return NextResponse.json(
-        { error: "Category not found" },
-        { status: 404 },
-      );
+      return errorResponse(ErrorCodes.NOT_FOUND, "Category not found", 404);
     }
-    return NextResponse.json(doc);
+    return successResponse(doc, 200);
   } catch (error) {
     console.error("Error fetching category", error);
-    return NextResponse.json(
-      { error: "Failed to fetch category" },
-      { status: 500 },
-    );
+    return errorResponse(ErrorCodes.INTERNAL_ERROR, "Failed to fetch category", 500);
   }
 }
 
@@ -40,20 +35,14 @@ export async function PATCH(
     const { content } = await request.json();
     const { category } = await params;
     console.log("Updating category:", category, "with content:", content);
-    const doc = await CategoryModel.findOneAndUpdate(
+    await CategoryModel.findOneAndUpdate(
       { category },
       { content },
       { new: true, upsert: true },
     );
-    return NextResponse.json(
-      { message: "Category updated successfully" },
-      { status: 200 },
-    );
+    return successResponse({ message: "Category updated successfully" }, 200);
   } catch (error) {
     console.error("Error updating category", error);
-    return NextResponse.json(
-      { error: "Failed to update category" },
-      { status: 500 },
-    );
+    return errorResponse(ErrorCodes.INTERNAL_ERROR, "Failed to update category", 500);
   }
 }

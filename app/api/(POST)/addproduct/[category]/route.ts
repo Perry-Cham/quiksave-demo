@@ -1,12 +1,8 @@
-import { NextResponse } from "next/server";
+import { errorResponse, successResponse, ErrorCodes } from "@/lib/api-response";
 import {Products} from '@/models/product-model';
-import ImageKit from "@imagekit/nodejs";
 import AppDatabase from "@/lib/db";
 import { productSchema } from "@/lib/validation";
-
-const imagekit = new ImageKit({
-  privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
-});
+import { imageKitHandler } from "@/lib/imagekit";
 
 async function POST(request: Request, { params }: { params: Promise<{ category: string }> }) {
   const formData = await request.formData();
@@ -19,29 +15,26 @@ async function POST(request: Request, { params }: { params: Promise<{ category: 
     await AppDatabase.getConnection();
     console.log("Connected to MongoDB");
 
-    //Validate Input 
-    const data = productSchema.parse({
-      name,
-      price,
-      subcategory,
-    });
-   
-    console.log("Validated data:", data);
+    try {
+      const data = productSchema.parse({
+        name,
+        price,
+        subcategory,
+      });
+      console.log("Validated data:", data);
+    } catch (validationError) {
+      return errorResponse(ErrorCodes.VALIDATION_ERROR, "Invalid product data", 400, {
+        details: validationError instanceof Error ? validationError.message : undefined,
+      });
+    }
 
     if (category) {
-      let imageData: { url: string; id: string } = { url: "", id: "" }; // Initialize imageUrl  
-      // Check if an image file is uploaded
+      let imageData: { url: string; id: string } = { url: "", id: "" };
       const imageFile = formData.get("imageFile");
       if (imageFile && imageFile instanceof File && imageFile.size > 0) {
-        const fileBuffer = Buffer.from(await imageFile.arrayBuffer());
-        const fileString = fileBuffer.toString("base64");
-        const uploadResponse = await imagekit.files.upload({
-          file: fileString,
-          fileName: imageFile.name,
-          folder: `/Quicksave/product_images/${category}`,
-        });
-        imageData.url = uploadResponse.url as string;
-        imageData.id = uploadResponse.fileId as string;
+        const uploadResponse = await imageKitHandler.upload(imageFile, imageFile.name, category);
+        imageData.url = uploadResponse?.url as string;
+        imageData.id = uploadResponse?.fileId as string;
         console.log(uploadResponse, imageData);
       }
 
@@ -50,22 +43,16 @@ async function POST(request: Request, { params }: { params: Promise<{ category: 
         price,
         image: imageData.url,
         imageId: imageData.id,
-        category:category,
+        category,
         subcategory,
       });
-      return NextResponse.json(newProduct, {status: 200});
-    }else {
-      return NextResponse.json(
-        { error: "Category is required" },
-        { status: 400 },
-      );
+      return successResponse(newProduct, 200);
     }
+
+    return errorResponse(ErrorCodes.BAD_REQUEST, "Category is required", 400);
   } catch (error) {
     console.error("Error adding product:", error);
-    return NextResponse.json(
-      { error: "Failed to add product" },
-      { status: 500 },
-    );
+    return errorResponse(ErrorCodes.INTERNAL_ERROR, "Failed to add product", 500);
   }
 }
 

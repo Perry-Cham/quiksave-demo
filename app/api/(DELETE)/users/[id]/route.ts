@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-import { NextResponse, NextRequest } from "next/server";
+import { NextRequest } from "next/server";
+import { errorResponse, successResponse, ErrorCodes } from "@/lib/api-response";
 
 export async function DELETE(
   request: NextRequest,
@@ -11,57 +12,38 @@ export async function DELETE(
 
     const { id } = await params;
 
-    // Validate MongoDB ObjectId
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return NextResponse.json(
-        { error: "Invalid user ID format" },
-        { status: 400 }
-      );
+      return errorResponse(ErrorCodes.BAD_REQUEST, "Invalid user ID format", 400);
     }
 
     const db = mongoose.connection.db;
     if (!db) {
-      return NextResponse.json(
-        { error: "Database connection failed" },
-        { status: 500 }
-      );
+      return errorResponse(ErrorCodes.DATABASE_ERROR, "Database connection failed", 500);
     }
 
     const usersCollection = db.collection("user");
     const sessionsCollection = db.collection("session");
     const accountsCollection = db.collection("account");
 
-    // Delete user sessions first (for referential integrity)
     await sessionsCollection.deleteMany({
       userId: new mongoose.Types.ObjectId(id),
     });
 
-    // Delete linked accounts
     await accountsCollection.deleteMany({
       userId: new mongoose.Types.ObjectId(id),
     });
 
-    // Delete the user
     const result = await usersCollection.deleteOne({
       _id: new mongoose.Types.ObjectId(id),
     });
 
     if (result.deletedCount === 0) {
-      return NextResponse.json(
-        { error: "User not found" },
-        { status: 404 }
-      );
+      return errorResponse(ErrorCodes.NOT_FOUND, "User not found", 404);
     }
 
-    return NextResponse.json(
-      { message: "User deleted successfully" },
-      { status: 200 }
-    );
+    return successResponse({ message: "User deleted successfully" }, 200);
   } catch (error) {
     console.error("Error deleting user:", error);
-    return NextResponse.json(
-      { error: "Failed to delete user" },
-      { status: 500 }
-    );
+    return errorResponse(ErrorCodes.INTERNAL_ERROR, "Failed to delete user", 500);
   }
 }

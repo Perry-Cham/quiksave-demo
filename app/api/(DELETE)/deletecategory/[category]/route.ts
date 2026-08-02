@@ -1,13 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { Products } from "@/models/product-model";
 import CategoryModel from "@/models/product-categories";
-import ImageKit from "@imagekit/nodejs";
 import { ProductCategory } from "@/types/api";
 import AppDatabase from "@/lib/db";
-
-const imagekit = new ImageKit({
-  privateKey: process.env.IMAGEKIT_PRIVATE_KEY!,
-});
+import { imageKitHandler } from "@/lib/imagekit";
+import { errorResponse, successResponse, ErrorCodes } from "@/lib/api-response";
 
 export async function DELETE(
   request: NextRequest,
@@ -20,25 +17,19 @@ export async function DELETE(
     await AppDatabase.getConnection();
     console.log("Connected to MongoDB", categoryName);
 
-    // Confirm category exists
     const existingCategory = await CategoryModel.findOne({ category: categoryName });
     if (!existingCategory) {
-      return NextResponse.json(
-        { error: "Category not found" },
-        { status: 404 }
-      );
+      return errorResponse(ErrorCodes.NOT_FOUND, "Category not found", 404);
     }
 
-    // Fetch all products in this category
     const products = await Products.find({ category: categoryName });
 
-    // Delete associated images from ImageKit
     await Promise.all(
       products.map(async (product) => {
         const imageId = (product as any).imageId as string | undefined;
         if (imageId) {
           try {
-            await imagekit.files.delete(imageId);
+            await imageKitHandler.delete(imageId);
           } catch (error) {
             console.error("Error deleting image from ImageKit:", error);
           }
@@ -46,19 +37,12 @@ export async function DELETE(
       })
     );
 
-    // Remove products and category document
     await Products.deleteMany({ category: categoryName });
     await CategoryModel.deleteOne({ category: categoryName });
 
-    return NextResponse.json(
-      { message: "Category and its products deleted successfully" },
-      { status: 200 }
-    );
+    return successResponse({ message: "Category and its products deleted successfully" }, 200);
   } catch (error) {
     console.error("Error deleting category:", error);
-    return NextResponse.json(
-      { error: "Failed to delete category" },
-      { status: 500 }
-    );
+    return errorResponse(ErrorCodes.INTERNAL_ERROR, "Failed to delete category", 500);
   }
 }

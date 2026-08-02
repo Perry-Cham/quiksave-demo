@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { Products } from "@/models/product-model";
 import AppDatabase from "@/lib/db";
+import { errorResponse, successResponse, ErrorCodes } from "@/lib/api-response";
 
 export async function GET(
   request: NextRequest,
@@ -9,15 +10,12 @@ export async function GET(
   try {
     await AppDatabase.getConnection();
     console.log("Connected to MongoDB");
-    let { category } = await params;
+    const { category } = await params;
     console.log("Received category:", category, await params);
     const products = await Products.find({ category });
-    return NextResponse.json(products);
+    return successResponse(products, 200);
   } catch (error) {
     console.error("Error fetching products:", error, process.env.MONGO_URI);
-    return NextResponse.json(
-      { error: "Failed to fetch products" },
-      { status: 500 },
-    );
+    return errorResponse(ErrorCodes.INTERNAL_ERROR, "Failed to fetch products", 500);
   }
 }

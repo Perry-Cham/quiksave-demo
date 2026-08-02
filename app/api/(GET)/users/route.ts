@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { NextResponse } from "next/server";
+import { errorResponse, successResponse, ErrorCodes } from "@/lib/api-response";
 
 interface UserData {
   _id: string;
@@ -15,16 +15,11 @@ export async function GET(request: Request) {
     await mongoose.connect(process.env.MONGO_URI!);
     console.log("Connected to MongoDB");
 
-    // Get the users collection from the database
     const db = mongoose.connection.db;
     if (!db) {
-      return NextResponse.json(
-        { error: "Database connection failed" },
-        { status: 500 }
-      );
+      return errorResponse(ErrorCodes.DATABASE_ERROR, "Database connection failed", 500);
     }
 
-    // Query the user collection (better-auth uses 'user' collection by default)
     const usersCollection = db.collection("user");
     const users = await usersCollection
       .find({})
@@ -47,12 +42,9 @@ export async function GET(request: Request) {
       emailVerified: user.emailVerified || false,
     }));
 
-    return NextResponse.json(formattedUsers, { status: 200 });
+    return successResponse(formattedUsers, 200);
   } catch (error) {
     console.error("Error fetching users:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch users" },
-      { status: 500 }
-    );
+    return errorResponse(ErrorCodes.INTERNAL_ERROR, "Failed to fetch users", 500);
   }
 }

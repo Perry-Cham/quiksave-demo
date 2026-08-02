@@ -1,12 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Products } from "@/models/product-model";
-import ImageKit from "@imagekit/nodejs";
-import { ProductCategory } from "@/types/api";
 import AppDatabase from "@/lib/db";
-
-const imagekit = new ImageKit({
-  privateKey: process.env.IMAGEKIT_PRIVATE_KEY!,
-});
+import { imageKitHandler } from "@/lib/imagekit";
+import {successResponse, errorResponse, ErrorCodes} from "@/lib/api-response";
 
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string, category: string }> }) {
   const data = await params;
@@ -20,7 +16,7 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
   // Find the product to delete
   const product = await Products.findById(id);
   if (!product) {
-    return NextResponse.json({ error: "Product not found" }, { status: 404 });
+    return errorResponse(ErrorCodes.NOT_FOUND, "Product not found", 404);
   }
 
   // Extract the image Id
@@ -29,7 +25,7 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
   // Delete the image from ImageKit (if any)
   if (image) {
     try {
-      await imagekit.files.delete(image);
+      await imageKitHandler.delete(image);
       console.log("image deleted");
     } catch (error) {
       console.error("Error deleting image from ImageKit:", error);
@@ -39,12 +35,9 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
   try {
     // Delete the product from MongoDB
     await Products.findByIdAndDelete(id);
-    return NextResponse.json({ message: "Product deleted successfully" }, { status: 200 });
+    return successResponse({ message: "Product deleted successfully" }, 200);
   } catch (error) {
     console.error("Error deleting product:", error);
-    return NextResponse.json(
-      { error: "Failed to delete product" },
-      { status: 500 }
-    );
+    return errorResponse(ErrorCodes.INTERNAL_ERROR, "Failed to delete product", 500);
   }
 }

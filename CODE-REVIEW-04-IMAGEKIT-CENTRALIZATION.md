@@ -5,7 +5,7 @@
 **Problem:** `ImageKit` client is instantiated in multiple route files with the same configuration pattern. This violates **DRY** and **SoC** principles, making it hard to:
 - Update configuration in one place
 - Handle errors consistently
-- Test image operations
+- Test image operations  
 
 **Affected Files:**
 - `app/api/(POST)/addproduct/[category]/route.ts`

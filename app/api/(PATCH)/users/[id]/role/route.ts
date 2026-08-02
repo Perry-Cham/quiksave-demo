@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-import { NextResponse, NextRequest } from "next/server";
+import { NextRequest } from "next/server";
+import { errorResponse, successResponse, ErrorCodes } from "@/lib/api-response";
 
 interface UpdateRoleRequest {
   role: "user" | "admin";
@@ -16,33 +17,21 @@ export async function PATCH(
     const { id } = await params;
     const body: UpdateRoleRequest = await request.json();
 
-    // Validate MongoDB ObjectId
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return NextResponse.json(
-        { error: "Invalid user ID format" },
-        { status: 400 }
-      );
+      return errorResponse(ErrorCodes.BAD_REQUEST, "Invalid user ID format", 400);
     }
 
-    // Validate role
     if (!body.role || !["user", "admin"].includes(body.role)) {
-      return NextResponse.json(
-        { error: "Invalid role. Must be 'user' or 'admin'" },
-        { status: 400 }
-      );
+      return errorResponse(ErrorCodes.BAD_REQUEST, "Invalid role. Must be 'user' or 'admin'", 400);
     }
 
     const db = mongoose.connection.db;
     if (!db) {
-      return NextResponse.json(
-        { error: "Database connection failed" },
-        { status: 500 }
-      );
+      return errorResponse(ErrorCodes.DATABASE_ERROR, "Database connection failed", 500);
     }
 
     const usersCollection = db.collection("user");
 
-    // Update user role
     const result = await usersCollection.findOneAndUpdate(
       { _id: new mongoose.Types.ObjectId(id) },
       { $set: { role: body.role } },
@@ -50,13 +39,10 @@ export async function PATCH(
     );
 
     if (!result.value) {
-      return NextResponse.json(
-        { error: "User not found" },
-        { status: 404 }
-      );
+      return errorResponse(ErrorCodes.NOT_FOUND, "User not found", 404);
     }
 
-    return NextResponse.json(
+    return successResponse(
       {
         message: "User role updated successfully",
         user: {
@@ -66,13 +52,10 @@ export async function PATCH(
           role: result.value.role,
         },
       },
-      { status: 200 }
+      200
     );
   } catch (error) {
     console.error("Error updating user role:", error);
-    return NextResponse.json(
-      { error: "Failed to update user role" },
-      { status: 500 }
-    );
+    return errorResponse(ErrorCodes.INTERNAL_ERROR, "Failed to update user role", 500);
   }
 }
