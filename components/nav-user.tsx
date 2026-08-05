@@ -1,12 +1,7 @@
 "use client"
-
 import {
-  BadgeCheck,
-  Bell,
   ChevronsUpDown,
-  CreditCard,
   LogOut,
-  Sparkles,
 } from "lucide-react"
 
 import {
@@ -17,7 +12,6 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -31,6 +25,7 @@ import {
 } from "@/components/ui/sidebar"
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { routes } from "@/types/api-routes";
 export function NavUser({
   user,
 }: {

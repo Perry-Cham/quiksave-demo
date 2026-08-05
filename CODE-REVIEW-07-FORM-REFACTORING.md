@@ -24,8 +24,8 @@
 
 **Acceptance Criteria:**
 
-- ✅ Extract authentication logic into `hooks/useAuth.ts`
-- ✅ Create separate `components/AuthForm.tsx` (dumb component)
+- ✅ Extract authentication logic into `hooks/useAuth.ts`  
+- ✅ Create separate `components/AuthForm.tsx` (dumb component)  
 - ✅ Use `useMessageModal` store for all error/success messages
 - ✅ All form inputs consistently handle `disabled` state
 - ✅ Type safety improved (no partial types)

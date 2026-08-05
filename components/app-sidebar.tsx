@@ -41,9 +41,9 @@ interface CategoryLink {
 async function fetchCategories(): Promise<CategoryLink[]> {
   try {
     const response = await axios.get(routes.api.categories());
-    let data = response.data;
-    console.log("Fetched categories:", data);
-    data = data.map((category: string) => ({
+    const {data: rawData} = response.data;
+    console.log("Fetched categories:", rawData);
+    const data = rawData.map((category: string) => ({
       title: category[0].toUpperCase() +  category.slice(1) , // Capitalize first letter
       url: routes.admin.products({ category }),
     }));
@@ -154,7 +154,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        {/*<NavProjects projects={data.projects} />*/}
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
