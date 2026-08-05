@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Trash2, UserCheck, UserX } from "lucide-react";
+import { routes } from "@/types/api-routes";
 
 interface User {
   _id: string;
@@ -31,7 +32,7 @@ export default function ManageUsersPage() {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch("/api/users");
+      const response = await fetch(routes.api.users());
 
       if (!response.ok) {
         throw new Error("Failed to fetch users");
@@ -50,7 +51,7 @@ export default function ManageUsersPage() {
   const handleRoleChange = async (userId: string, newRole: "user" | "admin") => {
     try {
       setActionLoading(userId);
-      const response = await fetch(`/api/users/${userId}/role`, {
+      const response = await fetch(routes.api.userRole({ id: userId }), {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -83,7 +84,7 @@ export default function ManageUsersPage() {
 
     try {
       setActionLoading(userId);
-      const response = await fetch(`/api/users/${userId}`, {
+      const response = await fetch(routes.api.userDetails({ id: userId }), {
         method: "DELETE",
       });
 

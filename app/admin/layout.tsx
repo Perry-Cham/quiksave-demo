@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { AppSidebar } from "@/components/app-sidebar";
+import { routes } from "@/types/api-routes";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -25,7 +26,7 @@ async function AdminLayout({
   const session = await auth.api.getSession({
     headers: await headers(), // you need to pass the headers object.
   });
-  if (!session?.session.userId) redirect("/auth/signin");
+  if (!session?.session.userId) redirect(routes.auth.signin());
   return (
     <SidebarProvider>
       <AppSidebar />

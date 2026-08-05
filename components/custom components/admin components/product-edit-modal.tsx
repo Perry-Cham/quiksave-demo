@@ -127,7 +127,7 @@ function Product_Modal({
     }
     if (isNewProduct) {
       try {
-        const response = await axios.post(`/api/addproduct/${category}`, data);
+        const response = await axios.post(`/api/products/${category}`, data);
         setSuccessState(
           true,
           "Success",
@@ -148,7 +148,7 @@ function Product_Modal({
       try {
         if (productData) {
           const response = await axios.patch(
-            `/api/updateproduct/${category}/${productData._id}`,
+            `/api/products/${category}/${productData._id}`,
             data,
           );
           setSuccessState(

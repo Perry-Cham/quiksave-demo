@@ -14,6 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
+import { routes } from "@/types/api-routes";
 
 // ── Schema ────────────────────────────────────────────────
 const schema = z.object({
@@ -58,7 +59,7 @@ export function SignUpForm({
        const { data, error } = await authClient.signUp.email(
         {
           ...values,
-          callbackURL: "/admin",
+          callbackURL: routes.admin.overview()
         },
         {
           onError(context) {
@@ -160,7 +161,7 @@ export function SignUpForm({
           <FieldDescription className="text-center text-sm">
             {isSignIn ? "Don't have an account? " : " Have an account? "}
             <a
-              href={isSignIn ? "/auth/signup" : "/auth/signin"}
+              href={isSignIn ? routes.auth.signup() : routes.auth.signin()}
               className="text-primary underline underline-offset-4 hover:text-primary/80"
             >
               {isSignIn ? "Sign up" : "Login"}

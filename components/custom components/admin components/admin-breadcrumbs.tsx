@@ -8,6 +8,8 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { usePathname } from "next/navigation";
+import { routes } from '@/types/api-routes';
+
 export default function AdminBreadcrumbs() {
   const pathname = usePathname();
   let pathSegments: { name: string; href: string }[] = pathname
@@ -20,7 +22,7 @@ export default function AdminBreadcrumbs() {
         .replace(/\b\w/g, (c) => c.toUpperCase());
       return { name: format, href };
     });
-    pathSegments[0].href = "/admin";
+    pathSegments[0].href = routes.admin.overview();
 
   return (
     <Breadcrumb>

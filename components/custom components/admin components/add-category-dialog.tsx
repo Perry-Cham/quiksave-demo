@@ -19,6 +19,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CirclePlus, LoaderCircle } from "lucide-react";
+import { routes } from "@/types/api-routes";
 
 const Schema = z.object({
   category: z.string().min(1, { message: "Category name is required" }),
@@ -56,7 +57,7 @@ export default function AddCategoryDialog({
   const onSubmit = async (data: FormData) => {
     setLoading(true);
     try {
-      await axios.post("/api/addcategory", data);
+      await axios.post(routes.api.categories(), data);
       reset();
       setOpen(false);
       onCategoryAdded();

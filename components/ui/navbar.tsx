@@ -101,18 +101,18 @@ export interface NavbarProps extends React.HTMLAttributes<HTMLElement> {
 
 // Default navigation links (used while category API is loading or if it fails)
 const defaultNavigationLinks: NavbarNavLink[] = [
-  { href: "/", label: "Home", active: true },
+  { href: routes.home(), label: "Home", active: true },
   {
     href: "#",
     label: "Products",
     sub_links: [
-      { href: "/products/beef", label: "Beef" },
-      { href: "/products/chicken", label: "Chicken" },
-      { href: "/products/pork", label: "Pork" },
-      { href: "/products/processed", label: "Processed" },
+      { href: routes.products({ category: "beef" }), label: "Beef" },
+      { href: routes.products({ category: "chicken" }), label: "Chicken" },
+      { href: routes.products({ category: "pork" }), label: "Pork" },
+      { href: routes.products({ category: "processed" }), label: "Processed" },
     ],
   },
-  { href: "/about", label: "About" },
+  { href: routes.about(), label: "About" },
 ];
 
 export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
@@ -126,7 +126,7 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
       signInText = "Sign In",
       signInHref = "#signin",
       ctaText = "Contact Us",
-      ctaHref = "/contact",
+      ctaHref = routes.contact(),
       onSignInClick,
       onCtaClick,
       ...props
@@ -162,11 +162,11 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
     useEffect(() => {
       async function loadCategories() {
         try {
-          const res = await fetch("/api/categories");
+          const res = await fetch(routes.api.categories());
           if (res.ok) {
             const cats: Array<{ category: string }> = await res.json();
             const productLinks = cats.map((c) => ({
-              href: `/products/${c.category}`,
+              href: routes.products({ category: c.category }),
               label: c.category.charAt(0).toUpperCase() + c.category.slice(1),
             }));
             setLinks((prev) =>
@@ -259,7 +259,7 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
               <a
                 type="button"
                 className="flex items-center space-x-2 text-primary hover:text-primary/90 transition-colors cursor-pointer"
-                href="/"
+                href={routes.home()}
               >
                 <div className="text-2xl">{logo}</div>
                 <span className="hidden font-bold text-xl sm:inline-block">
@@ -321,7 +321,7 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
               className="text-sm font-medium px-4 h-9 rounded-md shadow-sm cursor-pointer"
               onClick={(e) => {
                 e.preventDefault();
-                window.location.href = "/contact";
+                window.location.href = routes.contact();
               }}
               size="sm"
             >

@@ -23,6 +23,7 @@ import * as z from "zod";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { GalleryVerticalEnd, LoaderCircle } from "lucide-react";
+import { routes } from "@/types/api-routes";
 
 // ── Schema ────────────────────────────────────────────────
 const baseSchema = z.object({
@@ -76,7 +77,7 @@ export function LoginForm({
       const { data, error } = await authClient.signIn.email(
         {
           ...values,
-          callbackURL: "/admin",
+          callbackURL: routes.admin.overview(),
           rememberMe: false,
         },
         {
@@ -90,7 +91,7 @@ export function LoginForm({
       const { data, error } = await authClient.signUp.email(
         {
           ...(values as signUpValues),
-          callbackURL: "/admin",
+          callbackURL: routes.admin.overview(),
         },
         {
           onError: (ctx) => {

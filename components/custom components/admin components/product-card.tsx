@@ -66,8 +66,8 @@ function card({ name, price, imagesrc, product, closeMessage, setModalState }: P
           onClick={async () => {
             setLoading(true)
             try {
-              const response = await axios.delete(
-                `/api/deleteproduct/${product.category}/${product._id}`,
+              await axios.delete(
+                `/api/products/${product.category}/${product._id}`,
               );
               setMessageModalState(true, 'Success', "The Product was successfully deleted")
             } catch (e) {

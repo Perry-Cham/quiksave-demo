@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Logo } from "./ui/navbar";
 import AddCategoryDialog from "@/components/custom components/admin components/add-category-dialog";
+import { routes } from "@/types/api-routes";
 
 // Fetch Product Categories from the database
 interface CategoryLink {
@@ -39,12 +40,12 @@ interface CategoryLink {
 
 async function fetchCategories(): Promise<CategoryLink[]> {
   try {
-    const response = await axios.get(`/api/categories`);
+    const response = await axios.get(routes.api.categories());
     let data = response.data;
     console.log("Fetched categories:", data);
     data = data.map((category: string) => ({
       title: category[0].toUpperCase() +  category.slice(1) , // Capitalize first letter
-      url: `/admin/products/${category}`,
+      url: routes.admin.products({ category }),
     }));
     return data;
   } catch (error) {
@@ -92,7 +93,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         items: [
           {
             title: "Manage Users",
-            url: "/admin/users/manage",
+            url: routes.admin.users(),
           },
         ],
       },
@@ -103,15 +104,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         items: [
           {
             title: "Introduction",
-            url: "/admin/docs/intro",
+            url: routes.admin.docs.intro(),
           },
           {
             title: "Managing Products",
-            url: "/admin/docs/manage-products",
+            url: routes.admin.docs.products(),
           },
           {
             title: "Managing Users",
-            url: "/admin/docs/manage-users",
+            url: routes.admin.docs.users()
           },
         ],
       },

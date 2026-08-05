@@ -1,13 +1,14 @@
 import { GalleryVerticalEnd, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { routes } from "@/types/api-routes";
 
 export default function PendingPage() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex justify-center gap-2 md:justify-start">
-          <a href="/" className="flex items-center gap-2 font-medium">
+          <a href={routes.home()} className="flex items-center gap-2 font-medium">
             <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
               <GalleryVerticalEnd className="size-4" />
             </div>
@@ -40,7 +41,7 @@ export default function PendingPage() {
                 <p className="text-sm text-center text-muted-foreground">
                   Once your account is approved, you'll be able to sign in.
                 </p>
-                <Link href="/auth/signin">
+                <Link href={routes.auth.signin()}>
                   <Button variant="outline" className="w-full">
                     Return to Sign In
                   </Button>

@@ -78,7 +78,7 @@ const Feature43 = ({
         {products.map((product) => (
           <a
             key={product.slug}
-            href={`/products/${product.slug}`}
+            href={routes.products({ category: product.slug })}
             className={cn(
               "group relative overflow-hidden rounded-2xl bg-gray-900 cursor-pointer",
               product.span
@@ -133,7 +133,7 @@ const Feature43 = ({
       <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-gray-100 pt-10">
         <p className="text-gray-500 text-sm">
           Can't find what you're looking for?{" "}
-          <a href="/contact" className="text-black font-semibold underline underline-offset-4 hover:opacity-70 transition-opacity">
+          <a href={routes.contact()} className="text-black font-semibold underline underline-offset-4 hover:opacity-70 transition-opacity">
             Contact us directly.
           </a>
         </p>

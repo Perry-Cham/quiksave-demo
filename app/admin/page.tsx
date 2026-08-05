@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { routes } from "@/types/api-routes";
 function Product_Link_Card({ name, href }: { name: string; href: string }) {
   return (
     <div className="bg-white rounded-lg shadow p-4">
@@ -18,10 +19,10 @@ interface Product {
 function Admin_Page() {
   const [products, setProducts] = useState<Product[]>([]);
   const Product_List: Product[] = [
-    { name: "Beef", href: "/admin/products/beef" },
-    { name: "Chicken", href: "/admin/products/chicken" },
-    { name: "Pork", href: "/admin/products/pork" },
-    { name: "Processed", href: "/admin/products/processed" },
+    { name: "Beef", href: routes.admin.products({ category: "beef" }) },
+    { name: "Chicken", href: routes.admin.products({ category: "chicken" }) },
+    { name: "Pork", href: routes.admin.products({ category: "pork" }) },
+    { name: "Processed", href: routes.admin.products({ category: "processed" }) },
   ];
 const router = useRouter();
  

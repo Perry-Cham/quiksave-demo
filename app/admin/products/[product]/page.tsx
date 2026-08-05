@@ -58,7 +58,7 @@ function closeMessageModal(){
   const { product } = useParams<{ product: string }>();
   async function FetchData() {
     console.log("Fetching data for product:", product);
-    const response = await axios.get(`/api/getproducts/${product}`);
+    const response = await axios.get(`/api/products/${product}`);
     console.log("Fetched products:", response.data);
     setProducts(response.data);
   }

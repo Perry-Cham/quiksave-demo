@@ -3,6 +3,7 @@ import { ArrowUpRight, CirclePlay, Phone } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { routes } from "@/types/api-routes";
 
 export default function Hero() {
   return (
@@ -22,7 +23,7 @@ export default function Hero() {
             <Button
               className="rounded-full text-base"
               size="lg"
-              onClick={() => (window.location.href = "/contact")}
+              onClick={() => (window.location.href = routes.contact())}
             >
               Contact Us <Phone className="ml-2 h-5 w-5" />
             </Button>
@@ -30,7 +31,7 @@ export default function Hero() {
               className="rounded-full text-base shadow-none cursor-pointer"
               size="lg"
               variant="outline"
-              onClick={() => (window.location.href = "/about")}
+              onClick={() => (window.location.href = routes.about())}
             >
               <CirclePlay className="h-5! w-5!" /> Learn More
             </Button>
