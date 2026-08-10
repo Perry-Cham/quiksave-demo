@@ -115,7 +115,7 @@ export function withValidation(options: ApiHandlerOptions) {
 }
 ```
 
-Define schemas:
+Define schemas:  
 
 ```typescript
 // schemas/product.ts
