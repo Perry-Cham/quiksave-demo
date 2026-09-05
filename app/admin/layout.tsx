@@ -22,7 +22,7 @@ async function AdminLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>){
+}>) {
   const session = await auth.api.getSession({
     headers: await headers(), // you need to pass the headers object.
   });
@@ -41,9 +41,9 @@ async function AdminLayout({
             <AdminBreadcrumbs />
           </div>
         </header>
-       {children}
+        {children}
       </SidebarInset>
     </SidebarProvider>
   );
 }
- export default AdminLayout;
+export default AdminLayout;

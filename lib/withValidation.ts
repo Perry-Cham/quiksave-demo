@@ -1,39 +1,54 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
+import { auth } from "@/lib/auth";
+import { headers } from 'next/headers';
+import { errorResponse, ErrorCodes } from "@/lib/api-response";
 
 interface ApiHandlerOptions {
     requestSchema?: z.ZodType;
+    request?: NextRequest;
     responseSchema?: z.ZodType;
     requireAuth?: boolean;
 }
 
-export function withValidation(options: ApiHandlerOptions) {
+export function withValidation({ requestSchema, responseSchema, requireAuth }: ApiHandlerOptions) {
     return (handler: (data: any, ctx: any) => Promise<any>) => {
         return async (request: NextRequest, context: any) => {
-            const requestId = crypto.randomUUID();
+            //Extract request headers to get request-id
+            const rheaders = await headers();
+            const requestId = rheaders.get("x-request-id");
 
+            //If its a protected route make sure the user has a valid session
+            if (requireAuth) {
+                const session = await auth.api.getSession({
+                    headers: await headers(),
+                });
+                if (!session) {
+                    return errorResponse(ErrorCodes.UNAUTHORIZED, 'Authentication required', 401, undefined, requestId || crypto.randomUUID());
+                }
+            }
+
+            //Do the actual request validation
             try {
                 // Validate request if schema provided
                 let validatedData = null;
-                if (options.requestSchema) {
+                if (requestSchema) {
                     const body = request.method !== 'GET'
                         ? await request.json().catch(() => ({}))
                         : {};
 
-                    validatedData = options.requestSchema.parse(body);
-
+                    validatedData = requestSchema.parse(body);
                 }
 
                 // Validate response if schema provided
                 let response = await handler(validatedData, context);
 
-                if (options.responseSchema && response instanceof NextResponse) {
+                if (responseSchema && response instanceof NextResponse) {
                     const responseBody = await response.json();
-                    const validation = options.responseSchema.parse(responseBody);
+                    const validation = responseSchema.parse(responseBody);
                     if (validation instanceof z.ZodError) {
                         console.error('Response validation failed:', validation.issues);
                         // In development, fail loudly
-
                     }
                 }
 

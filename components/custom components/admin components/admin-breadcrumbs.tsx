@@ -22,7 +22,7 @@ export default function AdminBreadcrumbs() {
         .replace(/\b\w/g, (c) => c.toUpperCase());
       return { name: format, href };
     });
-    pathSegments[0].href = routes.admin.overview();
+  pathSegments[0].href = routes.admin.overview();
 
   return (
     <Breadcrumb>
@@ -34,9 +34,9 @@ export default function AdminBreadcrumbs() {
                 {segment.name}
               </BreadcrumbLink>
             </BreadcrumbItem>
-           {i < pathSegments.length - 1 && (
-            <BreadcrumbSeparator className="hidden md:block" />
-           )}
+            {i < pathSegments.length - 1 && (
+              <BreadcrumbSeparator className="hidden md:block" />
+            )}
           </>
         ))}
       </BreadcrumbList>

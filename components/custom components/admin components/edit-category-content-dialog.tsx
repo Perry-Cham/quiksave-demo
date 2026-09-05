@@ -15,6 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { LoaderCircle, Edit } from "lucide-react";
 import { Field } from "@/components/ui/field";
+import { routes } from "@/types/api-routes";
 
 interface EditCategoryContentDialogProps {
   category: string;
@@ -45,7 +46,7 @@ export default function EditCategoryContentDialog({
   const fetchContent = async () => {
     setFetching(true);
     try {
-      const response = await axios.get(`/api/categories/${category}`);
+      const response = await axios.get(routes.api.categoryDetails({ category }));
       console.log(response);
       setContent(response.data.content || "");
     } catch (error) {
@@ -58,9 +59,12 @@ export default function EditCategoryContentDialog({
   const onSubmit = async () => {
     setLoading(true);
     try {
-      const response = await axios.patch(`/api/categories/${category}`, {
-        content,
-      });
+      const response = await axios.patch(
+        routes.api.categoryDetails({ category }),
+        {
+          content,
+        },
+      );
       if (response.status === 200) {
         console.log("Content updated successfully", response);
         setModalState({

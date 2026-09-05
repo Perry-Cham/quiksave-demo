@@ -39,11 +39,11 @@ export function SignUpForm({
   const isSignIn = type === "signin";
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues:{
-            name: "",
-            email: "",
-            password: "",
-          },
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
     mode: "onChange", // or "onSubmit" — your preference
   });
 
@@ -56,17 +56,17 @@ export function SignUpForm({
   const handleFormSubmit = async (values: FormValues) => {
     if (isSubmitting) return;
     setIsSubmitting(true);
-       const { data, error } = await authClient.signUp.email(
-        {
-          ...values,
-          callbackURL: routes.admin.overview()
+    const { data, error } = await authClient.signUp.email(
+      {
+        ...values,
+        callbackURL: routes.admin.overview()
+      },
+      {
+        onError(context) {
+          alert(context.error.message);
         },
-        {
-          onError(context) {
-            alert(context.error.message);
-          },
-        },
-      );
+      },
+    );
   };
 
   return (
@@ -86,22 +86,22 @@ export function SignUpForm({
         </div>
 
         {/*Name*/}
-  
-          <Field>
-            <FieldLabel htmlFor="name">User Name</FieldLabel>
-            <Input
-              id="name"
-              type="text"
-              placeholder="Admin"
-              {...register("name")}
-            />
-            {errors.name && (
-              <p className="text-sm text-destructive mt-1.5">
-                {errors.name.message}
-              </p>
-            )}
-          </Field>
-        
+
+        <Field>
+          <FieldLabel htmlFor="name">User Name</FieldLabel>
+          <Input
+            id="name"
+            type="text"
+            placeholder="Admin"
+            {...register("name")}
+          />
+          {errors.name && (
+            <p className="text-sm text-destructive mt-1.5">
+              {errors.name.message}
+            </p>
+          )}
+        </Field>
+
 
         {/* Email */}
         <Field>

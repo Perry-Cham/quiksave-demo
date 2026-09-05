@@ -5,6 +5,7 @@ import Product_Modal from "@/components/custom components/admin components/produ
 import EditCategoryContentDialog from "@/components/custom components/admin components/edit-category-content-dialog";
 import { useParams } from "next/navigation";
 import axios from "axios";
+import { routes } from "@/types/api-routes";
 import { Dialog, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useMessageModal } from "@/stores/Admin_Message_Modal_Store";
@@ -58,7 +59,7 @@ function closeMessageModal(){
   const { product } = useParams<{ product: string }>();
   async function FetchData() {
     console.log("Fetching data for product:", product);
-    const response = await axios.get(`/api/products/${product}`);
+    const response = await axios.get(routes.api.products({ category: product }));
     console.log("Fetched products:", response.data);
     setProducts(response.data);
   }

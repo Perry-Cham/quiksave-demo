@@ -26,6 +26,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CirclePlus, LoaderCircle } from "lucide-react";
 import { useMessageModal } from "@/stores/Admin_Message_Modal_Store";
+import { routes } from "@/types/api-routes";
 
 interface Product {
   name: string;
@@ -127,7 +128,7 @@ function Product_Modal({
     }
     if (isNewProduct) {
       try {
-        const response = await axios.post(`/api/products/${category}`, data);
+        const response = await axios.post(routes.api.products({ category }), data);
         setSuccessState(
           true,
           "Success",
@@ -146,9 +147,12 @@ function Product_Modal({
       }
     } else {
       try {
-        if (productData) {
+        if (productData?._id) {
           const response = await axios.patch(
-            `/api/products/${category}/${productData._id}`,
+            routes.api.productDetails({
+              category,
+              id: productData._id,
+            }),
             data,
           );
           setSuccessState(

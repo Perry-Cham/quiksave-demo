@@ -6,6 +6,7 @@ import { CardFooter, CardHeader, Card } from "@/components/ui/card";
 import { useState } from "react";
 import axios from "axios";
 import { LoaderCircle } from "lucide-react";
+import { routes } from "@/types/api-routes";
 
 function card({ name, price, imagesrc, product, closeMessage, setModalState }: Props) {
   // Convert price to number if it's a string
@@ -67,7 +68,10 @@ function card({ name, price, imagesrc, product, closeMessage, setModalState }: P
             setLoading(true)
             try {
               await axios.delete(
-                `/api/products/${product.category}/${product._id}`,
+                routes.api.productDetails({
+                  category: product.category,
+                  id: product._id,
+                }),
               );
               setMessageModalState(true, 'Success', "The Product was successfully deleted")
             } catch (e) {

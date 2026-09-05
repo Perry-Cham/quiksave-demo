@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Field,
+  FieldDescription,
   FieldGroup,
   FieldLabel,
   FieldSeparator,
@@ -20,8 +21,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useState } from "react";
+import { authClient } from "@/lib/auth-client";
 import { GalleryVerticalEnd, LoaderCircle } from "lucide-react";
-import { useAuth } from "@/hooks/auth-hook";
+import { routes } from "@/types/api-routes";
 
 // ── Schema ────────────────────────────────────────────────
 const baseSchema = z.object({
@@ -53,7 +55,6 @@ export function LoginForm({
     title: "",
     message: "",
   });
-  const { signIn, signUp, isLoading, error } = useAuth();
   const schema = type === "signin" ? signInSchema : signUpSchema;
   const isSignIn = type === "signin";
   const form = useForm<FormValues>({
@@ -73,12 +74,32 @@ export function LoginForm({
 
   const handleFormSubmit = async (values: FormValues) => {
     if (type === "signin") {
-      await signIn(values.email, values.password);
+      const { data, error } = await authClient.signIn.email(
+        {
+          ...values,
+          callbackURL: routes.admin.overview(),
+          rememberMe: false,
+        },
+        {
+          onError(context) {
+            console.log(context);
+            setModalState({ open: true, title: "Error", message: "There was a problem signing you in please try again later" })
+          },
+        },
+      );
     } else if (type === "signup") {
-      await signUp(values.email, values.password, values.name!);
-    }
-    if (error) {
-      setModalState({ open: true, title: error.code, message: error.message });
+      const { data, error } = await authClient.signUp.email(
+        {
+          ...(values as signUpValues),
+          callbackURL: routes.admin.overview(),
+        },
+        {
+          onError: (ctx) => {
+            // display the error message
+            setModalState({ open: true, title: "Error", message: "There was a problem signing you in please try again later" })
+          },
+        },
+      );
     }
   };
 
@@ -136,7 +157,6 @@ export function LoginForm({
               id="password"
               type="password"
               autoComplete="current-password"
-              disabled={isLoading}
               {...register("password")}
             />
             {errors.password && (
@@ -150,16 +170,16 @@ export function LoginForm({
           <Field>
             <Button
               type="submit"
-              disabled={isLoading}
+              disabled={isSubmitting}
               className="w-full cursor-pointer"
             >
-              {isLoading && (
+              {isSubmitting && (
                 <>
                   <LoaderCircle className="h-4 w-4 animate-spin mr-2" />
                   Logging You In...
                 </>
               )}
-              {!isLoading && (isSignIn ? "Login" : "Sign Up")}
+              {!isSubmitting && (isSignIn ? "Login" : "Sign Up")}
             </Button>
           </Field>
 

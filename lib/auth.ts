@@ -1,5 +1,6 @@
-import { betterAuth } from "better-auth";
+import { betterAuth, APIError } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
+import { errorResponse, ErrorCodes } from "./api-response";
 import mongoose from "mongoose";
 
 await mongoose.connect(process.env.MONGO_URI!);
@@ -12,15 +13,17 @@ export const auth = betterAuth({
     enabled: true,
   },
   onAPIError: {
-    throw: true, // still throw so middleware/route can catch if needed
+    throw: true,
     onError: (error, ctx) => {
-      console.error("[BetterAuth API Error]", {
-        message: error.message,
-        status: error.status,
-        code: error.code, // if present
-        path: ctx?.path,
-        method: ctx?.request?.method,
-      });
+      if (error instanceof APIError) {
+        console.error("[BetterAuth API Error]", {
+          message: error.message,
+          status: error.status,
+          // method: ctx?.,
+        });
+      } else if (error instanceof Error) {
+        console.error("General Error:", error.message);
+      }
     },
   },
 });

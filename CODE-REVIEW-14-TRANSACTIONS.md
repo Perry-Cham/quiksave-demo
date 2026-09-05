@@ -14,7 +14,7 @@
 - `app/api/(DELETE)/deleteproduct/[category]/[id]/route.ts`
 - `app/api/(DELETE)/deletecategory/[category]/route.ts`
 
-**Goal:** Implement proper error recovery and resource cleanup.
+**Goal:** Implement proper error recovery and resource cleanup.  
 
 **Acceptance Criteria:**
 

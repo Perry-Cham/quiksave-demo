@@ -50,10 +50,11 @@ const products: ProductCard[] = [
   },
 ];
 
+//NOTE: All products page does not exist
 const Feature43 = ({
   title = "Our Products",
   buttonText = "View Full Catalogue",
-  buttonUrl = "/products",
+  buttonUrl = "#",
   className,
 }: Feature43Props) => {
   return (
