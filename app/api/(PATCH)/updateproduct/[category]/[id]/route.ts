@@ -8,7 +8,7 @@ const imagekit = new ImageKit({
   privateKey: process.env.IMAGEKIT_PRIVATE_KEY!,
 });
 interface params {
-  category: ProductCategory;
+  category: String;
   id: String;
 }
 export async function PATCH(

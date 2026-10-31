@@ -20,7 +20,7 @@ function Product_Display({
 }: {
   products: Array<Product>
   admin?: boolean;
-  closeMessage:(modalOpen?: boolean, status?: string, message?: string) => void;
+  closeMessage?:(modalOpen?: boolean, status?: string, message?: string) => void;
   setModalState?: React.Dispatch<
     React.SetStateAction<{
       isOpen: boolean;

@@ -35,7 +35,10 @@ async function Migrate(category: ProductCategory){
         privateKey:""
     })
     console.log("created")
-    await mongoose.connect("mongodb+srv://perry:Perry2009@cluster0.gja8m9y.mongodb.net/Quicksave?appName=Cluster0")
+    if(!process.env.MONGO_URI){
+      throw Error("MONGO_URI environment variable was not passed")
+    }
+    await mongoose.connect(process.env.MONGO_URI)
     console.log("connected")
     const products = await Products[category].find({})
     fs.writeFileSync('Pdata.json', JSON.stringify(products))

@@ -2,8 +2,7 @@ import mongoose from "mongoose";
 import path from "path";
 import "dotenv/config";
 
-// don't use alias here; resolve relative path from script location
-import CategoryModel from "../models/product-categories.ts";
+import CategoryModel from "../models/product-categories";
 
 const entries = [
   {

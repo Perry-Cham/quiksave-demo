@@ -49,7 +49,7 @@ export async function PATCH(
       { returnDocument: "after" }
     );
 
-    if (!result.value) {
+    if (!result?.value) {
       return NextResponse.json(
         { error: "User not found" },
         { status: 404 }

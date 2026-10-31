@@ -16,6 +16,7 @@ export interface ProductDataClient{
   name: string;
   price: number;
   image: string;
+  category: ProductCategory;
   subcategory: string;
 }
 
